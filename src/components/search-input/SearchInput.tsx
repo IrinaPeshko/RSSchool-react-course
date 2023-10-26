@@ -1,19 +1,33 @@
 import React from 'react';
 import styles from './SearchInput.module.css';
-
-
+import { PEOPLE, request } from '../../utils/requests';
 
 class SearchInput extends React.Component {
+  componentDidMount(): void {
+    this.onClickSearch();
+  }
+
   chooseStateWord(): string {
-    localStorage.removeItem('inputValue');
+    localStorage.setItem('inputValue', 'al');
+    // localStorage.removeItem('inputValue');
     const value: string | null = localStorage.getItem('inputValue');
     if (value) {
       return value;
     }
     return '';
   }
+
   state = {
     searchWord: this.chooseStateWord(),
+  };
+
+  onClickSearch = async () => {
+    const requestWord = this.state.searchWord;
+    const link = PEOPLE + '/?search=' + requestWord;
+    const requestArr = await request(link);
+    this.setState({ peopleRequest: requestArr });
+    console.log(requestArr);
+    return requestArr;
   };
 
   onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,12 +36,9 @@ class SearchInput extends React.Component {
     }
   };
 
-  onClickSearch = () => {
-    const request = this.state.searchWord
-    console.log(request);
-  }
-
   render() {
+    console.log(this.state);
+    // this.onClickSearch();
     return (
       <div className={styles.searchBlock}>
         <input

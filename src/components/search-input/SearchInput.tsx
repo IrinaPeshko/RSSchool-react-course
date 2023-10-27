@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from './SearchInput.module.css';
-import { PEOPLE, request } from '../../utils/requests';
+import { findPeople } from '../../api/api';
+import SearchResult from '../search-results/searchResult';
+import { PersonRequest, ShortPersonRequest } from '../../types/requests-types';
 
 class SearchInput extends React.Component {
   componentDidMount(): void {
     this.onClickSearch();
   }
 
-  chooseStateWord(): string {
-    localStorage.setItem('inputValue', 'al');
-    // localStorage.removeItem('inputValue');
+  chooseSearchWord(): string {
     const value: string | null = localStorage.getItem('inputValue');
     if (value) {
       return value;
@@ -18,16 +18,28 @@ class SearchInput extends React.Component {
   }
 
   state = {
-    searchWord: this.chooseStateWord(),
+    searchWord: this.chooseSearchWord(),
+    peopleRequest: [],
   };
 
-  onClickSearch = async () => {
-    const requestWord = this.state.searchWord;
-    const link = PEOPLE + '/?search=' + requestWord;
-    const requestArr = await request(link);
-    this.setState({ peopleRequest: requestArr });
-    console.log(requestArr);
-    return requestArr;
+  onClickSearch = async (): Promise<ShortPersonRequest[] | undefined> => {
+    const requestArr = await findPeople(this.state.searchWord);
+    if (requestArr instanceof Array) {
+      const shortRequestArr = requestArr.map((el: PersonRequest) => {
+        return {
+          name: el.name,
+          birth_year: el.birth_year,
+          gender: el.gender,
+          height: el.height,
+          eye_color: el.eye_color,
+          hair_color: el.hair_color,
+          url: el.url,
+        };
+      });
+      this.setState({ peopleRequest: shortRequestArr });
+      localStorage.setItem('inputValue', this.state.searchWord);
+      return shortRequestArr;
+    }
   };
 
   onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,21 +49,24 @@ class SearchInput extends React.Component {
   };
 
   render() {
-    console.log(this.state);
-    // this.onClickSearch();
     return (
-      <div className={styles.searchBlock}>
-        <input
-          placeholder="Search..."
-          type="text"
-          className={styles.searchInput}
-          value={this.state.searchWord}
-          onChange={this.onChangeInput}
-        />
-        <div className={styles.searchButton} onClick={this.onClickSearch}>
-          <img src="/magnifier-glass.png" alt="magnifier-glass" />
+      <>
+        <div className={styles.searchBlock}>
+          <input
+            placeholder="Search..."
+            type="text"
+            className={styles.searchInput}
+            value={this.state.searchWord}
+            onChange={this.onChangeInput}
+          />
+          <div className={styles.searchButton} onClick={this.onClickSearch}>
+            <img src="/magnifier-glass.png" alt="magnifier-glass" />
+          </div>
         </div>
-      </div>
+        <div>
+          <SearchResult renderRequest={this.state.peopleRequest} />
+        </div>
+      </>
     );
   }
 }

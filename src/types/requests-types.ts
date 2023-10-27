@@ -16,3 +16,13 @@ export type PersonRequest = {
   edited: string;
   url: string;
 };
+
+export type ShortPersonRequest = {
+  name: string;
+  birth_year: string;
+  gender: string;
+  height: string;
+  eye_color: string;
+  hair_color: string;
+  url: string;
+};

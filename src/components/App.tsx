@@ -1,4 +1,4 @@
-import styles from "./App.module.css";
+import styles from './App.module.css';
 import SearchInput from './search-input/SearchInput';
 
 function App() {

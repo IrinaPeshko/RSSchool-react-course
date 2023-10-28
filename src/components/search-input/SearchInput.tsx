@@ -3,6 +3,7 @@ import styles from './SearchInput.module.css';
 import { findPeople } from '../../api/api';
 import SearchResult from '../search-results/searchResult';
 import { PersonRequest, ShortPersonRequest } from '../../types/requests-types';
+import ErrorButton from '../error-button/ErrorButton';
 
 class SearchInput extends React.Component {
   componentDidMount(): void {
@@ -28,7 +29,7 @@ class SearchInput extends React.Component {
     const searchWord = this.state.searchWord.trim();
     this.setState({ isLoading: true, isErrorRequest: false });
     const requestArr = await findPeople(searchWord);
-    if (requestArr instanceof Array) {
+    if (requestArr instanceof Array && requestArr.length !== 0) {
       const shortRequestArr = requestArr.map((el: PersonRequest) => {
         return {
           name: el.name,
@@ -45,6 +46,7 @@ class SearchInput extends React.Component {
       console.log(shortRequestArr);
       return shortRequestArr;
     } else {
+      localStorage.setItem('inputValue', this.state.searchWord);
       this.setState({ isLoading: false, isErrorRequest: true });
     }
   };
@@ -70,12 +72,13 @@ class SearchInput extends React.Component {
             <img src="/magnifier-glass.png" alt="magnifier-glass" />
           </div>
         </div>
+        <ErrorButton />
         {this.state.isLoading && <div className={styles.spinner}></div>}
-        {!this.state.isLoading && (
+        {!this.state.isLoading && !this.state.isErrorRequest && (
           <SearchResult renderRequest={this.state.peopleRequest} />
         )}
         {this.state.isErrorRequest && (
-          <h2>We have problems with your request.</h2>
+          <h2>We couldn&apos;t find anything matching your request.</h2>
         )}
       </>
     );

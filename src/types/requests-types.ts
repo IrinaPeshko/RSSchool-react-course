@@ -26,3 +26,11 @@ export type ShortPersonRequest = {
   hair_color: string;
   url: string;
 };
+
+export interface iErrorBoundaryProps {
+  children: React.ReactNode;
+}
+
+export interface iRenderRequest {
+  renderRequest: ShortPersonRequest[];
+}

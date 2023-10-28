@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import styles from './searchResult.module.css';
-import { ShortPersonRequest } from '../../types/requests-types';
+import { iRenderRequest } from '../../types/requests-types';
 
-interface iRenderRequest {
-  renderRequest: ShortPersonRequest[];
-}
 class SearchResult extends Component<iRenderRequest> {
   render(): React.ReactNode {
     const results = this.props.renderRequest.map((el, i) => {

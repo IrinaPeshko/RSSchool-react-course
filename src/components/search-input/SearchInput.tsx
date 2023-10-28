@@ -20,10 +20,14 @@ class SearchInput extends React.Component {
   state = {
     searchWord: this.chooseSearchWord(),
     peopleRequest: [],
+    isLoading: false,
+    isErrorRequest: false,
   };
 
   onClickSearch = async (): Promise<ShortPersonRequest[] | undefined> => {
-    const requestArr = await findPeople(this.state.searchWord);
+    const searchWord = this.state.searchWord.trim();
+    this.setState({ isLoading: true, isErrorRequest: false });
+    const requestArr = await findPeople(searchWord);
     if (requestArr instanceof Array) {
       const shortRequestArr = requestArr.map((el: PersonRequest) => {
         return {
@@ -36,9 +40,12 @@ class SearchInput extends React.Component {
           url: el.url,
         };
       });
-      this.setState({ peopleRequest: shortRequestArr });
+      this.setState({ peopleRequest: shortRequestArr, isLoading: false });
       localStorage.setItem('inputValue', this.state.searchWord);
+      console.log(shortRequestArr);
       return shortRequestArr;
+    } else {
+      this.setState({ isLoading: false, isErrorRequest: true });
     }
   };
 
@@ -63,9 +70,13 @@ class SearchInput extends React.Component {
             <img src="/magnifier-glass.png" alt="magnifier-glass" />
           </div>
         </div>
-        <div>
+        {this.state.isLoading && <div className={styles.spinner}></div>}
+        {!this.state.isLoading && (
           <SearchResult renderRequest={this.state.peopleRequest} />
-        </div>
+        )}
+        {this.state.isErrorRequest && (
+          <h2>We have problems with your request.</h2>
+        )}
       </>
     );
   }

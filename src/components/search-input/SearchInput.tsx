@@ -43,7 +43,6 @@ class SearchInput extends React.Component {
       });
       this.setState({ peopleRequest: shortRequestArr, isLoading: false });
       localStorage.setItem('inputValue', this.state.searchWord);
-      console.log(shortRequestArr);
       return shortRequestArr;
     } else {
       localStorage.setItem('inputValue', this.state.searchWord);

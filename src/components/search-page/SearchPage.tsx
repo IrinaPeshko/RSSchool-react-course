@@ -13,6 +13,7 @@ function SearchPage() {
   const [peopleRequest, setPeopleRequest] = useState(peopleArr);
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorRequest, setIsErrorRequest] = useState(false);
+  const [request, setRequest] = useState("")
 
   const onClickSearch = async (): Promise<ShortPersonRequest[] | undefined> => {
     const trimSearchWord = searchWord.trim();
@@ -45,8 +46,11 @@ function SearchPage() {
 
   useEffect(() => {
     onClickSearch();
-  }, []);
+  }, [request]);
 
+  const onSetRequest = () => {
+    setRequest(searchWord);
+  }
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target instanceof HTMLInputElement) {
       setSearchWord(event.target.value);
@@ -58,7 +62,7 @@ function SearchPage() {
       <SearchBlock
         searchWord={searchWord}
         onChangeInput={onChangeInput}
-        onClickSearch={onClickSearch}
+        onClickSearch={onSetRequest}
       />
       <ErrorButton />
       {isLoading && <div className={styles.spinner}></div>}

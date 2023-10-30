@@ -1,11 +1,3 @@
-.person__info {
-  border: 1px solid #FCD54C;
-  width: 18%;
-}
-
-.person__info p{
-  color: #929292;
-}
 .people__container {
   display: flex;
   flex-wrap: wrap;

@@ -1,23 +1,22 @@
-import React, { Component } from 'react';
 import styles from './searchResult.module.css';
-import { iRenderRequest } from '../../types/requests-types';
+import { ShortPersonRequest } from '../../types/requests-types';
+import SearchCard from '../search-card/SearchCard';
 
-class SearchResult extends Component<iRenderRequest> {
-  render(): React.ReactNode {
-    const results = this.props.renderRequest.map((el, i) => {
-      return (
-        <div key={i} className={styles.person__info}>
-          <h2 className="person__name">{el.name}</h2>
-          <p>Year of birth: {el.birth_year}</p>
-          <p>Gender: {el.gender}</p>
-          <p>Height: {el.height}</p>
-          <p>Eye color: {el.eye_color}</p>
-          <p>Hair color: {el.hair_color}</p>
-        </div>
-      );
-    });
-    return <div className={styles.people__container}>{results}</div>;
-  }
+function SearchResult(props: { renderRequest: ShortPersonRequest[] }) {
+  const results = props.renderRequest.map((el, i) => {
+    return (
+      <SearchCard
+        key={i}
+        name={el.name}
+        birth_year={el.birth_year}
+        gender={el.gender}
+        height={el.height}
+        eye_color={el.eye_color}
+        hair_color={el.hair_color}
+      />
+    );
+  });
+  return <div className={styles.people__container}>{results}</div>;
 }
 
 export default SearchResult;

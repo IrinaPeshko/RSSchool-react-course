@@ -1,7 +1,7 @@
 import styles from './SearchCard.module.css';
 
 const SearchCard = (props: {
-  key: number;
+  key: string;
   name: string;
   birth_year: string;
   gender: string;

@@ -1,4 +1,4 @@
-export type PersonRequest = {
+export type PersonProperties = {
   name: string;
   height: string;
   mass: string;
@@ -16,6 +16,13 @@ export type PersonRequest = {
   edited: string;
   url: string;
 };
+export type PersonRequest = {
+  description: string;
+  properties: PersonProperties;
+  uid: string;
+  __v: number;
+  _id: string;
+};
 
 export type ShortPersonRequest = {
   name: string;
@@ -25,6 +32,7 @@ export type ShortPersonRequest = {
   eye_color: string;
   hair_color: string;
   url: string;
+  key: string;
 };
 
 export interface iErrorBoundaryProps {

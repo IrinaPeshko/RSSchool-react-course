@@ -7,3 +7,10 @@
 .disabled {
   background-color: #3e3e3e;
 }
+
+.disabled:hover {
+  cursor: auto;
+  background-color: #3e3e3e;
+  color: black;
+  border: 0px;
+}

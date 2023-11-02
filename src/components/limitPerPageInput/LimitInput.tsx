@@ -18,7 +18,7 @@ const LimitInput = (props: {
   const onAcceptClick = () => {
     props.setLimit(itemPerPage);
     localStorage.setItem('limit', itemPerPage);
-    props.setPage("1")
+    props.setPage('1');
   };
   return (
     <>

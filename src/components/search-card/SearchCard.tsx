@@ -1,7 +1,6 @@
 import styles from './SearchCard.module.css';
 
 const SearchCard = (props: {
-  key: string;
   name: string;
   effect: string;
   image: string;
@@ -11,7 +10,7 @@ const SearchCard = (props: {
   return (
     <>
       <div className={styles.person__info}>
-        <h2 className="person__name">{props.name}</h2>
+        <h2 className={styles.glow}>{props.name}</h2>
         {props.image ? (
           <img src={props.image} alt="spells-image" />
         ) : (

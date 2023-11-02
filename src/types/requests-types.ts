@@ -7,7 +7,7 @@ export interface SpellsRequest {
 export interface SpellsRequestData {
   attributes: AttributesSpells;
   id: string;
-  links: {self:string};
+  links: { self: string };
   type: string;
 }
 

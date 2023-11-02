@@ -20,14 +20,14 @@ const Pagination = (props: {
   }
   const disabledPrev = +props.page === 1;
   const disabledNext = !props.isNextPageActive;
-  
+
   const classNamePrevPage = classNames(
     +props.page === 1 ? styles.disabled : ''
   );
   const classNameNextPage = classNames(
     !props.isNextPageActive ? styles.disabled : ''
   );
-  
+
   return (
     <div className={styles.paginationBlock}>
       <button

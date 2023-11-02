@@ -5,3 +5,8 @@
   gap: 30px;
   margin: 50px 20px;
 }
+
+.searchCard{
+  width: 18%;
+  text-decoration: none;
+}

@@ -21,5 +21,3 @@ export function choosePage() {
   }
   return '1';
 }
-
-

@@ -1,24 +1,50 @@
-import { ShortPersonRequest } from '../../types/requests-types';
 import styles from './Pagination.module.css';
 
 const Pagination = (props: {
-  peopleRequest: ShortPersonRequest[];
   page: string;
   setPage: React.Dispatch<React.SetStateAction<string>>;
-  limitPerPage: string;
-  // setVisiblePeople: React.Dispatch<React.SetStateAction<ShortPersonRequest[]>>;
+  isNextPageActive: boolean;
 }) => {
   const onPrevBtnClick = () => {
-    props.setPage(`${+props.page - 1}`);
+    const newPage = `${+props.page - 1}`;
+    props.setPage(newPage);
+    localStorage.setItem('page', newPage);
   };
   const onNextBtnClick = () => {
-    props.setPage(`${+props.page + 1}`);
+    const newPage = `${+props.page + 1}`;
+    props.setPage(newPage);
+    localStorage.setItem('page', newPage);
   };
+  function classNames(...args: string[]) {
+    return args.filter(Boolean).join(' ');
+  }
+  const disabledPrev = +props.page === 1;
+  const disabledNext = !props.isNextPageActive;
+  
+  const classNamePrevPage = classNames(
+    +props.page === 1 ? styles.disabled : ''
+  );
+  const classNameNextPage = classNames(
+    !props.isNextPageActive ? styles.disabled : ''
+  );
+  
   return (
     <div className={styles.paginationBlock}>
-      <button onClick={onPrevBtnClick}>prev</button>
+      <button
+        className={classNamePrevPage}
+        onClick={onPrevBtnClick}
+        disabled={disabledPrev}
+      >
+        prev
+      </button>
       <p>{props.page}</p>
-      <button onClick={onNextBtnClick}>next</button>
+      <button
+        className={classNameNextPage}
+        onClick={onNextBtnClick}
+        disabled={disabledNext}
+      >
+        next
+      </button>
     </div>
   );
 };

@@ -5,3 +5,21 @@ export function chooseSearchWord() {
   }
   return '';
 }
+
+export function chooseLimit() {
+  const value: string | null = localStorage.getItem('limit');
+  if (value) {
+    return value;
+  }
+  return '10';
+}
+
+export function choosePage() {
+  const value: string | null = localStorage.getItem('page');
+  if (value) {
+    return value;
+  }
+  return '1';
+}
+
+

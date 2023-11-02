@@ -3,21 +3,30 @@ import styles from './SearchCard.module.css';
 const SearchCard = (props: {
   key: string;
   name: string;
-  birth_year: string;
-  gender: string;
-  height: string;
-  eye_color: string;
-  hair_color: string;
+  effect: string;
+  image: string;
+  category: string;
+  light: string;
 }) => {
   return (
     <>
       <div className={styles.person__info}>
         <h2 className="person__name">{props.name}</h2>
-        <p>Year of birth: {props.birth_year}</p>
-        <p>Gender: {props.gender}</p>
-        <p>Height: {props.height}</p>
-        <p>Eye color: {props.eye_color}</p>
-        <p>Hair color: {props.hair_color}</p>
+        {props.image ? (
+          <img src={props.image} alt="spells-image" />
+        ) : (
+          <img
+            src="https://static.wikia.nocookie.net/harrypotter/images/4/48/Flipendo_Maxima_HM_Spell_Icon.png"
+            alt="spells-image"
+          />
+        )}
+        <p>Effect: {props.effect}</p>
+        <p>category: {props.category}</p>
+        {props.light ? (
+          <p>light: {props.light}</p>
+        ) : (
+          <p>light: emerald, white or sky blue</p>
+        )}
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import { useState } from 'react';
 const LimitInput = (props: {
   limit: string;
   setLimit: React.Dispatch<React.SetStateAction<string>>;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [itemPerPage, setItemPerPage] = useState(props.limit);
 
@@ -16,6 +17,8 @@ const LimitInput = (props: {
 
   const onAcceptClick = () => {
     props.setLimit(itemPerPage);
+    localStorage.setItem('limit', itemPerPage);
+    props.setPage("1")
   };
   return (
     <>

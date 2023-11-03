@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import styles from './SearchPage.module.css';
 import { findSpells } from '../../api/api';
 import SearchResult from '../search-results/searchResult';
-import { SpellsRequest, SpellsRequestData } from '../../types/requests-types';
+import {
+  OneSpellRequest,
+  SpellsRequest,
+  SpellsRequestData,
+} from '../../types/requests-types';
 import ErrorButton from '../error-button/ErrorButton';
 import SearchBlock from '../search-block/SearchBlock';
 import {
@@ -34,11 +38,8 @@ function SearchPage() {
       setIsNextPageActive(false);
       setIsLoading(true);
       setIsErrorRequest(false);
-      const requestObj: SpellsRequest | void = await findSpells(
-        request,
-        limitPerPage,
-        page
-      );
+      const requestObj: SpellsRequest | OneSpellRequest | void =
+        await findSpells(request, limitPerPage, page);
       if (
         requestObj &&
         requestObj.data instanceof Array &&
@@ -58,7 +59,7 @@ function SearchPage() {
       }
     };
     onClickSearch();
-  }, [request, limitPerPage, page, setSearchParams]);
+  }, [request, limitPerPage, page]);
 
   const onSetRequest = () => {
     setRequest(searchWord);

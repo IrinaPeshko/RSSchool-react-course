@@ -5,7 +5,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 function App() {
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <ErrorBoundary>

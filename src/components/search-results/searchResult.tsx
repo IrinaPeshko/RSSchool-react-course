@@ -9,11 +9,15 @@ function SearchResult(props: { peopleRequest: SpellsRequestData[] }) {
   const results = props.peopleRequest.map((el) => {
     return (
       <div key={el.id} className={styles.searchCard}>
-        <Link to={`/details/${el.id}`} className={styles.searchCard} onClick={(event)=>{
-          if (location.pathname !== '/') {
-            event.preventDefault()
-          }
-        }}>
+        <Link
+          to={`/details/${el.id}`}
+          className={styles.searchCard}
+          onClick={(event) => {
+            if (location.pathname !== '/') {
+              event.preventDefault();
+            }
+          }}
+        >
           <div className={styles.person__info}>
             <SearchCard
               name={el.attributes.name}

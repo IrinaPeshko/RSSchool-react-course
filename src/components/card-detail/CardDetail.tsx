@@ -16,7 +16,6 @@ const CardDetail = () => {
         if (cardId) {
           setIsLoading(true);
           const spell = await getSpell(cardId);
-          console.log(spell);
           setIsLoading(false);
           setCurrentSpell(spell);
         }

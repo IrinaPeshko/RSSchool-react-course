@@ -39,14 +39,18 @@ export interface SpellsRequestMeta {
 }
 
 export interface AttributesSpells {
-  category: string; // Категория этого заклинания.
-  creator: string; // Создатель этого заклинания.
-  effect: string; // Эффект этого заклинания.
-  hand: string; // Движение руки этого заклинания.
-  image: string; // Ссылка на изображение этого заклинания.
-  incantation: string; // Заклинание этого заклинания.
-  light: string; // Свет этого заклинания.
-  name: string; // Название этого заклинания.
-  slug: string; // id
-  wiki: string; // Ссылка на вики-страницу
+  category: string; 
+  creator: string;
+  effect: string;
+  hand: string;
+  image: string;
+  incantation: string;
+  light: string;
+  name: string;
+  slug: string;
+  wiki: string;
+}
+
+export interface iErrorBoundaryProps {
+  children: React.ReactNode;
 }

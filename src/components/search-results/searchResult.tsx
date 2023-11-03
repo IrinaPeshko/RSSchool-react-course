@@ -5,7 +5,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 function SearchResult(props: { peopleRequest: SpellsRequestData[] }) {
   const location = useLocation();
-  // const navigate = useNavigate()
   const results = props.peopleRequest.map((el) => {
     return (
       <div key={el.id} className={styles.searchCard}>

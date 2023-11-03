@@ -4,7 +4,6 @@ import { OneSpellRequest } from '../../types/requests-types';
 
 const CardDetail = () => {
   const loaderData = useLoaderData() as OneSpellRequest;
-  console.log(loaderData);
   const loaderAttributes = loaderData.data.attributes;
   if (loaderData && loaderAttributes) {
     return (

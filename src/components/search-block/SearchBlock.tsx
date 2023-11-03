@@ -1,4 +1,5 @@
 import styles from './SearchBlock.module.css';
+import magnifierGlassImage from '/magnifier-glass.png';
 
 const SearchBlock = (props: {
   searchWord: string;
@@ -21,7 +22,7 @@ const SearchBlock = (props: {
           onChange={onChangeInput}
         />
         <div className={styles.searchButton} onClick={props.onClickSearch}>
-          <img src="./magnifier-glass.png" alt="magnifier-glass" />
+          <img src={magnifierGlassImage} alt="magnifier-glass" />
         </div>
       </div>
     </>

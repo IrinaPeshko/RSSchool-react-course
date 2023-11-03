@@ -13,7 +13,6 @@ export const findSpells = (
 ) => request(ROOT + SPELLS + LIMIT + limit + PAGE + page + SEARCH + searchWord);
 
 const request = async (link: string): Promise<void | SpellsRequest> => {
-  console.log(link);
   try {
     const result = await fetch(link);
     const resultJSON = await result.json();

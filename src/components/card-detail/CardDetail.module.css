@@ -4,6 +4,40 @@
   border: 2px solid #fcca4c
 }
 
+.closeModal {
+	position: absolute;
+	top: 30px;
+	right: 20px;
+	width: 24px;
+	height: 24px;
+	opacity: 0.2;
+	cursor: pointer;
+  transition: opacity ease 0.5s;
+
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.closeModal::before,
+.closeModal::after {
+	content: '';
+	position: absolute;
+	top: 10px;
+	display: block;
+	width: 24px;
+	height: 3px;
+	background: #fcca4c;
+}
+
+.closeModal::before {
+	transform: rotate(45deg);
+}
+
+.closeModal::after {
+	transform: rotate(-45deg);
+}
+
 .detailsImg {
   margin: auto;
   display: block;
@@ -13,3 +47,4 @@
 .paragraph{
   padding: 0 20px;
 }
+

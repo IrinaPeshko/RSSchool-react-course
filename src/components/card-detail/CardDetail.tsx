@@ -1,5 +1,5 @@
 import styles from './CardDetail.module.css';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { OneSpellRequest } from '../../types/requests-types';
 
 const CardDetail = () => {
@@ -9,6 +9,9 @@ const CardDetail = () => {
     return (
       <>
         <div className={styles.detailsContainer}>
+          <Link to="/">
+            <div className={styles.closeModal}></div>
+          </Link>
           <h2>{loaderAttributes.name}</h2>
           {loaderAttributes.image ? (
             <img

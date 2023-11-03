@@ -12,6 +12,7 @@ import {
 } from '../../utils/chooseSearchWord';
 import LimitInput from '../limitPerPageInput/LimitInput';
 import Pagination from '../pagination/Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 function SearchPage() {
   const peopleArr: SpellsRequestData[] = [];
@@ -23,8 +24,10 @@ function SearchPage() {
   const [limitPerPage, setLimitPerPage] = useState(chooseLimit());
   const [page, setPage] = useState(choosePage());
   const [isNextPageActive, setIsNextPageActive] = useState(false);
+  const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
+    setSearchParams({ page: page, limit: limitPerPage });
     const onClickSearch = async (): Promise<
       SpellsRequestData[] | undefined
     > => {
@@ -55,7 +58,7 @@ function SearchPage() {
       }
     };
     onClickSearch();
-  }, [request, limitPerPage, page]);
+  }, [request, limitPerPage, page, setSearchParams]);
 
   const onSetRequest = () => {
     setRequest(searchWord);

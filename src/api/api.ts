@@ -22,3 +22,5 @@ const request = async (link: string): Promise<void | SpellsRequest> => {
     console.error('The fetch was unsuccessful: ' + error);
   }
 };
+
+export const getSpell = (id: string) => request(ROOT + SPELLS + '/' + id);

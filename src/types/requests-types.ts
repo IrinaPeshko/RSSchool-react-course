@@ -4,6 +4,15 @@ export interface SpellsRequest {
   meta: SpellsRequestMeta;
 }
 
+export interface OneSpellRequest {
+  data: SpellsRequestData;
+  links: { self: string };
+  meta: {
+    copyright: string;
+    generated_at: string;
+  };
+}
+
 export interface SpellsRequestData {
   attributes: AttributesSpells;
   id: string;

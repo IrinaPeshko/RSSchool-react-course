@@ -1,10 +1,10 @@
+.container {
+  display: 100vw;
+  display: flex;
+}
+
 .content {
-  width: 100vw;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-
-.container {
-  display: flex;
 }

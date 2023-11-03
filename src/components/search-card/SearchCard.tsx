@@ -12,9 +12,14 @@ const SearchCard = (props: {
       <div className={styles.person__info}>
         <h2 className={styles.glow}>{props.name}</h2>
         {props.image ? (
-          <img src={props.image} alt="spells-image" />
+          <img
+            className={styles.cardImg}
+            src={props.image}
+            alt="spells-image"
+          />
         ) : (
           <img
+            className={styles.cardImg}
             src="https://static.wikia.nocookie.net/harrypotter/images/4/48/Flipendo_Maxima_HM_Spell_Icon.png"
             alt="spells-image"
           />

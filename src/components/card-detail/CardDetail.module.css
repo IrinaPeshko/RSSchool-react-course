@@ -1,0 +1,15 @@
+.detailsContainer{
+  margin: 50px;
+  width: 40vw;
+  border: 2px solid #fcca4c
+}
+
+.detailsImg {
+  margin: auto;
+  display: block;
+  width: 50%;
+}
+
+.paragraph{
+  padding: 0 20px;
+}

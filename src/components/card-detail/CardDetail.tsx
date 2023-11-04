@@ -46,6 +46,7 @@ const CardDetail = () => {
             <img
               src="https://static.wikia.nocookie.net/harrypotter/images/4/48/Flipendo_Maxima_HM_Spell_Icon.png"
               alt="spells-image"
+              className={styles.detailsImg}
             />
           )}
           <p className={styles.paragraph}>

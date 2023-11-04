@@ -1,3 +1,14 @@
+.searchPage{
+  width: 100%
+}
+
+.searchDetails{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px
+}
+
 .spinner {
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-top: 4px solid #FCD54C;

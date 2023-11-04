@@ -1,7 +1,8 @@
 .detailsContainer{
-  margin: 50px;
-  width: 40vw;
-  border: 2px solid #fcca4c
+  margin: 50px 70px;
+  border: 2px solid #fcca4c;
+	min-width:30vw;
+	min-height: 400px;
 }
 
 .closeModal {
@@ -41,7 +42,7 @@
 .detailsImg {
   margin: auto;
   display: block;
-  width: 50%;
+  width: 30vw;
 }
 
 .paragraph{

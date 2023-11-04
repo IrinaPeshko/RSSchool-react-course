@@ -38,6 +38,7 @@ function SearchPage() {
       setIsNextPageActive(false);
       setIsLoading(true);
       setIsErrorRequest(false);
+      setPeopleRequest([]);
       const requestObj: SpellsRequest | OneSpellRequest | void =
         await findSpells(request, limitPerPage, page);
       if (
@@ -66,31 +67,35 @@ function SearchPage() {
   };
 
   return (
-    <>
+    <div className={styles.searchPage}>
       <SearchBlock
         searchWord={searchWord}
         setSearchWord={setSearchWord}
         onClickSearch={onSetRequest}
       />
-      <ErrorButton />
-      <LimitInput
-        limit={limitPerPage}
-        setLimit={setLimitPerPage}
-        setPage={setPage}
-      />
+      <div className={styles.searchDetails}>
+        <ErrorButton />
+        <LimitInput
+          limit={limitPerPage}
+          setLimit={setLimitPerPage}
+          setPage={setPage}
+        />
+      </div>
       {isLoading && <div className={styles.spinner}></div>}
-      {!isLoading && !isErrorRequest && (
+      {!isLoading && !isErrorRequest && peopleRequest.length !== 0 && (
         <SearchResult peopleRequest={peopleRequest} />
       )}
       {isErrorRequest && (
         <h2>We couldn&apos;t find anything matching your request.</h2>
       )}
-      <Pagination
-        page={page}
-        setPage={setPage}
-        isNextPageActive={isNextPageActive}
-      />
-    </>
+      {peopleRequest.length !== 0 && (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          isNextPageActive={isNextPageActive}
+        />
+      )}
+    </div>
   );
 }
 

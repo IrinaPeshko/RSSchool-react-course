@@ -39,7 +39,7 @@ export interface SpellsRequestMeta {
 }
 
 export interface AttributesSpells {
-  category: string; 
+  category: string;
   creator: string;
   effect: string;
   hand: string;

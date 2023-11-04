@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-// import styles from './LimitInput.module.css';
+import styles from './LimitInput.module.css';
 
 const LimitInput = (props: {
   limit: string;
@@ -23,7 +23,12 @@ const LimitInput = (props: {
   return (
     <>
       <div>
-        <input type="number" value={itemPerPage} onChange={setItemCount} />
+        <input
+          type="number"
+          value={itemPerPage}
+          onChange={setItemCount}
+          className={styles.limitInput}
+        />
         <button onClick={onAcceptClick}>Accept</button>
       </div>
     </>

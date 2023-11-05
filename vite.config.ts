@@ -6,5 +6,5 @@ export default defineConfig({
   build: {
     outDir: 'build',
   },
-  base: '',
+  base: '/RSSchool-react-course',
 });

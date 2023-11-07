@@ -51,6 +51,6 @@ export interface AttributesSpells {
   wiki: string;
 }
 
-export interface iErrorBoundaryProps {
+export interface ErrorBoundaryProps {
   children: React.ReactNode;
 }

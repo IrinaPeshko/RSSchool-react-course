@@ -1,8 +1,8 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import s from './ErrorBoundary.module.css';
-import { iErrorBoundaryProps } from '../../types/requests-types';
+import { ErrorBoundaryProps } from '../../types/requests-types';
 
-class ErrorBoundary extends Component<iErrorBoundaryProps> {
+class ErrorBoundary extends Component<ErrorBoundaryProps> {
   state = {
     hasError: false,
     error: null,

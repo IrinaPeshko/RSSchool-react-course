@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import styles from './SearchPage.module.css';
 import { findSpells } from '../../api/api';
 import SearchResult from '../search-results/searchResult';
-import { SpellsRequest, SpellsRequestData } from '../../types/requests-types';
+import {
+  OneSpellRequest,
+  SpellsRequest,
+  SpellsRequestData,
+} from '../../types/requests-types';
 import ErrorButton from '../error-button/ErrorButton';
 import SearchBlock from '../search-block/SearchBlock';
 import {
@@ -20,65 +24,54 @@ function SearchPage() {
   const [peopleRequest, setPeopleRequest] = useState(peopleArr);
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorRequest, setIsErrorRequest] = useState(false);
+  const [request, setRequest] = useState(chooseSearchWord());
   const [limitPerPage, setLimitPerPage] = useState(chooseLimit());
   const [page, setPage] = useState(choosePage());
   const [isNextPageActive, setIsNextPageActive] = useState(false);
   const [, setSearchParams] = useSearchParams();
 
-  const onClickSearch = async (
-    searchWord: string
-  ): Promise<SpellsRequestData[] | undefined> => {
-    setIsNextPageActive(false);
-    setIsLoading(true);
-    setIsErrorRequest(false);
-
-    const requestObj: SpellsRequest | void = await findSpells(
-      searchWord,
-      limitPerPage,
-      page
-    );
-
-    // const isRequestCorrect: boolean =
-    //   requestObj &&
-    //   requestObj.data instanceof Array &&
-    //   requestObj.data.length !== 0
-    //     ? true
-    //     : false;
-
-    if (
-      requestObj &&
-      requestObj.data instanceof Array &&
-      requestObj.data.length !== 0
-    ) {
-      const isNextPage = !!requestObj.meta.pagination.next;
-      setIsNextPageActive(isNextPage);
-
-      const requestArr = requestObj.data;
-      setPeopleRequest(requestArr);
-
-      return requestArr;
-    } else {
-      setIsErrorRequest(true);
-    }
-
-    localStorage.setItem('inputValue', searchWord);
-    setIsLoading(false);
-  };
-
   useEffect(() => {
     setSearchParams({ page: page, limit: limitPerPage });
-  }, [limitPerPage, page, setSearchParams]);
+    const onClickSearch = async (): Promise<
+      SpellsRequestData[] | undefined
+    > => {
+      setIsNextPageActive(false);
+      setIsLoading(true);
+      setIsErrorRequest(false);
+      setPeopleRequest([]);
+      const requestObj: SpellsRequest | OneSpellRequest | void =
+        await findSpells(request, limitPerPage, page);
+      if (
+        requestObj &&
+        requestObj.data instanceof Array &&
+        requestObj.data.length !== 0
+      ) {
+        const isNextPage = !!requestObj.meta.pagination.next;
+        setIsNextPageActive(isNextPage);
+        const requestArr = requestObj.data;
+        setPeopleRequest(requestArr);
+        setIsLoading(false);
+        localStorage.setItem('inputValue', request);
+        return requestArr;
+      } else {
+        localStorage.setItem('inputValue', request);
+        setIsLoading(false);
+        setIsErrorRequest(true);
+      }
+    };
+    onClickSearch();
+  }, [request, limitPerPage, page]);
 
-  useEffect(() => {
-    onClickSearch('');
-  }, []);
+  const onSetRequest = () => {
+    setRequest(searchWord);
+  };
 
   return (
     <div className={styles.searchPage}>
       <SearchBlock
         searchWord={searchWord}
         setSearchWord={setSearchWord}
-        onClickSearch={() => onClickSearch(searchWord)}
+        onClickSearch={onSetRequest}
       />
       <div className={styles.searchDetails}>
         <ErrorButton />

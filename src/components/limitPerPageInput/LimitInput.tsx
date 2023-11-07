@@ -28,6 +28,7 @@ const LimitInput = (props: {
           value={itemPerPage}
           onChange={setItemCount}
           className={styles.limitInput}
+          min="1"
         />
         <button onClick={onAcceptClick}>Accept</button>
       </div>

@@ -15,9 +15,9 @@ const Pagination = (props: {
     props.setPage(newPage);
     localStorage.setItem('page', newPage);
   };
-  function classNames(...args: string[]) {
+  const classNames = (...args: string[]) => {
     return args.filter(Boolean).join(' ');
-  }
+  };
   const disabledPrev = +props.page === 1;
   const disabledNext = !props.isNextPageActive;
 

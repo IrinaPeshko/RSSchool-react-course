@@ -13,8 +13,8 @@ function App() {
         <div
           className={styles.content}
           onClick={() => {
-            if (location.pathname !== '/') {
-              navigate('/');
+            {
+              location.pathname !== '/' && navigate('/');
             }
           }}
         >

@@ -1,3 +1,5 @@
+import React, { Dispatch, SetStateAction } from 'react';
+
 export interface SpellsRequest {
   data: SpellsRequestData[];
   links: SpellsRequestLinks;
@@ -53,4 +55,14 @@ export interface AttributesSpells {
 
 export interface ErrorBoundaryProps {
   children: React.ReactNode;
+}
+
+export interface SearchWordsContextType {
+  searchWord: string;
+  setSearchWord: Dispatch<SetStateAction<string>>;
+}
+
+export interface SpellsRequestType {
+  spellsRequest: SpellsRequestData[];
+  setSpellsRequest: Dispatch<SetStateAction<SpellsRequestData[]>>;
 }

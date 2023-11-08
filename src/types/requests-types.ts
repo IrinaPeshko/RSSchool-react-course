@@ -60,6 +60,8 @@ export interface ErrorBoundaryProps {
 export interface SearchWordsContextType {
   searchWord: string;
   setSearchWord: Dispatch<SetStateAction<string>>;
+  request: string;
+  setRequest: Dispatch<SetStateAction<string>>;
 }
 
 export interface SpellsRequestType {

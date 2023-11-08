@@ -1,4 +1,4 @@
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import styles from './SearchPage.module.css';
 import { findSpells } from '../../api/api';
 import SearchResult from '../search-results/searchResult';
@@ -51,14 +51,10 @@ function SearchPage() {
         setIsNextPageActive(isNextPage);
         const requestArr = requestObj.data;
         setSpellsRequest(requestArr);
-                  setIsLoading(false);
+        setIsLoading(false);
         localStorage.setItem('inputValue', request);
-  return requestArr;
+        return requestArr;
       } else {
-        
-        
-        
-        
         localStorage.setItem('inputValue', request);
         setIsLoading(false);
         setIsErrorRequest(true);
@@ -67,17 +63,15 @@ function SearchPage() {
     onClickSearch();
   }, [request, limitPerPage, page]);
 
-  const onSetRequest = () => {
-    setRequest(searchWord);
-  };
-
   return (
-    <SearchWordsContext.Provider value={{ searchWord, setSearchWord }}>
+    <SearchWordsContext.Provider
+      value={{ searchWord, setSearchWord, setRequest, request }}
+    >
       <SpellsRequestContext.Provider
         value={{ spellsRequest, setSpellsRequest }}
       >
         <div className={styles.searchPage}>
-          <SearchBlock onClickSearch={onSetRequest} />
+          <SearchBlock />
           <div className={styles.searchDetails}>
             <ErrorButton />
             <LimitInput

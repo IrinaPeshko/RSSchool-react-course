@@ -3,12 +3,10 @@ import magnifierGlassImage from '/magnifier-glass.png';
 import { SearchWordsContext } from '../search-page/Contexts';
 import { Fragment } from 'react';
 
-const SearchBlock = (props: {
-  onClickSearch: () => void;
-}) => {
+const SearchBlock = () => {
   return (
     <SearchWordsContext.Consumer>
-      {({ searchWord, setSearchWord }) => (
+      {({ searchWord, setSearchWord, setRequest }) => (
         <Fragment>
           <div className={styles.searchBlock}>
             <input
@@ -16,9 +14,12 @@ const SearchBlock = (props: {
               type="text"
               className={styles.searchInput}
               value={searchWord}
-              onChange={(event)=>setSearchWord(event.target.value)}
+              onChange={(event) => setSearchWord(event.target.value)}
             />
-            <div className={styles.searchButton} onClick={props.onClickSearch}>
+            <div
+              className={styles.searchButton}
+              onClick={() => setRequest(searchWord)}
+            >
               <img src={magnifierGlassImage} alt="magnifier-glass" />
             </div>
           </div>

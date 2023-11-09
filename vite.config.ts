@@ -1,18 +1,23 @@
 /// <reference types="vitest" />
+/// <reference types="Vite/client" />
+
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  build: {
-    outDir: 'build',
-  },
   base: '/RSSchool-react-course',
   test: {
-    globals: true,
     environment: 'jsdom',
-    // coverage:{
-    //   reporter:['text', 'json', 'html'] // change this property to the desired output
-    // }
+    globals: true,
+    setupFiles: ['./vitest-setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      reportsDirectory: './src/tests/coverage',
+      all: true,
+      include: ['**/.tsx'],
+    },
   },
 });

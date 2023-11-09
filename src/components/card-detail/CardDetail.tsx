@@ -32,7 +32,9 @@ const CardDetail = () => {
       <Link to="/">
         <div className={styles.closeModal}></div>
       </Link>
-      {isLoading && <div className={styles.spinner}></div>}
+      {isLoading && (
+        <div data-testid="loadingBlock" className={styles.spinner}></div>
+      )}
       {!isLoading && currentSpell ? (
         <>
           <h2>{currentSpell.data.attributes.name}</h2>

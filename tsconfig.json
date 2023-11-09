@@ -16,7 +16,11 @@
     "noImplicitAny": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vitest/globals"]
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom",
+      "@vitest/jest-dom/extend-expect"
+    ]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

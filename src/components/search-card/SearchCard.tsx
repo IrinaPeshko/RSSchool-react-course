@@ -8,6 +8,7 @@ const SearchCard = (props: {
   category: string;
   light: string;
   id: string;
+  openDetail?: (id: string) => void;
 }) => {
   const location = useLocation();
   return (
@@ -15,6 +16,7 @@ const SearchCard = (props: {
       <Link
         to={`/details/${props.id}`}
         className={styles.searchCard}
+        data-testid="card"
         onClick={(event) => {
           if (location.pathname !== '/') {
             event.preventDefault();

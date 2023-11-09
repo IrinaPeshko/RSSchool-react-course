@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../components/app/App';
 import CardDetail from '../components/card-detail/CardDetail';
+import NotFound from '../components/notFound/NotFound';
 
 const router = createBrowserRouter(
   [
@@ -13,6 +14,10 @@ const router = createBrowserRouter(
           element: <CardDetail />,
         },
       ],
+    },
+    {
+      path: '*',
+      element: <NotFound />,
     },
   ],
   {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './ErrorButton.module.css';
 
-function ErrorButton() {
+const ErrorButton = () => {
   const [hasError, setHasError] = useState(false);
 
   const resetError = () => {
@@ -21,6 +21,6 @@ function ErrorButton() {
       )}
     </>
   );
-}
+};
 
 export default ErrorButton;

@@ -17,7 +17,7 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       reportsDirectory: './src/tests/coverage',
       all: true,
-      include: ['**/.tsx'],
+      include: ['**/*.tsx'],
     },
   },
 });

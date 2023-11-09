@@ -13,7 +13,7 @@ describe('Tests for the SearchCard component', () => {
     light: 'Blue',
     id: 'ef7c3503-8dea-41b2-8755-f9424ba7645e',
   };
-  test('Ensure that the card component renders the relevant card data;', () => {
+  test('Ensure that the card component renders the relevant card data', () => {
     render(
       <MemoryRouter>
         <SearchCard {...propsToCard} />

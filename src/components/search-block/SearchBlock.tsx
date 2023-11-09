@@ -15,10 +15,12 @@ const SearchBlock = () => {
               className={styles.searchInput}
               value={searchWord}
               onChange={(event) => setSearchWord(event.target.value)}
+              data-testid="searchInput"
             />
             <div
               className={styles.searchButton}
               onClick={() => setRequest(searchWord)}
+              data-testid="searchBtn"
             >
               <img src={magnifierGlassImage} alt="magnifier-glass" />
             </div>

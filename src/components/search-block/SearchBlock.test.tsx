@@ -9,9 +9,10 @@ describe('Search component tests', () => {
         <SearchPage />
       </BrowserRouter>
     );
-    const input = screen.getByPlaceholderText('Search...');
+    const input = screen.getByTestId('searchInput');
     const searchBtn = screen.getByTestId('searchBtn');
     fireEvent.change(input, { target: { value: 'test' } });
+    screen.debug();
     fireEvent.click(searchBtn);
     await waitFor(() => {
       const localStorageValue = localStorage.getItem('inputValue');
@@ -26,7 +27,6 @@ describe('Search component tests', () => {
         <SearchPage />
       </BrowserRouter>
     );
-    screen.debug();
 
     expect(screen.getByTestId('searchInput').getAttribute('value')).toBe('one');
   });

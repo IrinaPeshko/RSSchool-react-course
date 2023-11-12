@@ -13,7 +13,7 @@ export const fakeData = {
       slug: 'aqua-eructo',
       wiki: 'https://harrypotter.fandom.com/wiki/Aqua_Eructo',
     },
-    id: 'f10af5f6-c6d3-48b9-b229-fee496e3ae41',
+    id: '463c97fc-09b2-4b07-9494-39c83f592a40 ',
     links: {
       self: '/v1/spells/f10af5f6-c6d3-48b9-b229-fee496e3ae41',
     },

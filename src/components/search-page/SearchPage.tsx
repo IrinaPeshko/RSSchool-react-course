@@ -49,7 +49,7 @@ function SearchPage() {
         const isNextPage = !!requestObj.meta.pagination.next;
         setIsNextPageActive(isNextPage);
         const requestArr = requestObj.data;
-        setSpellsRequest(requestArr); 
+        setSpellsRequest(requestArr);
         setIsLoading(false);
         localStorage.setItem('inputValue', request);
         return requestArr;

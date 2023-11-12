@@ -17,30 +17,19 @@ import { SpellsRequestType } from '../types/requests-types';
 import { spellsRequest } from './fakeData/spellsRequest';
 import { SpellsRequestContext } from '../components/search-page/Contexts';
 import { propsToCard } from './fakeData/propsToCard';
-import { Mock } from 'vitest';
+import { fakeData } from './fakeData/fakeData';
+import { getSpell } from '../api/api';
 
 describe('Tests for the SearchCard component', () => {
   beforeAll(() => {
-    global.fetch = vi.fn(() => {
-      return Promise.resolve({
-        ok: true,
-        json: () => {
-          return Promise.resolve(fakeDataCards);
-        },
-      });
-    }) as Mock;
-
     vi.mock('../api/api', () => {
       return {
         findSpells: vi.fn(async () => {
           return fakeDataCards;
         }),
-        request: vi.fn(),
-        requestObj: vi.fn(async () => {
-          return fakeDataCards;
-        }),
-        requestArr: vi.fn(async () => {
-          return fakeDataCards.data;
+        getSpell: vi.fn((id) => {
+          console.log(id);
+          return fakeData;
         }),
       };
     });
@@ -67,7 +56,7 @@ describe('Tests for the SearchCard component', () => {
     const cardImage = screen.getByAltText('spells-image');
     expect(cardImage.getAttribute('src')).toBe(propsToCard.image);
   });
-  test('Validate that clicking on a card opens a detailed card component;', async () => {
+  test('Validate that clicking on a card opens a detailed card component && Check that clicking triggers an additional API call to fetch detailed information.', async () => {
     const cardsList: SpellsRequestType = {
       spellsRequest: spellsRequest,
       setSpellsRequest: vi.fn(),
@@ -86,11 +75,20 @@ describe('Tests for the SearchCard component', () => {
     const cards = await screen.findAllByTestId('card');
     expect(cards).toBeTruthy();
 
+    expect(getSpell).toBeCalledTimes(0);
+
     await waitFor(() => {
       fireEvent.click(cards[1]);
     });
 
+    screen.debug();
+
     const detailed = screen.getByTestId('detailsBlock');
     expect(detailed).toBeInTheDocument();
+
+    const detailedCardName = screen.getByText(/light: Ice-blue/i);
+    expect(detailedCardName).toBeInTheDocument();
+
+    expect(getSpell).toBeCalledTimes(1);
   });
 });

@@ -54,9 +54,9 @@ describe('Tests for the SearchCard component', () => {
         </SpellsRequestContext.Provider>
       )
     );
+    expect(router.state.location.search).toBe('?page=3&limit=10');
     const pagination = screen.getByTestId('pagination');
     expect(pagination).toBeInTheDocument();
-
     const nextBtn = screen.getByTestId('nextBtn');
     expect(nextBtn).toBeInTheDocument();
     const prevBtn = screen.getByTestId('prevBtn');
@@ -72,6 +72,7 @@ describe('Tests for the SearchCard component', () => {
 
     expect(findSpells).toBeCalledTimes(2);
     expect(findSpells).toHaveBeenCalledWith('', '10', '4');
+    expect(router.state.location.search).toBe('?page=4&limit=10');
 
     await waitFor(() => {
       fireEvent.click(prevBtn);

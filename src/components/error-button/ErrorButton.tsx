@@ -6,7 +6,7 @@ const ErrorButton = () => {
 
   const resetError = () => {
     setHasError(true);
-    throw new Error('This is example Error');
+    console.error('This is example Error');
   };
 
   if (hasError) {
@@ -15,7 +15,11 @@ const ErrorButton = () => {
   return (
     <>
       {!hasError && (
-        <button onClick={resetError} className={styles.errorButton}>
+        <button
+          onClick={resetError}
+          className={styles.errorButton}
+          data-testid="errorBtn"
+        >
           Create Error
         </button>
       )}

@@ -1,7 +1,12 @@
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import {
+  MemoryRouter,
+  RouterProvider,
+  createMemoryRouter,
+} from 'react-router-dom';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { routes } from '../router/router';
 import { fakeData } from './fakeData/fakeData';
+import CardDetail from '../components/card-detail/CardDetail';
 
 describe('Detailed card tests', () => {
   beforeEach(() => {
@@ -71,5 +76,16 @@ describe('Detailed card tests', () => {
       return content.includes(fakeData.data.attributes.light);
     });
     expect(cardLight).toBeFalsy();
+  });
+
+  test('Check that a loading indicator is displayed while fetching data;', async () => {
+    render(
+      <MemoryRouter>
+        <CardDetail />
+      </MemoryRouter>
+    );
+
+    const spinner = screen.getByTestId('DetailedLoadingBlock');
+    expect(spinner).toBeInTheDocument();
   });
 });

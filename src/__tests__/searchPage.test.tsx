@@ -7,9 +7,7 @@ describe('Search page tests', () => {
   beforeEach(() => {
     vi.mock('../api/api', () => {
       return {
-        findSpells: vi.fn(async (searchWord, page, limit) => {
-          console.log(page, limit, searchWord);
-        }),
+        findSpells: vi.fn(async () => {}),
       };
     });
   });

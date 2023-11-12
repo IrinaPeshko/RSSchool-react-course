@@ -12,6 +12,7 @@ const CardDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchSpell = async () => {
+      setIsLoading(true);
       try {
         if (cardId) {
           const spell = await getSpell(cardId);
@@ -20,6 +21,7 @@ const CardDetail = () => {
         }
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
 

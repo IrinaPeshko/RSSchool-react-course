@@ -27,8 +27,7 @@ describe('Tests for the SearchCard component', () => {
         findSpells: vi.fn(async () => {
           return fakeDataCards;
         }),
-        getSpell: vi.fn((id) => {
-          console.log(id);
+        getSpell: vi.fn(() => {
           return fakeData;
         }),
       };
@@ -80,8 +79,6 @@ describe('Tests for the SearchCard component', () => {
     await waitFor(() => {
       fireEvent.click(cards[1]);
     });
-
-    screen.debug();
 
     const detailed = screen.getByTestId('detailsBlock');
     expect(detailed).toBeInTheDocument();

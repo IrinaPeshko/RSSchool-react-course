@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import SearchResult from '../components/search-results/searchResult';
 import { SpellsRequestContext } from '../components/search-page/Contexts';
-import React from 'react';
 import { SpellsRequestData, SpellsRequestType } from '../types/requests-types';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -82,8 +81,26 @@ describe('Tests for the CardList component', () => {
         </SpellsRequestContext.Provider>
       </MemoryRouter>
     );
-    screen.debug();
 
     expect(screen.getAllByTestId('card').length).toBe(3);
+  });
+
+  test('Check that an appropriate message is displayed if no cards are present', () => {
+    const spellsRequest: SpellsRequestData[] = [];
+    const cardsList: SpellsRequestType = {
+      spellsRequest: spellsRequest,
+      setSpellsRequest: vi.fn(),
+    };
+    render(
+      <MemoryRouter>
+        <SpellsRequestContext.Provider value={cardsList}>
+          <SearchResult />
+        </SpellsRequestContext.Provider>
+      </MemoryRouter>
+    );
+    screen.debug();
+    const errorMessage = "We couldn't find anything matching your request.";
+    const isErrorTitle = screen.getByText(errorMessage);
+    expect(isErrorTitle).toBeTruthy();
   });
 });

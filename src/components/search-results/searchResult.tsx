@@ -9,6 +9,9 @@ function SearchResult() {
       {({ spellsRequest }) => (
         <Fragment>
           <div className={styles.spells__container}>
+            {spellsRequest.length === 0 && (
+              <h2>We couldn&apos;t find anything matching your request.</h2>
+            )}
             {spellsRequest.map((el) => (
               <div key={el.id} className={styles.searchCard}>
                 <div className={styles.person__info}>

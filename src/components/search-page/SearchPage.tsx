@@ -24,7 +24,7 @@ function SearchPage() {
   const [searchWord, setSearchWord] = useState(chooseSearchWord());
   const [spellsRequest, setSpellsRequest] = useState(spellsArr);
   const [isLoading, setIsLoading] = useState(false);
-  const [isErrorRequest, setIsErrorRequest] = useState(false);
+  const [, setIsErrorRequest] = useState(false);
   const [request, setRequest] = useState(chooseSearchWord());
   const [limitPerPage, setLimitPerPage] = useState(chooseLimit());
   const [page, setPage] = useState(choosePage());
@@ -82,12 +82,7 @@ function SearchPage() {
             />
           </div>
           {isLoading && <div className={styles.spinner}></div>}
-          {!isLoading && !isErrorRequest && spellsRequest.length !== 0 && (
-            <SearchResult />
-          )}
-          {isErrorRequest && (
-            <h2>We couldn&apos;t find anything matching your request.</h2>
-          )}
+          {!isLoading && <SearchResult />}
           {spellsRequest.length !== 0 && (
             <Pagination
               page={page}

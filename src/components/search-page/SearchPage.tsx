@@ -32,7 +32,6 @@ function SearchPage() {
   const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    console.log('key');
     setSearchParams({ page: page, limit: limitPerPage });
     const onClickSearch = async (): Promise<
       SpellsRequestData[] | undefined

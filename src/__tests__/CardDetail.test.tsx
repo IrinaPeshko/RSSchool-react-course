@@ -1,25 +1,23 @@
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { routes } from '../router/router';
-import { fakeData } from '../components/card-detail/fakeData';
+import { fakeData } from './fakeData/fakeData';
 
 describe('Detailed card tests', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     vi.mock('../api/api', () => {
       return {
-        getSpell: vi.fn(async (cardId) => {
-          console.log(cardId);
+        getSpell: vi.fn(async () => {
           return fakeData;
         }),
-        findSpells: vi.fn(async (searchWord, limit?, page?) => {
-          console.log(searchWord, limit, page);
+        findSpells: vi.fn(async () => {
           return fakeData;
         }),
       };
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     vi.clearAllMocks();
     vi.resetAllMocks();
   });
@@ -27,11 +25,9 @@ describe('Detailed card tests', () => {
   test('Make sure the detailed card component correctly displays the detailed card data', async () => {
     const router = createMemoryRouter(routes, {
       initialEntries: ['/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'],
-      initialIndex: 1,
     });
 
     await act(async () => render(<RouterProvider router={router} />));
-    console.log(fakeData.data.attributes.name);
     const nameSpell = screen.getByText(fakeData.data.attributes.name);
     expect(nameSpell).toBeTruthy();
     const cardEffect = screen.getByText((content) => {

@@ -14,7 +14,6 @@ const CardDetail = () => {
     const fetchSpell = async () => {
       try {
         if (cardId) {
-          setIsLoading(true);
           const spell = await getSpell(cardId);
           setIsLoading(false);
           setCurrentSpell(spell);

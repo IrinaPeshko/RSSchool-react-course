@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import SearchCard from './SearchCard';
+import SearchCard from '../components/search-card/SearchCard';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('Tests for the SearchCard component', () => {
@@ -19,7 +19,6 @@ describe('Tests for the SearchCard component', () => {
         <SearchCard {...propsToCard} />
       </MemoryRouter>
     );
-    screen.debug();
     const cardName = screen.getByText(propsToCard.name);
     expect(cardName).toBeTruthy();
 

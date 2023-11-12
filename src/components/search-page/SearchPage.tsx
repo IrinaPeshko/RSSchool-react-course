@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import styles from './SearchPage.module.css';
 import { findSpells } from '../../api/api';
 import SearchResult from '../search-results/searchResult';
@@ -20,9 +20,8 @@ import { useSearchParams } from 'react-router-dom';
 import { SearchWordsContext, SpellsRequestContext } from './Contexts';
 
 function SearchPage() {
-  const spellsArr: SpellsRequestData[] = [];
+  const { spellsRequest, setSpellsRequest } = useContext(SpellsRequestContext);
   const [searchWord, setSearchWord] = useState(chooseSearchWord());
-  const [spellsRequest, setSpellsRequest] = useState(spellsArr);
   const [isLoading, setIsLoading] = useState(false);
   const [, setIsErrorRequest] = useState(false);
   const [request, setRequest] = useState(chooseSearchWord());
@@ -50,7 +49,7 @@ function SearchPage() {
         const isNextPage = !!requestObj.meta.pagination.next;
         setIsNextPageActive(isNextPage);
         const requestArr = requestObj.data;
-        setSpellsRequest(requestArr);
+        setSpellsRequest(requestArr); 
         setIsLoading(false);
         localStorage.setItem('inputValue', request);
         return requestArr;
@@ -61,36 +60,32 @@ function SearchPage() {
       }
     };
     onClickSearch();
-  }, [request, limitPerPage, page]);
+  }, [request, limitPerPage, page, setSpellsRequest]);
 
   return (
     <SearchWordsContext.Provider
       value={{ searchWord, setSearchWord, setRequest, request }}
     >
-      <SpellsRequestContext.Provider
-        value={{ spellsRequest, setSpellsRequest }}
-      >
-        <div className={styles.searchPage}>
-          <SearchBlock />
-          <div className={styles.searchDetails}>
-            <ErrorButton />
-            <LimitInput
-              limit={limitPerPage}
-              setLimit={setLimitPerPage}
-              setPage={setPage}
-            />
-          </div>
-          {isLoading && <div className={styles.spinner}></div>}
-          {!isLoading && <SearchResult />}
-          {spellsRequest.length !== 0 && (
-            <Pagination
-              page={page}
-              setPage={setPage}
-              isNextPageActive={isNextPageActive}
-            />
-          )}
+      <div className={styles.searchPage}>
+        <SearchBlock />
+        <div className={styles.searchDetails}>
+          <ErrorButton />
+          <LimitInput
+            limit={limitPerPage}
+            setLimit={setLimitPerPage}
+            setPage={setPage}
+          />
         </div>
-      </SpellsRequestContext.Provider>
+        {isLoading && <div className={styles.spinner}></div>}
+        {!isLoading && <SearchResult />}
+        {spellsRequest.length !== 0 && (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            isNextPageActive={isNextPageActive}
+          />
+        )}
+      </div>
     </SearchWordsContext.Provider>
   );
 }

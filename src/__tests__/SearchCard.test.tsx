@@ -1,4 +1,10 @@
-import { act, render, screen } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import SearchCard from '../components/search-card/SearchCard';
 import {
   MemoryRouter,
@@ -10,20 +16,36 @@ import { fakeDataCards } from './fakeData/fakeDataToCards';
 import { SpellsRequestType } from '../types/requests-types';
 import { spellsRequest } from './fakeData/spellsRequest';
 import { SpellsRequestContext } from '../components/search-page/Contexts';
+import { propsToCard } from './fakeData/propsToCard';
+import { Mock } from 'vitest';
 
 describe('Tests for the SearchCard component', () => {
-  const propsToCard = {
-    name: 'Age Line',
-    effect:
-      'Prevents people above or below a certain age from access to a target',
-    image:
-      'https://static.wikia.nocookie.net/harrypotter/images/e/e5/Age_Line_surrounding_the_Goblet_of_Fire_PM.jpg',
-    category: 'Charm',
-    light: 'Blue',
-    id: 'ef7c3503-8dea-41b2-8755-f9424ba7645e',
-  };
+  beforeAll(() => {
+    global.fetch = vi.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: () => {
+          return Promise.resolve(fakeDataCards);
+        },
+      });
+    }) as Mock;
 
-  afterEach(() => {
+    vi.mock('../api/api', () => {
+      return {
+        findSpells: vi.fn(async () => {
+          return fakeDataCards;
+        }),
+        request: vi.fn(),
+        requestObj: vi.fn(async () => {
+          return fakeDataCards;
+        }),
+        requestArr: vi.fn(async () => {
+          return fakeDataCards.data;
+        }),
+      };
+    });
+  });
+  afterAll(() => {
     vi.clearAllMocks();
     vi.resetAllMocks();
   });
@@ -46,14 +68,6 @@ describe('Tests for the SearchCard component', () => {
     expect(cardImage.getAttribute('src')).toBe(propsToCard.image);
   });
   test('Validate that clicking on a card opens a detailed card component;', async () => {
-    vi.mock('../api/api', () => {
-      return {
-        findSpells: vi.fn(async () => {
-          // console.log(searchWord, limit, page);
-          return fakeDataCards;
-        }),
-      };
-    });
     const cardsList: SpellsRequestType = {
       spellsRequest: spellsRequest,
       setSpellsRequest: vi.fn(),
@@ -69,6 +83,14 @@ describe('Tests for the SearchCard component', () => {
         </SpellsRequestContext.Provider>
       )
     );
-    screen.debug();
+    const cards = await screen.findAllByTestId('card');
+    expect(cards).toBeTruthy();
+
+    await waitFor(() => {
+      fireEvent.click(cards[1]);
+    });
+
+    const detailed = screen.getByTestId('detailsBlock');
+    expect(detailed).toBeInTheDocument();
   });
 });

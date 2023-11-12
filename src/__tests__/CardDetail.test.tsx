@@ -72,18 +72,4 @@ describe('Detailed card tests', () => {
     });
     expect(cardLight).toBeFalsy();
   });
-
-  // test('Check that a loading indicator is displayed while fetching data', async () => {
-  //   const router = createMemoryRouter(routes, {
-  //     initialEntries: ['/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'],
-  //     initialIndex: 1,
-  //   });
-
-  //   await act(async () => render(<RouterProvider router={router} />));
-
-  //   // Ensure that the loading indicator is displayed.
-  //   const loadingElement = screen.getByTestId('DetailedLoadingBlock');
-  //   expect(loadingElement).toBeTruthy();
-  //   screen.debug()
-  // });
 });

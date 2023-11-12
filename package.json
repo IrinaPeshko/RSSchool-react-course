@@ -51,14 +51,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run test && lint-staged"
     }
   },
   "lint-staged": {
     "*.(ts|tsx)": [
+      "npm run test",
       "npm run lint:fix",
-      "format:fix",
-      "git add"
+      "format:fix"
     ]
   }
 }

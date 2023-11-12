@@ -1,6 +1,6 @@
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { routes } from '../router/router';
-import { act, render, screen } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { findSpells } from '../api/api';
 
 describe('Search page tests', () => {
@@ -26,7 +26,6 @@ describe('Search page tests', () => {
     });
 
     await act(async () => render(<RouterProvider router={router} />));
-    screen.debug();
     expect(findSpells).toBeCalledTimes(1);
   });
 });

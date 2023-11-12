@@ -27,7 +27,7 @@ const CardDetail = () => {
   }, [cardId]);
 
   return (
-    <div className={styles.detailsContainer}>
+    <div className={styles.detailsContainer} data-testid="detailsBlock">
       <Link to="/">
         <div className={styles.closeModal} data-testid="closeDetails"></div>
       </Link>

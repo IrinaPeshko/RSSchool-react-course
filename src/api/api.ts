@@ -19,6 +19,7 @@ const request = async (link: string) => {
   try {
     const result = await fetch(link);
     const resultJSON = await result.json();
+    console.log(resultJSON);
     return resultJSON;
   } catch (error) {
     console.error('The fetch was unsuccessful: ' + error);

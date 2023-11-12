@@ -1,59 +1,93 @@
-// import { MemoryRouter, Route } from 'react-router-dom';
-// import CardDetail from '../components/card-detail/CardDetail';
-// import { render, screen } from '@testing-library/react';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { routes } from '../router/router';
+import { fakeData } from '../components/card-detail/fakeData';
 
-// describe('Detailed card tests', () => {
-//   vi.mock('../api/api', () => ({
-//     default: {
-//       getSpell: vi.fn().mockResolvedValue({
-//         data: {
-//           attributes: {
-//             name: 'Test Spell',
-//             image: 'https://example.com/test.png',
-//             effect: 'Test Effect',
-//             category: 'Test Category',
-//             light: 'Test Light',
-//           },
-//         },
-//       }),
-//     },
-//   }));
+describe('Detailed card tests', () => {
+  beforeAll(() => {
+    vi.mock('../api/api', () => {
+      return {
+        getSpell: vi.fn(async (cardId) => {
+          console.log(cardId);
+          return fakeData;
+        }),
+        findSpells: vi.fn(async (searchWord, limit?, page?) => {
+          console.log(searchWord, limit, page);
+          return fakeData;
+        }),
+      };
+    });
+  });
 
-//   test('Make sure the detailed card component correctly displays the detailed card data', async () => {
-//     render(
-//       <MemoryRouter
-//         initialEntries={['details/f31f5ae2-596f-41a6-aa97-506134ac17aa']}
-//       >
-//         <CardDetail />
-//       </MemoryRouter>
-//     );
-//     screen.debug();
-//     await screen.findByText('Age Line');
-//   });
-// });
+  afterAll(() => {
+    vi.clearAllMocks();
+    vi.resetAllMocks();
+  });
 
-// // test('Check that a loading indicator is displayed while fetching data', async () => {
-// // const fetchSpell = () => {
-// //   return new Promise((resolve) => {
-// //     setTimeout(() => {
-// //       resolve({
-// //         data: {
-// //           attributes: {
-// //             name: 'Sample Spell',
-// //             image: 'sample_image_url',
-// //             effect: 'Sample Effect',
-// //             category: 'Sample Category',
-// //             light: 'Sample Light',
-// //           },
-// //         },
-// //       });
-// //     }, 1000);
-// //   });
-// // };
+  test('Make sure the detailed card component correctly displays the detailed card data', async () => {
+    const router = createMemoryRouter(routes, {
+      initialEntries: ['/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'],
+      initialIndex: 1,
+    });
 
-// // render(<CardDetail />);
+    await act(async () => render(<RouterProvider router={router} />));
+    console.log(fakeData.data.attributes.name);
+    const nameSpell = screen.getByText(fakeData.data.attributes.name);
+    expect(nameSpell).toBeTruthy();
+    const cardEffect = screen.getByText((content) => {
+      return content.includes(fakeData.data.attributes.effect);
+    });
+    expect(cardEffect).toBeTruthy();
+    const cardCategory = screen.getByText((content) => {
+      return content.includes(fakeData.data.attributes.category);
+    });
+    expect(cardCategory).toBeTruthy();
+    const cardLight = screen.getByText((content) => {
+      return content.includes(fakeData.data.attributes.light);
+    });
+    expect(cardLight).toBeTruthy();
+    const cardImage = screen.getByAltText('spells-image');
+    expect(cardImage.getAttribute('src')).toBe(fakeData.data.attributes.image);
+  });
 
-// // const loadingElement = await screen.findByTestId('loadingBlock');
+  test('Ensure that clicking the close button hides the component', async () => {
+    const router = createMemoryRouter(routes, {
+      initialEntries: ['/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'],
+      initialIndex: 1,
+    });
 
-// // expect(loadingElement).toBeTruthy();
-// // });
+    await act(async () => render(<RouterProvider router={router} />));
+
+    const closeDetailsBtn = screen.getByTestId('closeDetails');
+    fireEvent.click(closeDetailsBtn);
+
+    const nameSpell = screen.queryByText(fakeData.data.attributes.name);
+    expect(nameSpell).toBeFalsy();
+    const cardEffect = screen.queryByText((content) => {
+      return content.includes(fakeData.data.attributes.effect);
+    });
+    expect(cardEffect).toBeFalsy();
+    const cardCategory = screen.queryByText((content) => {
+      return content.includes(fakeData.data.attributes.category);
+    });
+    expect(cardCategory).toBeFalsy();
+    const cardLight = screen.queryByText((content) => {
+      return content.includes(fakeData.data.attributes.light);
+    });
+    expect(cardLight).toBeFalsy();
+  });
+
+  // test('Check that a loading indicator is displayed while fetching data', async () => {
+  //   const router = createMemoryRouter(routes, {
+  //     initialEntries: ['/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'],
+  //     initialIndex: 1,
+  //   });
+
+  //   await act(async () => render(<RouterProvider router={router} />));
+
+  //   // Ensure that the loading indicator is displayed.
+  //   const loadingElement = screen.getByTestId('DetailedLoadingBlock');
+  //   expect(loadingElement).toBeTruthy();
+  //   screen.debug()
+  // });
+});

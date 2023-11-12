@@ -29,10 +29,13 @@ const CardDetail = () => {
   return (
     <div className={styles.detailsContainer}>
       <Link to="/">
-        <div className={styles.closeModal}></div>
+        <div className={styles.closeModal} data-testid="closeDetails"></div>
       </Link>
       {isLoading && (
-        <div data-testid="loadingBlock" className={styles.spinner}></div>
+        <div
+          data-testid="DetailedLoadingBlock"
+          className={styles.spinner}
+        ></div>
       )}
       {!isLoading && currentSpell ? (
         <>

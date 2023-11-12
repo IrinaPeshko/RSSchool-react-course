@@ -98,7 +98,6 @@ describe('Tests for the CardList component', () => {
         </SpellsRequestContext.Provider>
       </MemoryRouter>
     );
-    screen.debug();
     const errorMessage = "We couldn't find anything matching your request.";
     const isErrorTitle = screen.getByText(errorMessage);
     expect(isErrorTitle).toBeTruthy();

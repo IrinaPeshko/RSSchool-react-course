@@ -30,12 +30,19 @@ describe('Tests for the SearchCard component', () => {
     const cardImage = screen.getByAltText('spells-image');
     expect(cardImage.getAttribute('src')).toBe(propsToCard.image);
   });
-  // test('Validate that clicking on a card opens a detailed card component;',()=>{
-  //   render(
-  //     <MemoryRouter>
-  //       <SearchCard {...propsToCard} />
-  //     </MemoryRouter>
-  //   );
+  // test('Validate that clicking on a card opens a detailed card component;', async()=>{
+  //   const router = createMemoryRouter(routes, {
+  //     initialEntries: [''],
+  //     initialIndex: 1,
+  //   });
+
+  //   await act(async () => render(<RouterProvider router={router} />));
+  //   screen.debug()
+  //   // render(
+  //   //   <MemoryRouter>
+  //   //     <SearchCard {...propsToCard} />
+  //   //   </MemoryRouter>
+  //   // );
   //   const clickedCard = screen.getByTestId('card')
   //   fireEvent.click(clickedCard);
   //   screen.debug();

@@ -32,12 +32,7 @@ export interface SpellsRequestLinks {
 export interface SpellsRequestMeta {
   copyright: string;
   generated_at: string;
-  pagination: {
-    current: number;
-    last?: number;
-    next?: number;
-    records: number;
-  };
+  pagination?: SpellsRequestLinks;
 }
 
 export interface AttributesSpells {

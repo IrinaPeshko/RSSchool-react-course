@@ -2,11 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import styles from './SearchPage.module.css';
 import { findSpells } from '../../api/api';
 import SearchResult from '../search-results/searchResult';
-import {
-  OneSpellRequest,
-  SpellsRequest,
-  SpellsRequestData,
-} from '../../types/requests-types';
+import { SpellsRequest, SpellsRequestData } from '../../types/requests-types';
 import ErrorButton from '../error-button/ErrorButton';
 import SearchBlock from '../search-block/SearchBlock';
 import {
@@ -32,6 +28,7 @@ function SearchPage() {
 
   useEffect(() => {
     setSearchParams({ page: page, limit: limitPerPage });
+
     const onClickSearch = async (): Promise<
       SpellsRequestData[] | undefined
     > => {
@@ -39,12 +36,18 @@ function SearchPage() {
       setIsLoading(true);
       setIsErrorRequest(false);
       setSpellsRequest([]);
-      const requestObj: SpellsRequest | OneSpellRequest | void =
-        await findSpells(request, limitPerPage, page);
+
+      const requestObj: SpellsRequest | void = await findSpells(
+        request,
+        limitPerPage,
+        page
+      );
+
       if (
         requestObj &&
         requestObj.data instanceof Array &&
-        requestObj.data.length !== 0
+        requestObj.data.length !== 0 &&
+        requestObj.meta.pagination
       ) {
         const isNextPage = !!requestObj.meta.pagination.next;
         setIsNextPageActive(isNextPage);
@@ -59,6 +62,7 @@ function SearchPage() {
         setIsErrorRequest(true);
       }
     };
+
     onClickSearch();
   }, [request, limitPerPage, page, setSpellsRequest]);
 

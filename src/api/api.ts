@@ -5,6 +5,7 @@ const SPELLS: string = '/spells';
 const LIMIT: string = '?page[size]=';
 const PAGE: string = '&page[number]=';
 const SEARCH: string = '&filter[name_cont_any]=';
+
 export const findSpells: (
   searchWord: string,
   limit?: string,

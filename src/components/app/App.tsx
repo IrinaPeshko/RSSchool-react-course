@@ -7,10 +7,13 @@ import { SpellsRequestContext } from '../search-page/Contexts';
 import { SpellsRequestData } from '../../types/requests-types';
 
 function App() {
+  // const count = useAppSelector(state => state.userReducer.count)
+
   const navigate = useNavigate();
   const location = useLocation();
   const spellsArr: SpellsRequestData[] = [];
   const [spellsRequest, setSpellsRequest] = useState(spellsArr);
+
   return (
     <ErrorBoundary>
       <SpellsRequestContext.Provider

@@ -4,20 +4,8 @@ interface SearchParamsState {
   searchParams: string;
   isLoading: boolean;
   error: string;
-}
+};
 
-// interface iUser {
-//   id: number;
-//   name: string;
-//   email: string;
-// }
-
-// interface UserState {
-//   users: iUser[];
-//   isLoading: boolean;
-//   error: string;
-//   count: number;
-// }
 const chooseInitialSearchParams: () => string = () => {
   const localStorageItem = localStorage.getItem('inputValue');
   return localStorageItem ? localStorageItem : '';
@@ -27,12 +15,6 @@ const initialState: SearchParamsState = {
   isLoading: false,
   error: '',
 };
-// const initialState: UserState = {
-//   users: [],
-//   isLoading: false,
-//   error: '',
-//   count: 0,
-// };
 
 export const searchParamsSlice = createSlice({
   name: 'searchParams',

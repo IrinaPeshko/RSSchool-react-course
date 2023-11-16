@@ -14,12 +14,13 @@ import LimitInput from '../limitPerPageInput/LimitInput';
 import Pagination from '../pagination/Pagination';
 import { useSearchParams } from 'react-router-dom';
 import { SearchWordsContext, SpellsRequestContext } from './Contexts';
+import { useGetSpellsQuery } from '../../api/redux.api';
 // import { useAppSelector } from '../../hooks/redux';
 
 function SearchPage() {
   const { spellsRequest, setSpellsRequest } = useContext(SpellsRequestContext);
   const [searchWord, setSearchWord] = useState(chooseSearchWord());
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [, setIsErrorRequest] = useState(false);
   const [request, setRequest] = useState(chooseSearchWord());
   const [limitPerPage, setLimitPerPage] = useState(chooseLimit());
@@ -27,6 +28,9 @@ function SearchPage() {
   const [isNextPageActive, setIsNextPageActive] = useState(false);
   const [, setSearchParams] = useSearchParams();
 
+
+  const {data, isLoading, error} = useGetSpellsQuery({limitPerPage, page, searchWord})
+  console.log(data, isLoading, error);
   // const onClickSearch = async (): Promise<SpellsRequestData[] | undefined> => {
   //   setIsNextPageActive(false);
   //   setIsLoading(true);
@@ -68,7 +72,7 @@ function SearchPage() {
       SpellsRequestData[] | undefined
     > => {
       setIsNextPageActive(false);
-      setIsLoading(true);
+      // setIsLoading(true);
       setIsErrorRequest(false);
       setSpellsRequest([]);
 
@@ -88,12 +92,12 @@ function SearchPage() {
         setIsNextPageActive(isNextPage);
         const requestArr = requestObj.data;
         setSpellsRequest(requestArr);
-        setIsLoading(false);
+        // setIsLoading(false);
         localStorage.setItem('inputValue', request);
         return requestArr;
       } else {
         localStorage.setItem('inputValue', request);
-        setIsLoading(false);
+        // setIsLoading(false);
         setIsErrorRequest(true);
       }
     };

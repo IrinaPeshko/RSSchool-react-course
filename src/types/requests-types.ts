@@ -6,13 +6,11 @@ export interface SpellsRequest {
   meta: SpellsRequestMeta;
 }
 
-export interface OneSpellRequest {
-  data: SpellsRequestData;
-  links: { self: string };
-  meta: {
-    copyright: string;
-    generated_at: string;
-  };
+export interface TransformedSpellsRequest {
+  spells: SpellsRequestData[];
+  page: string | undefined;
+  countOfAllItem: string | undefined;
+  isNextPage: boolean;
 }
 
 export interface SpellsRequestData {
@@ -27,6 +25,7 @@ export interface SpellsRequestLinks {
   last: string;
   next: string;
   self: string;
+  records?: string;
 }
 
 export interface SpellsRequestMeta {

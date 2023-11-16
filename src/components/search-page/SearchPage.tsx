@@ -31,39 +31,6 @@ function SearchPage() {
 
   const {data, isLoading, error} = useGetSpellsQuery({limitPerPage, page, searchWord})
   console.log(data, isLoading, error);
-  // const onClickSearch = async (): Promise<SpellsRequestData[] | undefined> => {
-  //   setIsNextPageActive(false);
-  //   setIsLoading(true);
-  //   setIsErrorRequest(false);
-  //   setSpellsRequest([]);
-
-  //   const { searchParams } = useAppSelector((state) => state.searchParamsReducer);
-  //   console.log(searchParams);
-  //   const requestObj: SpellsRequest | void = await findSpells(
-  //     searchParams,
-  //     limitPerPage,
-  //     page
-  //   );
-
-  //   if (
-  //     requestObj &&
-  //     requestObj.data instanceof Array &&
-  //     requestObj.data.length !== 0 &&
-  //     requestObj.meta.pagination
-  //   ) {
-  //     const isNextPage = !!requestObj.meta.pagination.next;
-  //     setIsNextPageActive(isNextPage);
-  //     const requestArr = requestObj.data;
-  //     setSpellsRequest(requestArr);
-  //     setIsLoading(false);
-  //     localStorage.setItem('inputValue', request);
-  //     return requestArr;
-  //   } else {
-  //     localStorage.setItem('inputValue', request);
-  //     setIsLoading(false);
-  //     setIsErrorRequest(true);
-  //   }
-  // };
 
   useEffect(() => {
     setSearchParams({ page: page, limit: limitPerPage });

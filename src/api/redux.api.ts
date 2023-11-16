@@ -16,7 +16,7 @@ export const reduxApi = createApi({
         spells: response.data,
         page: response.meta.pagination?.current,
         countOfAllItem: response.meta.pagination?.records,
-        isNextPage: !!response.meta.pagination?.next,
+        isNextPage: !!response.meta.pagination?.next
       }),
     }),
   }),

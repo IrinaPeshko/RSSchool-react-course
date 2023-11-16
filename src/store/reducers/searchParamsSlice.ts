@@ -6,12 +6,8 @@ interface SearchParamsState {
   error: string;
 };
 
-const chooseInitialSearchParams: () => string = () => {
-  const localStorageItem = localStorage.getItem('inputValue');
-  return localStorageItem ? localStorageItem : '';
-};
 const initialState: SearchParamsState = {
-  searchParams: chooseInitialSearchParams(),
+  searchParams: localStorage.getItem('inputValue') || '',
   isLoading: false,
   error: '',
 };

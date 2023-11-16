@@ -1,24 +1,20 @@
 import { useState } from 'react';
 
 import styles from './LimitInput.module.css';
+import { useDispatch } from 'react-redux';
+import { setLimit, setPage } from '../../store/reducers/queryParams';
 
 const LimitInput = (props: {
   limit: string;
   setLimit: React.Dispatch<React.SetStateAction<string>>;
   setPage: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const dispatch = useDispatch();
   const [itemPerPage, setItemPerPage] = useState(props.limit);
 
-  const setItemCount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target instanceof HTMLInputElement) {
-      setItemPerPage(event.target.value);
-    }
-  };
-
   const onAcceptClick = () => {
-    props.setLimit(itemPerPage);
-    localStorage.setItem('limit', itemPerPage);
-    props.setPage('1');
+    dispatch(setLimit(itemPerPage));
+    dispatch(setPage('1'));
   };
   return (
     <>
@@ -26,7 +22,7 @@ const LimitInput = (props: {
         <input
           type="number"
           value={itemPerPage}
-          onChange={setItemCount}
+          onChange={(event) => {setItemPerPage(event.target.value)}}
           className={styles.limitInput}
           min="1"
           data-testid="limitInput"

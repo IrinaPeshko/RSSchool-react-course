@@ -8,8 +8,8 @@ interface queryParamsState {
 }
 
 const initialState: queryParamsState = {
-  limit: '10',
-  page: '1',
+  limit: localStorage.getItem('limit') || '10',
+  page: localStorage.getItem('page') || '1',
   isLoading: false,
   error: '',
 };

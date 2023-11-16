@@ -3,6 +3,7 @@ import magnifierGlassImage from '/magnifier-glass.png';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSearchParams } from '../../store/reducers/searchParamsSlice';
+import { setPage } from '../../store/reducers/queryParams';
 
 const SearchBlock = () => {
   const [searchWord, setSearchWord] = useState(
@@ -25,7 +26,7 @@ const SearchBlock = () => {
               onClick={() => {
                 localStorage.setItem('inputValue', searchWord)
                 dispatch(setSearchParams(searchWord));
-              console.log(searchWord);
+                dispatch(setPage('1'));
             }}
               data-testid="searchBtn"
             >

@@ -1,29 +1,31 @@
+import { useDispatch } from 'react-redux';
 import styles from './Pagination.module.css';
+import { useAppSelector } from '../../hooks/redux';
+import { setPage } from '../../store/reducers/queryParams';
 
-const Pagination = (props: {
-  page: string;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
-  isNextPageActive: boolean;
-}) => {
+const Pagination = (props: { isNextPageActive: boolean }) => {
+  const dispatch = useDispatch();
+  const page = useAppSelector((state) => state.queryParamsReducer.page);
+
   const onPrevBtnClick = () => {
-    const newPage = `${+props.page - 1}`;
-    props.setPage(newPage);
-    localStorage.setItem('page', newPage);
+    dispatch(setPage(`${+page - 1}`));
+    localStorage.setItem('page', `${+page - 1}`);
   };
+
   const onNextBtnClick = () => {
-    const newPage = `${+props.page + 1}`;
-    props.setPage(newPage);
-    localStorage.setItem('page', newPage);
+    dispatch(setPage(`${+page + 1}`));
+    localStorage.setItem('page', `${+page + 1}`);
   };
+
   const classNames = (...args: string[]) => {
     return args.filter(Boolean).join(' ');
   };
-  const disabledPrev = +props.page === 1;
+
+  const disabledPrev = +page === 1;
   const disabledNext = !props.isNextPageActive;
 
-  const classNamePrevPage = classNames(
-    +props.page === 1 ? styles.disabled : ''
-  );
+  const classNamePrevPage = classNames(disabledPrev ? styles.disabled : '');
+
   const classNameNextPage = classNames(
     !props.isNextPageActive ? styles.disabled : ''
   );
@@ -38,7 +40,7 @@ const Pagination = (props: {
       >
         prev
       </button>
-      <p>{props.page}</p>
+      <p>{page}</p>
       <button
         className={classNameNextPage}
         onClick={onNextBtnClick}

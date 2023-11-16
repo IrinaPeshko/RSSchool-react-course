@@ -90,8 +90,6 @@ function SearchPage() {
         {!isLoading && <SearchResult />}
         {spellsRequest.length !== 0 && (
           <Pagination
-            page={page}
-            setPage={setPage}
             isNextPageActive={isNextPageActive}
           />
         )}

@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import userReducer from './reducers/UserSlice';
+import searchParamsReducer from './reducers/searchParamsSlice';
 
 const rootReducer = combineReducers({
-  userReducer,
+  searchParamsReducer,
 });
 
 export const setupStore = () => {

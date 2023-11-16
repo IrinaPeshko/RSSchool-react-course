@@ -2,11 +2,14 @@ import styles from './SearchBlock.module.css';
 import magnifierGlassImage from '/magnifier-glass.png';
 import { SearchWordsContext } from '../search-page/Contexts';
 import { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSearchParams } from '../../store/reducers/searchParamsSlice';
 
 const SearchBlock = () => {
+  const dispatch = useDispatch();
   return (
     <SearchWordsContext.Consumer>
-      {({ searchWord, setSearchWord, setRequest }) => (
+      {({ searchWord, setSearchWord }) => (
         <Fragment>
           <div className={styles.searchBlock}>
             <input
@@ -19,7 +22,7 @@ const SearchBlock = () => {
             />
             <div
               className={styles.searchButton}
-              onClick={() => setRequest(searchWord)}
+              onClick={() => dispatch(setSearchParams(searchWord))}
               data-testid="searchBtn"
             >
               <img src={magnifierGlassImage} alt="magnifier-glass" />

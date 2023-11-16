@@ -14,6 +14,7 @@ import LimitInput from '../limitPerPageInput/LimitInput';
 import Pagination from '../pagination/Pagination';
 import { useSearchParams } from 'react-router-dom';
 import { SearchWordsContext, SpellsRequestContext } from './Contexts';
+// import { useAppSelector } from '../../hooks/redux';
 
 function SearchPage() {
   const { spellsRequest, setSpellsRequest } = useContext(SpellsRequestContext);
@@ -25,6 +26,40 @@ function SearchPage() {
   const [page, setPage] = useState(choosePage());
   const [isNextPageActive, setIsNextPageActive] = useState(false);
   const [, setSearchParams] = useSearchParams();
+
+  // const onClickSearch = async (): Promise<SpellsRequestData[] | undefined> => {
+  //   setIsNextPageActive(false);
+  //   setIsLoading(true);
+  //   setIsErrorRequest(false);
+  //   setSpellsRequest([]);
+
+  //   const { searchParams } = useAppSelector((state) => state.searchParamsReducer);
+  //   console.log(searchParams);
+  //   const requestObj: SpellsRequest | void = await findSpells(
+  //     searchParams,
+  //     limitPerPage,
+  //     page
+  //   );
+
+  //   if (
+  //     requestObj &&
+  //     requestObj.data instanceof Array &&
+  //     requestObj.data.length !== 0 &&
+  //     requestObj.meta.pagination
+  //   ) {
+  //     const isNextPage = !!requestObj.meta.pagination.next;
+  //     setIsNextPageActive(isNextPage);
+  //     const requestArr = requestObj.data;
+  //     setSpellsRequest(requestArr);
+  //     setIsLoading(false);
+  //     localStorage.setItem('inputValue', request);
+  //     return requestArr;
+  //   } else {
+  //     localStorage.setItem('inputValue', request);
+  //     setIsLoading(false);
+  //     setIsErrorRequest(true);
+  //   }
+  // };
 
   useEffect(() => {
     setSearchParams({ page: page, limit: limitPerPage });

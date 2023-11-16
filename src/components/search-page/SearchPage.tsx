@@ -1,100 +1,97 @@
-import { useEffect, useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import styles from './SearchPage.module.css';
-import { findSpells } from '../../api/api';
 import SearchResult from '../search-results/searchResult';
-import { SpellsRequest, SpellsRequestData } from '../../types/requests-types';
 import ErrorButton from '../error-button/ErrorButton';
 import SearchBlock from '../search-block/SearchBlock';
-import {
-  chooseLimit,
-  choosePage,
-  chooseSearchWord,
-} from '../../utils/chooseSearchWord';
+
 import LimitInput from '../limitPerPageInput/LimitInput';
 import Pagination from '../pagination/Pagination';
-import { useSearchParams } from 'react-router-dom';
-import { SearchWordsContext, SpellsRequestContext } from './Contexts';
+import { SpellsRequestContext } from './Contexts';
 import { useGetSpellsQuery } from '../../api/redux.api';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { setIsMainLoading } from '../../store/reducers/isLoading';
+import { setCards } from '../../store/reducers/cards';
 // import { useAppSelector } from '../../hooks/redux';
 
 function SearchPage() {
-  const { spellsRequest, setSpellsRequest } = useContext(SpellsRequestContext);
-  const [searchWord, setSearchWord] = useState(chooseSearchWord());
+  const { spellsRequest } = useContext(SpellsRequestContext);
+  // const [searchWord, setSearchWord] = useState(chooseSearchWord());
   // const [isLoading, setIsLoading] = useState(false);
-  const [, setIsErrorRequest] = useState(false);
-  const [request, setRequest] = useState(chooseSearchWord());
-  const [limitPerPage, setLimitPerPage] = useState(chooseLimit());
-  const [page, setPage] = useState(choosePage());
-  const [isNextPageActive, setIsNextPageActive] = useState(false);
-  const [, setSearchParams] = useSearchParams();
+  // const [limitPerPage, setLimitPerPage] = useState(chooseLimit());
+  // const [page, setPage] = useState(choosePage());
+  const [isNextPageActive] = useState(false);
 
+  const page = useAppSelector((state) => state.queryParamsReducer.page);
+  const limitPerPage = useAppSelector(
+    (state) => state.queryParamsReducer.limit
+  );
+  const searchWord = useAppSelector(
+    (state) => state.queryParamsReducer.searchParams
+  );
+  const dispatch = useAppDispatch();
 
-  const {data, isLoading, error} = useGetSpellsQuery({limitPerPage, page, searchWord})
-  console.log(data, isLoading, error);
+  const { data, isLoading } = useGetSpellsQuery({
+    limitPerPage,
+    page,
+    searchWord,
+  });
+  dispatch(setIsMainLoading(isLoading));
+  dispatch(setCards(data));
+  console.log(data, isLoading);
 
-  useEffect(() => {
-    setSearchParams({ page: page, limit: limitPerPage });
+  // useEffect(() => {
+  //   setSearchParams({ page: page, limit: limitPerPage });
 
-    const onClickSearch = async (): Promise<
-      SpellsRequestData[] | undefined
-    > => {
-      setIsNextPageActive(false);
-      // setIsLoading(true);
-      setIsErrorRequest(false);
-      setSpellsRequest([]);
+  //   const onClickSearch = async (): Promise<
+  //     SpellsRequestData[] | undefined
+  //   > => {
+  //     setIsNextPageActive(false);
+  //     // setIsLoading(true);
+  //     setIsErrorRequest(false);
+  //     setSpellsRequest([]);
 
-      const requestObj: SpellsRequest | void = await findSpells(
-        request,
-        limitPerPage,
-        page
-      );
+  //     const requestObj: SpellsRequest | void = await findSpells(
+  //       request,
+  //       limitPerPage,
+  //       page
+  //     );
 
-      if (
-        requestObj &&
-        requestObj.data instanceof Array &&
-        requestObj.data.length !== 0 &&
-        requestObj.meta.pagination
-      ) {
-        const isNextPage = !!requestObj.meta.pagination.next;
-        setIsNextPageActive(isNextPage);
-        const requestArr = requestObj.data;
-        setSpellsRequest(requestArr);
-        // setIsLoading(false);
-        localStorage.setItem('inputValue', request);
-        return requestArr;
-      } else {
-        localStorage.setItem('inputValue', request);
-        // setIsLoading(false);
-        setIsErrorRequest(true);
-      }
-    };
+  //     if (
+  //       requestObj &&
+  //       requestObj.data instanceof Array &&
+  //       requestObj.data.length !== 0 &&
+  //       requestObj.meta.pagination
+  //     ) {
+  //       const isNextPage = !!requestObj.meta.pagination.next;
+  //       setIsNextPageActive(isNextPage);
+  //       const requestArr = requestObj.data;
+  //       setSpellsRequest(requestArr);
+  //       // setIsLoading(false);
+  //       localStorage.setItem('inputValue', request);
+  //       return requestArr;
+  //     } else {
+  //       localStorage.setItem('inputValue', request);
+  //       // setIsLoading(false);
+  //       setIsErrorRequest(true);
+  //     }
+  //   };
 
-    onClickSearch();
-  }, [request, limitPerPage, page, setSpellsRequest]);
+  //   onClickSearch();
+  // }, [request, limitPerPage, page, setSpellsRequest]);
 
   return (
-    <SearchWordsContext.Provider
-      value={{ searchWord, setSearchWord, setRequest, request }}
-    >
-      <div className={styles.searchPage}>
-        <SearchBlock />
-        <div className={styles.searchDetails}>
-          <ErrorButton />
-          <LimitInput
-            limit={limitPerPage}
-            setLimit={setLimitPerPage}
-            setPage={setPage}
-          />
-        </div>
-        {isLoading && <div className={styles.spinner}></div>}
-        {!isLoading && <SearchResult />}
-        {spellsRequest.length !== 0 && (
-          <Pagination
-            isNextPageActive={isNextPageActive}
-          />
-        )}
+    <div className={styles.searchPage}>
+      <SearchBlock />
+      <div className={styles.searchDetails}>
+        <ErrorButton />
+        <LimitInput />
       </div>
-    </SearchWordsContext.Provider>
+      {isLoading && <div className={styles.spinner}></div>}
+      {!isLoading && <SearchResult />}
+      {spellsRequest.length !== 0 && (
+        <Pagination isNextPageActive={isNextPageActive} />
+      )}
+    </div>
   );
 }
 

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface queryParamsState {
+  searchParams: string;
   limit: string;
   page: string;
   isLoading: boolean;
@@ -8,6 +9,7 @@ interface queryParamsState {
 }
 
 const initialState: queryParamsState = {
+  searchParams: localStorage.getItem('inputValue') || '',
   limit: localStorage.getItem('limit') || '10',
   page: localStorage.getItem('page') || '1',
   isLoading: false,
@@ -24,8 +26,11 @@ export const queryParamsSlice = createSlice({
     setPage(state, action: PayloadAction<string>) {
       state.page = action.payload;
     },
+    setSearchParams(state, action: PayloadAction<string>) {
+      state.searchParams = action.payload;
+    },
   },
 });
 
 export default queryParamsSlice.reducer;
-export const { setLimit, setPage } = queryParamsSlice.actions;
+export const { setLimit, setPage, setSearchParams } = queryParamsSlice.actions;

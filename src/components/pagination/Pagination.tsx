@@ -1,10 +1,9 @@
-import { useDispatch } from 'react-redux';
 import styles from './Pagination.module.css';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setPage } from '../../store/reducers/queryParams';
 
 const Pagination = (props: { isNextPageActive: boolean }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const page = useAppSelector((state) => state.queryParamsReducer.page);
 
   const onPrevBtnClick = () => {

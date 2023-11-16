@@ -1,5 +1,8 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import { SpellsRequest, TransformedSpellsRequest } from '../types/requests-types';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {
+  SpellsRequest,
+  TransformedSpellsRequest,
+} from '../types/requests-types';
 
 export const reduxApi = createApi({
   reducerPath: 'api/cards',
@@ -16,7 +19,7 @@ export const reduxApi = createApi({
         spells: response.data,
         page: response.meta.pagination?.current,
         countOfAllItem: response.meta.pagination?.records,
-        isNextPage: !!response.meta.pagination?.next
+        isNextPage: !!response.meta.pagination?.next,
       }),
     }),
   }),

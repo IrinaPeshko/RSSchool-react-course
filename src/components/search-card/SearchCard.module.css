@@ -1,0 +1,79 @@
+.person__info {
+  border: 1px solid #fcd54c;
+  width: 100%;
+}
+
+.person__info p {
+  color: #929292;
+}
+
+.person__info:hover h2 {
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+.cardImg {
+  max-width: 90%;
+  max-height: 170px;
+}
+.glow {
+  font-size: 20px;
+  color: #ffffff;
+  text-shadow:
+    0 0 5px #ffdb9c,
+    0 0 10px #ffdb9c,
+    0 0 15px #8b6300,
+    0 0 20px #af7e01,
+    0 0 25px #af7e01,
+    0 0 30px #af7e01,
+    0 0 35px #af7e01;
+  height: 60px;
+}
+.glow:hover {
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+.imageBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.cardInfo {
+  padding: 10px;
+  height: 150px;
+}
+
+@keyframes glow {
+  from {
+    text-shadow:
+      0 0 5px #ffdb9c,
+      0 0 10px #ffdb9c,
+      0 0 15px #8b6300,
+      0 0 20px #af7e01,
+      0 0 25px #af7e01,
+      0 0 30px #af7e01,
+      0 0 35px #af7e01;
+  }
+  to {
+    text-shadow:
+      0 0 10px #ffdb9c,
+      0 0 15px #ffcd50,
+      0 0 20px #ffcd50,
+      0 0 25px #ffcd50,
+      0 0 30px #ffcd50,
+      0 0 35px #ffcd50,
+      0 0 40px #ffcd50;
+  }
+}

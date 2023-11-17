@@ -1,39 +1,51 @@
 import { render, screen } from '@testing-library/react';
+import configureMockStore from 'redux-mock-store';
 import SearchResult from '../components/search-results/searchResult';
-import { SpellsRequestContext } from '../components/search-page/Contexts';
-import { SpellsRequestData, SpellsRequestType } from '../types/requests-types';
 import { MemoryRouter } from 'react-router-dom';
 import { spellsRequest } from './fakeData/spellsRequest';
+import { store } from '../store/store';
+import { Provider } from 'react-redux';
 
 describe('Tests for the CardList component', () => {
   test('Verify that the component renders the specified number of cards', () => {
-    const cardsList: SpellsRequestType = {
-      spellsRequest: spellsRequest,
-      setSpellsRequest: vi.fn(),
+    const mockStore = configureMockStore();
+    const initialState = {
+      cardsSlice: {
+        cards: spellsRequest,
+      },
+      isLoading: {
+        isDetailsLoading: false,
+        isMainLoading: false,
+      },
+      queryParamsReducer: {
+        searchParams: '',
+        limit: '10',
+        page: '1',
+        isNextPage: true,
+        isLoading: false,
+        error: '',
+      },
     };
+    const cardsStore = mockStore(initialState);
 
     render(
       <MemoryRouter>
-        <SpellsRequestContext.Provider value={cardsList}>
+        <Provider store={cardsStore}>
           <SearchResult />
-        </SpellsRequestContext.Provider>
+        </Provider>
       </MemoryRouter>
     );
 
+    screen.debug;
     expect(screen.getAllByTestId('card').length).toBe(3);
   });
 
   test('Check that an appropriate message is displayed if no cards are present', () => {
-    const spellsRequest: SpellsRequestData[] = [];
-    const cardsList: SpellsRequestType = {
-      spellsRequest: spellsRequest,
-      setSpellsRequest: vi.fn(),
-    };
     render(
       <MemoryRouter>
-        <SpellsRequestContext.Provider value={cardsList}>
+        <Provider store={store}>
           <SearchResult />
-        </SpellsRequestContext.Provider>
+        </Provider>
       </MemoryRouter>
     );
 

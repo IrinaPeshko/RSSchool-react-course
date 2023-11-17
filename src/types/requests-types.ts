@@ -49,13 +49,6 @@ export interface ErrorBoundaryProps {
   children: React.ReactNode;
 }
 
-export interface SearchWordsContextType {
-  searchWord: string;
-  setSearchWord: Dispatch<SetStateAction<string>>;
-  request: string;
-  setRequest: Dispatch<SetStateAction<string>>;
-}
-
 export interface SpellsRequestType {
   spellsRequest: SpellsRequestData[];
   setSpellsRequest: Dispatch<SetStateAction<SpellsRequestData[]>>;
@@ -63,8 +56,6 @@ export interface SpellsRequestType {
 
 export interface TransformedSpellsRequest {
   spells: SpellsRequestData[];
-  page: string | undefined;
-  countOfAllItem: string | undefined;
   isNextPage: boolean;
 }
 

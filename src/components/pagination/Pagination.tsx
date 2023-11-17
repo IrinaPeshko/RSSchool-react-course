@@ -1,19 +1,25 @@
 import styles from './Pagination.module.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setPage } from '../../store/reducers/queryParams';
+import { useSearchParams } from 'react-router-dom';
 
-const Pagination = (props: { isNextPageActive: boolean }) => {
+const Pagination = () => {
   const dispatch = useAppDispatch();
+  const limit = useAppSelector((store) => store.queryParamsReducer.limit);
   const page = useAppSelector((state) => state.queryParamsReducer.page);
+  const isNextPageActive = useAppSelector(
+    (state) => state.queryParamsReducer.isNextPage
+  );
+  const [, setSearchParams] = useSearchParams();
 
   const onPrevBtnClick = () => {
     dispatch(setPage(`${+page - 1}`));
-    localStorage.setItem('page', `${+page - 1}`);
+    setSearchParams({ limit, page: `${+page - 1}` });
   };
 
   const onNextBtnClick = () => {
     dispatch(setPage(`${+page + 1}`));
-    localStorage.setItem('page', `${+page + 1}`);
+    setSearchParams({ limit, page: `${+page + 1}` });
   };
 
   const classNames = (...args: string[]) => {
@@ -21,12 +27,9 @@ const Pagination = (props: { isNextPageActive: boolean }) => {
   };
 
   const disabledPrev = +page === 1;
-  const disabledNext = !props.isNextPageActive;
-
   const classNamePrevPage = classNames(disabledPrev ? styles.disabled : '');
-
   const classNameNextPage = classNames(
-    !props.isNextPageActive ? styles.disabled : ''
+    !isNextPageActive ? styles.disabled : ''
   );
 
   return (
@@ -43,7 +46,7 @@ const Pagination = (props: { isNextPageActive: boolean }) => {
       <button
         className={classNameNextPage}
         onClick={onNextBtnClick}
-        disabled={disabledNext}
+        disabled={!isNextPageActive}
         data-testid={'nextBtn'}
       >
         next

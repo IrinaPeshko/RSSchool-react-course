@@ -3,15 +3,18 @@ import { useState } from 'react';
 import styles from './LimitInput.module.css';
 import { setLimit, setPage } from '../../store/reducers/queryParams';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useSearchParams } from 'react-router-dom';
 
 const LimitInput = () => {
   const dispatch = useAppDispatch();
   const limit = useAppSelector((state) => state.queryParamsReducer.limit);
   const [itemPerPage, setItemPerPage] = useState(limit);
+  const [, setSearchParams] = useSearchParams();
 
-  const onAcceptClick = () => {
-    dispatch(setLimit(itemPerPage));
-    dispatch(setPage('1'));
+  const onAcceptClick = async () => {
+    await dispatch(setLimit(itemPerPage));
+    await dispatch(setPage('1'));
+    setSearchParams({ limit: itemPerPage, page: '1' });
   };
   return (
     <>

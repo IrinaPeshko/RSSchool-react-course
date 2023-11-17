@@ -4,14 +4,16 @@ interface queryParamsState {
   searchParams: string;
   limit: string;
   page: string;
+  isNextPage: boolean;
   isLoading: boolean;
   error: string;
 }
 
 const initialState: queryParamsState = {
   searchParams: localStorage.getItem('inputValue') || '',
-  limit: localStorage.getItem('limit') || '10',
-  page: localStorage.getItem('page') || '1',
+  limit: '10',
+  page: '1',
+  isNextPage: true,
   isLoading: false,
   error: '',
 };
@@ -29,8 +31,12 @@ export const queryParamsSlice = createSlice({
     setSearchParams(state, action: PayloadAction<string>) {
       state.searchParams = action.payload;
     },
+    setIsNextPage(state, action: PayloadAction<boolean>) {
+      state.isNextPage = action.payload;
+    },
   },
 });
 
 export default queryParamsSlice.reducer;
-export const { setLimit, setPage, setSearchParams } = queryParamsSlice.actions;
+export const { setLimit, setPage, setSearchParams, setIsNextPage } =
+  queryParamsSlice.actions;

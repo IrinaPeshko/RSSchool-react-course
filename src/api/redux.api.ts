@@ -5,7 +5,7 @@ import {
 } from '../types/requests-types';
 
 export const reduxApi = createApi({
-  reducerPath: 'api/cards',
+  reducerPath: 'api-cards',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.potterdb.com//v1/' }),
   endpoints: (build) => ({
     getSpells: build.query<
@@ -20,6 +20,14 @@ export const reduxApi = createApi({
         page: response.meta.pagination?.current,
         countOfAllItem: response.meta.pagination?.records,
         isNextPage: !!response.meta.pagination?.next,
+      }),
+    }),
+    getOneSpell: build.query<{ resp: SpellsRequest }, { id: string }>({
+      query: ({ id = '' }) => {
+        return `spells/${id}`;
+      },
+      transformResponse: (response: SpellsRequest) => ({
+        resp: response,
       }),
     }),
   }),

@@ -3,9 +3,8 @@ import SearchCard from '../search-card/SearchCard';
 import { useAppSelector } from '../../hooks/redux';
 
 function SearchResult() {
-  const data = useAppSelector((state) => state.cardsSlice.cards);
+  const spellsRequest = useAppSelector((state) => state.cardsSlice.cards);
   const isLoading = useAppSelector((state) => state.isLoading.isMainLoading);
-  const spellsRequest = data?.spells;
 
   return (
     <>

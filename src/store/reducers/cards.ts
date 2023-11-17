@@ -1,23 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TransformedSpellsRequest } from '../../types/requests-types';
+import { SpellsRequestData } from '../../types/requests-types';
 
-const initialState: { cards: TransformedSpellsRequest | undefined } = {
-  cards: {
-    spells: [],
-    page: '1',
-    countOfAllItem: '',
-    isNextPage: true,
-  },
+const initialState: { cards: SpellsRequestData[] | undefined } = {
+  cards: [],
 };
 
 export const cardsSlice = createSlice({
   name: 'cardsSlice',
   initialState,
   reducers: {
-    setCards(
-      state,
-      action: PayloadAction<TransformedSpellsRequest | undefined>
-    ) {
+    setCards(state, action: PayloadAction<SpellsRequestData[] | undefined>) {
       state.cards = action.payload;
     },
   },

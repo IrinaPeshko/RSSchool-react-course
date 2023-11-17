@@ -4,12 +4,16 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSearchParams } from '../../store/reducers/queryParams';
 import { setPage } from '../../store/reducers/queryParams';
+import { useSearchParams } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/redux';
 
 const SearchBlock = () => {
   const [searchWord, setSearchWord] = useState(
     localStorage.getItem('inputValue') || ''
   );
   const dispatch = useDispatch();
+  const limit = useAppSelector((store) => store.queryParamsReducer.limit);
+  const [, setSearch] = useSearchParams();
 
   return (
     <div className={styles.searchBlock}>
@@ -27,6 +31,7 @@ const SearchBlock = () => {
           localStorage.setItem('inputValue', searchWord);
           dispatch(setSearchParams(searchWord));
           dispatch(setPage('1'));
+          setSearch({ limit, page: `1` });
         }}
         data-testid="searchBtn"
       >

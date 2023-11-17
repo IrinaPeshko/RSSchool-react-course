@@ -1,51 +1,45 @@
 import styles from './CardDetail.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { OneSpellRequest } from '../../types/requests-types';
-import { getSpell } from '../../api/api';
+import { useGetOneSpellQuery } from '../../api/redux.api';
+import { useAppDispatch } from '../../hooks/redux';
+import { setIsDetailsLoading } from '../../store/reducers/isLoading';
 
 const CardDetail = () => {
   const { cardId } = useParams();
-  const [currentSpell, setCurrentSpell] = useState<OneSpellRequest | void>(
-    undefined
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    const fetchSpell = async () => {
-      setIsLoading(true);
-      try {
-        if (cardId) {
-          const spell = await getSpell(cardId);
-          setIsLoading(false);
-          setCurrentSpell(spell);
-        }
-      } catch (error) {
-        console.error(error);
-        setIsLoading(false);
-      }
-    };
+  let id = '';
+  if (cardId) {
+    id = cardId;
+  }
+  const dispatch = useAppDispatch();
+  const { data, isLoading } = useGetOneSpellQuery({
+    id,
+  });
 
-    fetchSpell();
-  }, [cardId]);
+  useEffect(() => {
+    dispatch(setIsDetailsLoading(isLoading));
+  }, [isLoading]);
 
   return (
     <div className={styles.detailsContainer} data-testid="detailsBlock">
       <Link to="/">
         <div className={styles.closeModal} data-testid="closeDetails"></div>
       </Link>
+
       {isLoading && (
         <div
           data-testid="DetailedLoadingBlock"
           className={styles.spinner}
         ></div>
       )}
-      {!isLoading && currentSpell ? (
+
+      {!isLoading && (
         <>
-          <h2>{currentSpell.data.attributes.name}</h2>
-          {currentSpell.data.attributes.image ? (
+          <h2>{data?.response.name}</h2>
+          {data?.response.image ? (
             <img
               className={styles.detailsImg}
-              src={currentSpell.data.attributes.image}
+              src={data?.response.image}
               alt="spells-image"
             />
           ) : (
@@ -55,24 +49,18 @@ const CardDetail = () => {
               className={styles.detailsImg}
             />
           )}
+          <p className={styles.paragraph}>Effect: {data?.response.effect}</p>
           <p className={styles.paragraph}>
-            Effect: {currentSpell.data.attributes.effect}
+            category: {data?.response.category}
           </p>
-          <p className={styles.paragraph}>
-            category: {currentSpell.data.attributes.category}
-          </p>
-          {currentSpell.data.attributes.light ? (
-            <p className={styles.paragraph}>
-              light: {currentSpell.data.attributes.light}
-            </p>
+          {data?.response.light ? (
+            <p className={styles.paragraph}>light: {data?.response.light}</p>
           ) : (
             <p className={styles.paragraph}>
               light: emerald, white or sky blue
             </p>
           )}
         </>
-      ) : (
-        <></>
       )}
     </div>
   );

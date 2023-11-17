@@ -6,13 +6,11 @@ export interface SpellsRequest {
   meta: SpellsRequestMeta;
 }
 
-export interface TransformedSpellsRequest {
-  spells: SpellsRequestData[];
-  page: string | undefined;
-  countOfAllItem: string | undefined;
-  isNextPage: boolean;
+export interface OneSpellRequest {
+  data: SpellsRequestData;
+  links: { self: string };
+  meta: SpellsRequestMeta;
 }
-
 export interface SpellsRequestData {
   attributes: AttributesSpells;
   id: string;
@@ -61,4 +59,15 @@ export interface SearchWordsContextType {
 export interface SpellsRequestType {
   spellsRequest: SpellsRequestData[];
   setSpellsRequest: Dispatch<SetStateAction<SpellsRequestData[]>>;
+}
+
+export interface TransformedSpellsRequest {
+  spells: SpellsRequestData[];
+  page: string | undefined;
+  countOfAllItem: string | undefined;
+  isNextPage: boolean;
+}
+
+export interface TransformedOneSpellRequest {
+  response: AttributesSpells;
 }

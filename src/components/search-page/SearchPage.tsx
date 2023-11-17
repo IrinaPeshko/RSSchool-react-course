@@ -18,6 +18,7 @@ import {
 
 function SearchPage() {
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const page = useAppSelector((state) => state.queryParamsReducer.page);
   const limitPerPage = useAppSelector(
     (state) => state.queryParamsReducer.limit
@@ -25,7 +26,6 @@ function SearchPage() {
   const searchWord = useAppSelector(
     (state) => state.queryParamsReducer.searchParams
   );
-  const dispatch = useAppDispatch();
 
   const { data, isFetching } = useGetSpellsQuery({
     limitPerPage,
@@ -39,7 +39,6 @@ function SearchPage() {
     if (data) {
       dispatch(setIsNextPage(data.isNextPage));
     }
-    console.log(data, isFetching);
   }, [data, isFetching]);
 
   useEffect(() => {

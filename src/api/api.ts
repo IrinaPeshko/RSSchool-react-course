@@ -1,4 +1,4 @@
-import { SpellsRequest } from '../types/requests-types';
+import { OneSpellRequest, SpellsRequest } from '../types/requests-types';
 
 const ROOT: string = 'https://api.potterdb.com//v1/';
 const SPELLS: string = '/spells';
@@ -26,6 +26,6 @@ const request = async (link: string) => {
   }
 };
 
-export const getSpell: (id: string) => Promise<void | SpellsRequest> = (
+export const getSpell: (id: string) => Promise<void | OneSpellRequest> = (
   id: string
 ) => request(ROOT + SPELLS + '/' + id);

@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
+  AttributesSpells,
+  OneSpellRequest,
   SpellsRequest,
   TransformedSpellsRequest,
 } from '../types/requests-types';
@@ -22,15 +24,15 @@ export const reduxApi = createApi({
         isNextPage: !!response.meta.pagination?.next,
       }),
     }),
-    getOneSpell: build.query<{ resp: SpellsRequest }, { id: string }>({
+    getOneSpell: build.query<{ response: AttributesSpells }, { id: string }>({
       query: ({ id = '' }) => {
         return `spells/${id}`;
       },
-      transformResponse: (response: SpellsRequest) => ({
-        resp: response,
+      transformResponse: (response: OneSpellRequest) => ({
+        response: response.data.attributes,
       }),
     }),
   }),
 });
 
-export const { useGetSpellsQuery } = reduxApi;
+export const { useGetSpellsQuery, useGetOneSpellQuery } = reduxApi;

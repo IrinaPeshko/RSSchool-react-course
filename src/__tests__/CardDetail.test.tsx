@@ -1,7 +1,4 @@
-import {
-  RouterProvider,
-  createMemoryRouter,
-} from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import {
   fireEvent,
   render,
@@ -18,19 +15,10 @@ import {
 } from './fakeData/fakeData';
 import { rootReducer } from '../store/store';
 import { initialState } from './fakeData/initialSliceState';
-import {
-  reduxApi,
-  useGetOneSpellQuery,
-  useGetSpellsQuery,
-} from '../api/reduxApi';
+import { useGetOneSpellQuery } from '../api/reduxApi';
 import { routes } from '../router/router';
+import { ReduxApiMockType } from '../types/requests-types';
 
-type ReduxApiMockType = {
-  useGetSpellsQuery: typeof useGetSpellsQuery;
-  useGetOneSpellQuery: typeof useGetOneSpellQuery;
-  reducer: ReturnType<typeof reduxApi.reducer>;
-  reducerPath: string;
-};
 describe('Detailed card tests', () => {
   beforeAll(() => {
     vi.mock('../api/reduxApi', async () => {

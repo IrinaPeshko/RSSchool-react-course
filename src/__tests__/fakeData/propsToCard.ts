@@ -8,5 +8,3 @@ export const propsToCard = {
   light: 'Blue',
   id: 'ef7c3503-8dea-41b2-8755-f9424ba7645e',
 };
-
-

@@ -1,9 +1,4 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import SearchCard from '../components/search-card/SearchCard';
 import {
   MemoryRouter,
@@ -21,18 +16,18 @@ import { configureStore } from '@reduxjs/toolkit';
 import { initialState } from './fakeData/initialSliceState';
 
 describe('Tests for the SearchCard component', () => {
-beforeAll(() => {
-  vi.mock('../api/reduxApi', async () => {
-    const actual: { reduxApi: ReduxApiMockType } = (await vi.importActual(
-      '../api/reduxApi'
-    )) as { reduxApi: ReduxApiMockType };
-    return {
-      ...actual,
-      useGetOneSpellQuery: vi.fn(() => transformCard),
-      useGetSpellsQuery: vi.fn(() => transformCards),
-    };
+  beforeAll(() => {
+    vi.mock('../api/reduxApi', async () => {
+      const actual: { reduxApi: ReduxApiMockType } = (await vi.importActual(
+        '../api/reduxApi'
+      )) as { reduxApi: ReduxApiMockType };
+      return {
+        ...actual,
+        useGetOneSpellQuery: vi.fn(() => transformCard),
+        useGetSpellsQuery: vi.fn(() => transformCards),
+      };
+    });
   });
-});
 
   afterAll(() => {
     vi.clearAllMocks();
@@ -58,7 +53,6 @@ beforeAll(() => {
   });
 
   test('Validate that clicking on a card opens a detailed card component && Check that clicking triggers an additional API call to fetch detailed information.', async () => {
-
     const mockStore = configureStore({
       reducer: rootReducer,
       preloadedState: initialState,

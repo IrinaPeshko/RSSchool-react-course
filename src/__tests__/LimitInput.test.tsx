@@ -7,18 +7,18 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
 test('Make sure that limit input is working correct', () => {
-   const mockStore = configureStore({
-     reducer: rootReducer,
-     preloadedState: initialState,
-   });
+  const mockStore = configureStore({
+    reducer: rootReducer,
+    preloadedState: initialState,
+  });
 
-   render(
-     <Provider store={mockStore}>
-       <MemoryRouter>
-         <LimitInput />
-       </MemoryRouter>
-     </Provider>
-   );
+  render(
+    <Provider store={mockStore}>
+      <MemoryRouter>
+        <LimitInput />
+      </MemoryRouter>
+    </Provider>
+  );
 
   const limit = screen.getByTestId('limitInput');
   expect(limit).instanceOf(HTMLInputElement);

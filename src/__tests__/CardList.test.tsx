@@ -9,7 +9,7 @@ import { initialState } from './fakeData/initialSliceState';
 describe('Tests for the CardList component', () => {
   test('Verify that the component renders the specified number of cards', () => {
     const mockStore = configureMockStore();
-    
+
     const cardsStore = mockStore(initialState);
 
     render(
@@ -20,7 +20,6 @@ describe('Tests for the CardList component', () => {
       </MemoryRouter>
     );
 
-    screen.debug;
     expect(screen.getAllByTestId('card').length).toBe(3);
   });
 
@@ -32,7 +31,7 @@ describe('Tests for the CardList component', () => {
         </Provider>
       </MemoryRouter>
     );
-    
+
     const errorMessage = "We couldn't find anything matching your request.";
     const isErrorTitle = screen.getByText(errorMessage);
     expect(isErrorTitle).toBeTruthy();

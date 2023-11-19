@@ -9,7 +9,6 @@ import { ReduxApiMockType } from '../types/requests-types';
 import { transformCard, transformCards } from './fakeData/fakeData';
 
 describe('Search component tests', () => {
-
   beforeAll(() => {
     vi.mock('../api/reduxApi', async () => {
       const actual: { reduxApi: ReduxApiMockType } = (await vi.importActual(
@@ -44,8 +43,6 @@ describe('Search component tests', () => {
         <RouterProvider router={router} />
       </Provider>
     );
-
-    screen.debug()
 
     expect(screen.getByTestId('searchInput').getAttribute('value')).toBe(
       'test'

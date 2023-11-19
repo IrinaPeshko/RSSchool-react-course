@@ -1,5 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { reduxApi, useGetOneSpellQuery, useGetSpellsQuery } from '../api/reduxApi';
+import {
+  reduxApi,
+  useGetOneSpellQuery,
+  useGetSpellsQuery,
+} from '../api/reduxApi';
 
 export interface SpellsRequest {
   data: SpellsRequestData[];

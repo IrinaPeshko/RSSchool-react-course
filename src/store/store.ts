@@ -12,7 +12,6 @@ export const rootReducer = combineReducers({
   cardsSlice,
 });
 
-
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>

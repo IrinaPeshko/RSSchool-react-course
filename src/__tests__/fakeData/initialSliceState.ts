@@ -1,4 +1,4 @@
-import { spellsRequest } from "./spellsRequest";
+import { spellsRequest } from './spellsRequest';
 
 export const initialState = {
   cardsSlice: {

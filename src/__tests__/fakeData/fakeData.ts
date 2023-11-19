@@ -111,6 +111,6 @@ export const transformCardLoading = {
       wiki: 'https://harrypotter.fandom.com/wiki/Aqua_Eructo',
     },
   },
-  isLoading:true,
+  isLoading: true,
   refetch: vi.fn(),
 };

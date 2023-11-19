@@ -32,7 +32,7 @@ describe('Tests for the CardList component', () => {
         </Provider>
       </MemoryRouter>
     );
-
+    
     const errorMessage = "We couldn't find anything matching your request.";
     const isErrorTitle = screen.getByText(errorMessage);
     expect(isErrorTitle).toBeTruthy();

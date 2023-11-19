@@ -1,4 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
+import {
+  reduxApi,
+  useGetOneSpellQuery,
+  useGetSpellsQuery,
+} from '../api/reduxApi';
 
 export interface SpellsRequest {
   data: SpellsRequestData[];
@@ -9,12 +14,8 @@ export interface SpellsRequest {
 export interface OneSpellRequest {
   data: SpellsRequestData;
   links: { self: string };
-  meta: {
-    copyright: string;
-    generated_at: string;
-  };
+  meta: SpellsRequestMeta;
 }
-
 export interface SpellsRequestData {
   attributes: AttributesSpells;
   id: string;
@@ -27,17 +28,13 @@ export interface SpellsRequestLinks {
   last: string;
   next: string;
   self: string;
+  records?: string;
 }
 
 export interface SpellsRequestMeta {
   copyright: string;
   generated_at: string;
-  pagination: {
-    current: number;
-    last?: number;
-    next?: number;
-    records: number;
-  };
+  pagination?: SpellsRequestLinks;
 }
 
 export interface AttributesSpells {
@@ -57,14 +54,23 @@ export interface ErrorBoundaryProps {
   children: React.ReactNode;
 }
 
-export interface SearchWordsContextType {
-  searchWord: string;
-  setSearchWord: Dispatch<SetStateAction<string>>;
-  request: string;
-  setRequest: Dispatch<SetStateAction<string>>;
-}
-
 export interface SpellsRequestType {
   spellsRequest: SpellsRequestData[];
   setSpellsRequest: Dispatch<SetStateAction<SpellsRequestData[]>>;
 }
+
+export interface TransformedSpellsRequest {
+  spells: SpellsRequestData[];
+  isNextPage: boolean;
+}
+
+export interface TransformedOneSpellRequest {
+  response: AttributesSpells;
+}
+
+export type ReduxApiMockType = {
+  useGetSpellsQuery: typeof useGetSpellsQuery;
+  useGetOneSpellQuery: typeof useGetOneSpellQuery;
+  reducer: ReturnType<typeof reduxApi.reducer>;
+  reducerPath: string;
+};

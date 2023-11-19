@@ -1,84 +1,67 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import Pagination from '../components/pagination/Pagination';
-import { fakeDataCards } from './fakeData/fakeDataToCards';
-import { fakeData } from './fakeData/fakeData';
-import { SpellsRequestType } from '../types/requests-types';
-import { spellsRequest } from './fakeData/spellsRequest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { transformCard, transformCards } from './fakeData/fakeData';
 import { routes } from '../router/router';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import { SpellsRequestContext } from '../components/search-page/Contexts';
-import { findSpells } from '../api/api';
+import { rootReducer } from '../store/store';
+import { Provider } from 'react-redux';
+import { ReduxApiMockType } from '../types/requests-types';
+import { configureStore } from '@reduxjs/toolkit';
+import { initialState } from './fakeData/initialSliceState';
 
 describe('Tests for the SearchCard component', () => {
   beforeAll(() => {
-    vi.mock('../api/api', () => {
+    vi.mock('../api/reduxApi', async () => {
+      const actual: { reduxApi: ReduxApiMockType } = (await vi.importActual(
+        '../api/reduxApi'
+      )) as { reduxApi: ReduxApiMockType };
       return {
-        findSpells: vi.fn(async () => {
-          return fakeDataCards;
-        }),
-        getSpell: vi.fn(() => {
-          return fakeData;
-        }),
+        ...actual,
+        useGetOneSpellQuery: vi.fn(() => transformCard),
+        useGetSpellsQuery: vi.fn(() => transformCards),
       };
     });
   });
+
   afterAll(() => {
     vi.clearAllMocks();
     vi.resetAllMocks();
   });
 
-  test('Make sure that API called with other number after change the page', () => {
-    const setPageMock = vi.fn();
-    render(
-      <Pagination page="2" setPage={setPageMock} isNextPageActive={true} />
-    );
-    const nextButton = screen.getByText('next');
-    fireEvent.click(nextButton);
-    expect(setPageMock).toBeCalledWith('3');
-  });
-
   test('Make sure the component updates URL query parameter when page changes', async () => {
-    const cardsList: SpellsRequestType = {
-      spellsRequest: spellsRequest,
-      setSpellsRequest: vi.fn(),
-    };
+    const mockStore = configureStore({
+      reducer: rootReducer,
+      preloadedState: initialState,
+    });
+
     const router = createMemoryRouter(routes, {
-      initialEntries: ['?page=1&limit=5'],
+      initialEntries: ['?page=1&limit=10'],
     });
 
-    await act(async () =>
-      render(
-        <SpellsRequestContext.Provider value={cardsList}>
-          <RouterProvider router={router} />
-        </SpellsRequestContext.Provider>
-      )
+    render(
+      <Provider store={mockStore}>
+        <RouterProvider router={router} />
+      </Provider>
     );
-    expect(router.state.location.search).toBe('?page=3&limit=10');
-    const pagination = screen.getByTestId('pagination');
-    expect(pagination).toBeInTheDocument();
     const nextBtn = screen.getByTestId('nextBtn');
-    expect(nextBtn).toBeInTheDocument();
     const prevBtn = screen.getByTestId('prevBtn');
-    expect(prevBtn).toBeInTheDocument();
 
-    expect(findSpells).toBeCalledTimes(1);
-
-    expect(findSpells).toHaveBeenCalledWith('', '10', '3');
-
-    await waitFor(() => {
+    await act(() => {
+      expect(router.state.location.search).toBe('?page=1&limit=10');
+      const pagination = screen.getByTestId('pagination');
+      expect(pagination).toBeInTheDocument();
+      expect(nextBtn).toBeInTheDocument();
+      expect(prevBtn).toBeInTheDocument();
       fireEvent.click(nextBtn);
+      expect(router.state.location.search).toBe('?limit=10&page=2');
     });
-
-    expect(findSpells).toBeCalledTimes(2);
-    expect(findSpells).toHaveBeenCalledWith('', '10', '4');
-    expect(router.state.location.search).toBe('?page=4&limit=10');
-
-    await waitFor(() => {
+    await act(() => {
+      fireEvent.click(nextBtn);
+      expect(router.state.location.search).toBe('?limit=10&page=3');
+    });
+    await act(() => {
       fireEvent.click(prevBtn);
+      expect(router.state.location.search).toBe('?limit=10&page=2');
     });
-
-    expect(findSpells).toBeCalledTimes(2);
-    expect(findSpells).toHaveBeenCalledWith('', '10', '3');
   });
 });

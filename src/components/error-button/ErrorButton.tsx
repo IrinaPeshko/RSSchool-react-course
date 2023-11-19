@@ -12,6 +12,7 @@ const ErrorButton = () => {
   if (hasError) {
     throw new Error('This is example Error');
   }
+
   return (
     <>
       {!hasError && (

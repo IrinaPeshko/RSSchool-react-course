@@ -1,92 +1,67 @@
-import { useEffect, useState, useContext } from 'react';
 import styles from './SearchPage.module.css';
-import { findSpells } from '../../api/api';
 import SearchResult from '../search-results/searchResult';
-import {
-  OneSpellRequest,
-  SpellsRequest,
-  SpellsRequestData,
-} from '../../types/requests-types';
 import ErrorButton from '../error-button/ErrorButton';
 import SearchBlock from '../search-block/SearchBlock';
-import {
-  chooseLimit,
-  choosePage,
-  chooseSearchWord,
-} from '../../utils/chooseSearchWord';
 import LimitInput from '../limitPerPageInput/LimitInput';
 import Pagination from '../pagination/Pagination';
-import { useSearchParams } from 'react-router-dom';
-import { SearchWordsContext, SpellsRequestContext } from './Contexts';
+import { useEffect } from 'react';
+import { useGetSpellsQuery } from '../../api/reduxApi';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { setIsMainLoading } from '../../store/reducers/isLoading';
+import { setCards } from '../../store/reducers/cards';
+import { useLocation } from 'react-router-dom';
+import {
+  setIsNextPage,
+  setLimit,
+  setPage,
+} from '../../store/reducers/queryParams';
 
 function SearchPage() {
-  const { spellsRequest, setSpellsRequest } = useContext(SpellsRequestContext);
-  const [searchWord, setSearchWord] = useState(chooseSearchWord());
-  const [isLoading, setIsLoading] = useState(false);
-  const [, setIsErrorRequest] = useState(false);
-  const [request, setRequest] = useState(chooseSearchWord());
-  const [limitPerPage, setLimitPerPage] = useState(chooseLimit());
-  const [page, setPage] = useState(choosePage());
-  const [isNextPageActive, setIsNextPageActive] = useState(false);
-  const [, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const page = useAppSelector((state) => state.queryParamsReducer.page);
+  const limitPerPage = useAppSelector(
+    (state) => state.queryParamsReducer.limit
+  );
+  const searchWord = useAppSelector(
+    (state) => state.queryParamsReducer.searchParams
+  );
+
+  const { data, isFetching } = useGetSpellsQuery({
+    limitPerPage,
+    page,
+    searchWord,
+  });
 
   useEffect(() => {
-    setSearchParams({ page: page, limit: limitPerPage });
-    const onClickSearch = async (): Promise<
-      SpellsRequestData[] | undefined
-    > => {
-      setIsNextPageActive(false);
-      setIsLoading(true);
-      setIsErrorRequest(false);
-      setSpellsRequest([]);
-      const requestObj: SpellsRequest | OneSpellRequest | void =
-        await findSpells(request, limitPerPage, page);
-      if (
-        requestObj &&
-        requestObj.data instanceof Array &&
-        requestObj.data.length !== 0
-      ) {
-        const isNextPage = !!requestObj.meta.pagination.next;
-        setIsNextPageActive(isNextPage);
-        const requestArr = requestObj.data;
-        setSpellsRequest(requestArr);
-        setIsLoading(false);
-        localStorage.setItem('inputValue', request);
-        return requestArr;
-      } else {
-        localStorage.setItem('inputValue', request);
-        setIsLoading(false);
-        setIsErrorRequest(true);
-      }
-    };
-    onClickSearch();
-  }, [request, limitPerPage, page, setSpellsRequest]);
+    dispatch(setIsMainLoading(isFetching));
+    dispatch(setCards(data?.spells));
+    if (data) {
+      dispatch(setIsNextPage(data.isNextPage));
+    }
+  }, [data, isFetching]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const page = queryParams.get('page');
+    const limit = queryParams.get('limit');
+    if (page && limit) {
+      dispatch(setPage(page));
+      dispatch(setLimit(limit));
+    }
+  }, []);
 
   return (
-    <SearchWordsContext.Provider
-      value={{ searchWord, setSearchWord, setRequest, request }}
-    >
-      <div className={styles.searchPage}>
-        <SearchBlock />
-        <div className={styles.searchDetails}>
-          <ErrorButton />
-          <LimitInput
-            limit={limitPerPage}
-            setLimit={setLimitPerPage}
-            setPage={setPage}
-          />
-        </div>
-        {isLoading && <div className={styles.spinner}></div>}
-        {!isLoading && <SearchResult />}
-        {spellsRequest.length !== 0 && (
-          <Pagination
-            page={page}
-            setPage={setPage}
-            isNextPageActive={isNextPageActive}
-          />
-        )}
+    <div className={styles.searchPage}>
+      <SearchBlock />
+      <div className={styles.searchDetails}>
+        <ErrorButton />
+        <LimitInput />
       </div>
-    </SearchWordsContext.Provider>
+      {isFetching && <div className={styles.spinner}></div>}
+      {!isFetching && <SearchResult />}
+      {data?.spells.length !== 0 && !isFetching && <Pagination />}
+    </div>
   );
 }
 

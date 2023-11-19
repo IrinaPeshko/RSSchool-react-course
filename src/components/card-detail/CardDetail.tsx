@@ -1,7 +1,7 @@
 import styles from './CardDetail.module.css';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useGetOneSpellQuery } from '../../api/redux.api';
+import { useGetOneSpellQuery } from '../../api/reduxApi';
 import { useAppDispatch } from '../../hooks/redux';
 import { setIsDetailsLoading } from '../../store/reducers/isLoading';
 
@@ -12,13 +12,13 @@ const CardDetail = () => {
     id = cardId;
   }
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetOneSpellQuery({
+  const { data, isFetching } = useGetOneSpellQuery({
     id,
   });
 
   useEffect(() => {
-    dispatch(setIsDetailsLoading(isLoading));
-  }, [isLoading]);
+    dispatch(setIsDetailsLoading(isFetching));
+  }, [isFetching]);
 
   return (
     <div className={styles.detailsContainer} data-testid="detailsBlock">
@@ -26,14 +26,14 @@ const CardDetail = () => {
         <div className={styles.closeModal} data-testid="closeDetails"></div>
       </Link>
 
-      {isLoading && (
+      {isFetching && (
         <div
           data-testid="DetailedLoadingBlock"
           className={styles.spinner}
         ></div>
       )}
 
-      {!isLoading && (
+      {!isFetching && (
         <>
           <h2>{data?.response.name}</h2>
           {data?.response.image ? (

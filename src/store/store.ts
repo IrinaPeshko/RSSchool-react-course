@@ -1,4 +1,4 @@
-import { reduxApi } from './../api/redux.api';
+import { reduxApi } from '../api/reduxApi';
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import queryParamsReducer from './reducers/queryParams';
@@ -11,6 +11,7 @@ const rootReducer = combineReducers({
   isLoading,
   cardsSlice,
 });
+
 
 export const store = configureStore({
   reducer: rootReducer,

@@ -18,7 +18,8 @@ import { transformFakeCards } from './fakeData/fakeDataToCards';
 import { propsToCard } from './fakeData/propsToCard';
 // import { fakeData } from './fakeData/fakeData';
 // import { getSpell } from '../api/api';
-import { reduxApi } from '../api/redux.api';
+import { reduxApi } from '../api/reduxApi';
+
 import { store } from '../store/store';
 import { Provider } from 'react-redux';
 
@@ -60,6 +61,7 @@ describe('Tests for the SearchCard component', () => {
   });
   test('Validate that clicking on a card opens a detailed card component && Check that clicking triggers an additional API call to fetch detailed information.', async () => {
     vi.spyOn(reduxApi, 'useGetSpellsQuery').mockReturnValue(transformFakeCards);
+    
     // vi.mock('../api/redux.api', () => {
     //   useGetSpellsQuery: vi.fn(async () => {
     //     return transformFakeCards

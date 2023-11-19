@@ -1,91 +1,78 @@
-import {
-  RouterProvider,
-  createMemoryRouter,
-} from 'react-router-dom';
-// import thunk from 'redux-thunk';
-// import { getDefaultMiddleware } from '@reduxjs/toolkit';
-import {
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
-// import configureMockStore from 'redux-mock-store';
-import { routes } from '../router/router';
-import { fakeData, transformCard, transformCards } from './fakeData/fakeData';
-import { reduxApi } from '../api/reduxApi';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
-// import { initialState } from './fakeData/initialSliceState';
-import { store } from '../store/store';
+import { configureStore } from '@reduxjs/toolkit';
+import { transformCard, transformCards } from './fakeData/fakeData';
+import { rootReducer } from '../store/store';
+import { initialState } from './fakeData/initialSliceState';
+import { reduxApi, useGetOneSpellQuery, useGetSpellsQuery } from '../api/reduxApi';
+import { routes } from '../router/router';
 
+type ReduxApiMockType = {
+  useGetSpellsQuery: typeof useGetSpellsQuery;
+  useGetOneSpellQuery: typeof useGetOneSpellQuery;
+  reducer: ReturnType<typeof reduxApi.reducer>;
+  reducerPath: string;
+};
 describe('Detailed card tests', () => {
-  beforeAll(async() => {
-    vi.spyOn(reduxApi, 'useGetOneSpellQuery').mockReturnValue(transformCard);
-    vi.spyOn(reduxApi, 'useGetSpellsQuery').mockReturnValue(transformCards);
+  beforeAll(() => {
+    vi.mock('../api/reduxApi', async () => {
+      const actual: { reduxApi: ReduxApiMockType } = (await vi.importActual(
+        '../api/reduxApi'
+      )) as { reduxApi: ReduxApiMockType };
+      return {
+        ...actual,
+        useGetOneSpellQuery: vi.fn(() => transformCard),
+        useGetSpellsQuery: vi.fn(() => transformCards),
+      };
+    });
   });
+
   afterAll(() => {
     vi.clearAllMocks();
     vi.resetAllMocks();
   });
 
   test('Make sure the detailed card component correctly displays the detailed card data', async () => {
+    const mockStore = configureStore({
+      reducer: rootReducer,
+      preloadedState: initialState,
+    });
+
     const router = createMemoryRouter(routes, {
       initialEntries: ['/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'],
     });
-    //  const middlewares = [
-    //    thunk,
-    //    ...getDefaultMiddleware().prepend(reduxApi.middleware),
-    //  ];
-    //  const mockStore = configureMockStore(middlewares);
-    //  const cardStore = mockStore(initialState);
 
-    
-
-    vi.spyOn(reduxApi, 'useGetOneSpellQuery').mockReturnValue(transformCard);
-
-    
-    await waitFor (() =>{
-      render(
-        <Provider store={store}>
-          <RouterProvider router={router} />
-        </Provider>
-      );
-    })
-
-    // render(
-    //   <Provider store={store}>
-    //     <BrowserRouter>
-    //       <Routes>
-    //         <Route path={'/'} element={<App/>} >
-    //           <Route
-    //             path={'/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'}
-    //             element={<CardDetail />}
-    //           />
-    //         </Route>
-    //       </Routes>
-    //     </BrowserRouter>
-    //   </Provider>
-    // )
+    render(
+      <Provider store={mockStore}>
+        <RouterProvider router={router} />
+      </Provider>
+    );
 
     await waitFor(() => {
-      screen.debug;
-
-      const nameSpell = screen.getByText(transformCard.data.response.name);
+      const detailedBlock = screen.getByTestId('detailsBlock');
+      const detailedContainer = within(detailedBlock);
+      const nameSpell = detailedContainer.getByText(
+        transformCard.data.response.name
+      );
       expect(nameSpell).toBeTruthy();
-      const cardEffect = screen.getByText((content) => {
-        return content.includes(fakeData.data.attributes.effect);
+
+      const cardEffect = detailedContainer.getByText((content) => {
+        return content.includes(transformCard.data.response.effect);
       });
       expect(cardEffect).toBeTruthy();
-      const cardCategory = screen.getByText((content) => {
-        return content.includes(fakeData.data.attributes.category);
+
+      const cardCategory = detailedContainer.getByText((content) => {
+        return content.includes(transformCard.data.response.category);
       });
       expect(cardCategory).toBeTruthy();
-      const cardLight = screen.getByText((content) => {
-        return content.includes(fakeData.data.attributes.light);
+      const cardLight = detailedContainer.getByText((content) => {
+        return content.includes(transformCard.data.response.light);
       });
       expect(cardLight).toBeTruthy();
-      const cardImage = screen.getByAltText('spells-image');
+      const cardImage = detailedContainer.getByAltText('spells-image');
       expect(cardImage.getAttribute('src')).toBe(
-        fakeData.data.attributes.image
+        transformCard.data.response.image
       );
     });
   });

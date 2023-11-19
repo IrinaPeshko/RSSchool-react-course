@@ -5,7 +5,7 @@ import queryParamsReducer from './reducers/queryParams';
 import isLoading from './reducers/isLoading';
 import cardsSlice from './reducers/cards';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   [reduxApi.reducerPath]: reduxApi.reducer,
   queryParamsReducer,
   isLoading,

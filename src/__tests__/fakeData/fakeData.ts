@@ -78,7 +78,19 @@ export const transformCards = {
 };
 export const transformCard = {
   data: {
-    response: fakeData.data.attributes,
+    response: {
+      category: 'Jinx',
+      creator: 'Harry Potter',
+      effect: 'Repels intruders',
+      hand: 'Slashing movement',
+      image:
+        'https://static.wikia.nocookie.net/harrypotter/images/b/be/Dumbledore_and_Harry_performing_Apparition.gif',
+      incantation: 'Aqua Eructo(A-kwa ee-RUCK-toh)',
+      light: 'Ice-blue',
+      name: 'Aqua Eructo',
+      slug: 'aqua-eructo',
+      wiki: 'https://harrypotter.fandom.com/wiki/Aqua_Eructo',
+    },
   },
-  refetch: vi.fn()
+  refetch: vi.fn(),
 };

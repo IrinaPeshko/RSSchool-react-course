@@ -1,9 +1,8 @@
 import {
-  // act,
-  // fireEvent,
+  fireEvent,
   render,
   screen,
-  // waitFor,
+  waitFor,
 } from '@testing-library/react';
 import SearchCard from '../components/search-card/SearchCard';
 import {
@@ -12,31 +11,29 @@ import {
   createMemoryRouter,
 } from 'react-router-dom';
 import { routes } from '../router/router';
-import { transformFakeCards } from './fakeData/fakeDataToCards';
-// import { SpellsRequestType } from '../types/requests-types';
-// import { spellsRequest } from './fakeData/spellsRequest';
 import { propsToCard } from './fakeData/propsToCard';
-// import { fakeData } from './fakeData/fakeData';
-// import { getSpell } from '../api/api';
-import { reduxApi } from '../api/reduxApi';
-
-import { store } from '../store/store';
+import { useGetOneSpellQuery } from '../api/reduxApi';
+import { rootReducer } from '../store/store';
 import { Provider } from 'react-redux';
+import { ReduxApiMockType } from '../types/requests-types';
+import { transformCard, transformCards } from './fakeData/fakeData';
+import { configureStore } from '@reduxjs/toolkit';
+import { initialState } from './fakeData/initialSliceState';
 
 describe('Tests for the SearchCard component', () => {
-  // beforeAll(() => {
+beforeAll(() => {
+  vi.mock('../api/reduxApi', async () => {
+    const actual: { reduxApi: ReduxApiMockType } = (await vi.importActual(
+      '../api/reduxApi'
+    )) as { reduxApi: ReduxApiMockType };
+    return {
+      ...actual,
+      useGetOneSpellQuery: vi.fn(() => transformCard),
+      useGetSpellsQuery: vi.fn(() => transformCards),
+    };
+  });
+});
 
-  //   // vi.mock('../api/api', () => {
-  //   //   return {
-  //   //     findSpells: vi.fn(async () => {
-  //   //       return fakeDataCards;
-  //   //     }),
-  //   //     getSpell: vi.fn(() => {
-  //   //       return fakeData;
-  //   //     }),
-  //   //   };
-  //   // });
-  // });
   afterAll(() => {
     vi.clearAllMocks();
     vi.resetAllMocks();
@@ -59,42 +56,39 @@ describe('Tests for the SearchCard component', () => {
     const cardImage = screen.getByAltText('spells-image');
     expect(cardImage.getAttribute('src')).toBe(propsToCard.image);
   });
+
   test('Validate that clicking on a card opens a detailed card component && Check that clicking triggers an additional API call to fetch detailed information.', async () => {
-    vi.spyOn(reduxApi, 'useGetSpellsQuery').mockReturnValue(transformFakeCards);
-    
-    // vi.mock('../api/redux.api', () => {
-    //   useGetSpellsQuery: vi.fn(async () => {
-    //     return transformFakeCards
-    //   })
-    // });
+
+    const mockStore = configureStore({
+      reducer: rootReducer,
+      preloadedState: initialState,
+    });
 
     const router = createMemoryRouter(routes, {
       initialEntries: ['?page=1&limit=5'],
     });
 
     render(
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <RouterProvider router={router} />
       </Provider>
     );
 
-    screen.debug;
+    const cards = await screen.findAllByTestId('card');
+    expect(cards).toBeTruthy();
 
-    // const cards = await screen.findAllByTestId('card');
-    // expect(cards).toBeTruthy();
+    expect(useGetOneSpellQuery).toBeCalledTimes(0);
 
-    // expect(getSpell).toBeCalledTimes(0);
+    await waitFor(() => {
+      fireEvent.click(cards[1]);
+    });
 
-    // await waitFor(() => {
-    //   fireEvent.click(cards[1]);
-    // });
+    const detailed = screen.getByTestId('detailsBlock');
+    expect(detailed).toBeInTheDocument();
 
-    // const detailed = screen.getByTestId('detailsBlock');
-    // expect(detailed).toBeInTheDocument();
+    const detailedCardName = screen.getByText(/light: Ice-blue/i);
+    expect(detailedCardName).toBeInTheDocument();
 
-    // const detailedCardName = screen.getByText(/light: Ice-blue/i);
-    // expect(detailedCardName).toBeInTheDocument();
-
-    // expect(getSpell).toBeCalledTimes(1);
+    expect(useGetOneSpellQuery).toBeCalledTimes(1);
   });
 });

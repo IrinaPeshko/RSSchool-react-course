@@ -1,11 +1,28 @@
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import {
+  RouterProvider,
+  createMemoryRouter,
+} from 'react-router-dom';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { transformCard, transformCards } from './fakeData/fakeData';
+import {
+  transformCard,
+  transformCardLoading,
+  transformCards,
+} from './fakeData/fakeData';
 import { rootReducer } from '../store/store';
 import { initialState } from './fakeData/initialSliceState';
-import { reduxApi, useGetOneSpellQuery, useGetSpellsQuery } from '../api/reduxApi';
+import {
+  reduxApi,
+  useGetOneSpellQuery,
+  useGetSpellsQuery,
+} from '../api/reduxApi';
 import { routes } from '../router/router';
 
 type ReduxApiMockType = {
@@ -77,40 +94,52 @@ describe('Detailed card tests', () => {
     });
   });
 
-  // test('Ensure that clicking the close button hides the component', async () => {
-  //   const router = createMemoryRouter(routes, {
-  //     initialEntries: ['/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'],
-  //   });
+  test('Ensure that clicking the close button hides the component', async () => {
+    const mockStore = configureStore({
+      reducer: rootReducer,
+      preloadedState: initialState,
+    });
 
-  //   await act(async () => render(<RouterProvider router={router} />));
+    const router = createMemoryRouter(routes, {
+      initialEntries: ['/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'],
+    });
 
-  //   const closeDetailsBtn = screen.getByTestId('closeDetails');
-  //   fireEvent.click(closeDetailsBtn);
+    render(
+      <Provider store={mockStore}>
+        <RouterProvider router={router} />
+      </Provider>
+    );
 
-  //   const nameSpell = screen.queryByText(fakeData.data.attributes.name);
-  //   expect(nameSpell).toBeFalsy();
-  //   const cardEffect = screen.queryByText((content) => {
-  //     return content.includes(fakeData.data.attributes.effect);
-  //   });
-  //   expect(cardEffect).toBeFalsy();
-  //   const cardCategory = screen.queryByText((content) => {
-  //     return content.includes(fakeData.data.attributes.category);
-  //   });
-  //   expect(cardCategory).toBeFalsy();
-  //   const cardLight = screen.queryByText((content) => {
-  //     return content.includes(fakeData.data.attributes.light);
-  //   });
-  //   expect(cardLight).toBeFalsy();
-  // });
+    await waitFor(() => {
+      const detailedBlock = screen.getByTestId('detailsBlock');
+      expect(detailedBlock).toBeInTheDocument();
 
-  // test('Check that a loading indicator is displayed while fetching data;', async () => {
-  //   render(
-  //     <MemoryRouter>
-  //       <CardDetail />
-  //     </MemoryRouter>
-  //   );
+      const closeDetailsBtn = screen.getByTestId('closeDetails');
+      fireEvent.click(closeDetailsBtn);
 
-  //   const spinner = screen.getByTestId('DetailedLoadingBlock');
-  //   expect(spinner).toBeInTheDocument();
-  // });
+      const detailedFalseBlock = screen.queryByTestId('detailsBlock');
+      expect(detailedFalseBlock).toBeFalsy();
+    });
+  });
+
+  test('Check that a loading indicator is displayed while fetching data;', async () => {
+    vi.mocked(useGetOneSpellQuery).mockReturnValue(transformCardLoading);
+    const mockStore = configureStore({
+      reducer: rootReducer,
+      preloadedState: initialState,
+    });
+
+    const router = createMemoryRouter(routes, {
+      initialEntries: ['/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41'],
+    });
+
+    render(
+      <Provider store={mockStore}>
+        <RouterProvider router={router} />
+      </Provider>
+    );
+
+    const spinner = screen.getByTestId('DetailedLoadingBlock');
+    expect(spinner).toBeInTheDocument();
+  });
 });

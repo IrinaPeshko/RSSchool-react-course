@@ -34,7 +34,6 @@ useEffect(() => {
   if (data) {
     dispatch(setIsNextPage(data.isNextPage));
   }
-  console.log(data, isFetching);
 }, [data, isFetching]);
 
 useEffect(() => {

@@ -12,13 +12,13 @@ const CardDetail = () => {
     id = cardId;
   }
   const dispatch = useAppDispatch();
-  const { data, isFetching } = useGetOneSpellQuery({
+  const { data, isLoading } = useGetOneSpellQuery({
     id,
   });
 
   useEffect(() => {
-    dispatch(setIsDetailsLoading(isFetching));
-  }, [isFetching]);
+    dispatch(setIsDetailsLoading(isLoading));
+  }, [isLoading]);
 
   return (
     <div className={styles.detailsContainer} data-testid="detailsBlock">
@@ -26,14 +26,14 @@ const CardDetail = () => {
         <div className={styles.closeModal} data-testid="closeDetails"></div>
       </Link>
 
-      {isFetching && (
+      {isLoading && (
         <div
           data-testid="DetailedLoadingBlock"
           className={styles.spinner}
         ></div>
       )}
 
-      {!isFetching && (
+      {!isLoading && (
         <>
           <h2>{data?.response.name}</h2>
           {data?.response.image ? (

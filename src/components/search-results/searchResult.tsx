@@ -1,11 +1,11 @@
 import styles from './searchResult.module.css';
 import SearchCard from '../search-card/SearchCard';
 import { useAppSelector } from '../../hooks/redux';
+import { SpellsRequestData } from '../../types/requests-types';
 
 function SearchResult() {
   const spellsRequest = useAppSelector((state) => state.cardsSlice.cards);
   const isLoading = useAppSelector((state) => state.isLoading.isMainLoading);
-
   return (
     <>
       <div className={styles.spells__container}>
@@ -15,22 +15,26 @@ function SearchResult() {
         )}
         {!isLoading &&
           spellsRequest &&
-          spellsRequest.map((el) => (
-            <div key={el.id} className={styles.searchCard}>
-              <div className={styles.person__info}>
-                <SearchCard
-                  name={el.attributes.name}
-                  effect={el.attributes.effect}
-                  image={el.attributes.image}
-                  category={el.attributes.category}
-                  light={el.attributes.light}
-                  id={el.id}
-                />
-              </div>
-            </div>
-          ))}
+          spellsRequest.map((el) => createCard(el))}
       </div>
     </>
+  );
+}
+
+function createCard(el: SpellsRequestData) {
+  return (
+    <div key={el.id} className={styles.searchCard}>
+      <div className={styles.person__info}>
+        <SearchCard
+          name={el.attributes.name}
+          effect={el.attributes.effect}
+          image={el.attributes.image}
+          category={el.attributes.category}
+          light={el.attributes.light}
+          id={el.id}
+        />
+      </div>
+    </div>
   );
 }
 

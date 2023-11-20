@@ -7,6 +7,9 @@ const Pagination = () => {
   const dispatch = useAppDispatch();
   const limit = useAppSelector((store) => store.queryParamsReducer.limit);
   const page = useAppSelector((state) => state.queryParamsReducer.page);
+  if (+page < 1) {
+    dispatch(setPage('1'));
+  }
   const isNextPageActive = useAppSelector(
     (state) => state.queryParamsReducer.isNextPage
   );

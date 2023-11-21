@@ -1,0 +1,12 @@
+.errorContainer {
+  width: 100vw;
+}
+
+.header {
+  text-align: center;
+}
+
+.resetBtn {
+  display: block;
+  margin: auto;
+}

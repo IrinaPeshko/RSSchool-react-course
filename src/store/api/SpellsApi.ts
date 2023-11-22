@@ -7,7 +7,7 @@ import {
 } from '../../types/requests-types';
 import { HYDRATE } from 'next-redux-wrapper';
 
-export const reduxApi = createApi({
+export const SpellsApi = createApi({
   reducerPath: 'api-cards',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.potterdb.com//v1/' }),
   extractRehydrationInfo(action, { reducerPath }) {
@@ -39,4 +39,4 @@ export const reduxApi = createApi({
   }),
 });
 
-export const { useGetSpellsQuery, useGetOneSpellQuery } = reduxApi;
+export const { useGetSpellsQuery, useGetOneSpellQuery } = SpellsApi;

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.css';
 import ErrorButton from '@/components/error-button/ErrorButton';
 import SearchBlock from '@/components/search-block/SearchBlock';
+import LimitButton from '@/components/limit-input/LimitInput';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,9 +19,10 @@ export default function Home() {
       <main className={`${styles.main} ${inter.className}`}>
         <div className={styles.description}>
           <ErrorButton />
-        </div>
-        <div className={styles.center}>
           <SearchBlock />
+          <div className={styles.searchDetails}>
+            <LimitButton />
+          </div>
         </div>
       </main>
     </>

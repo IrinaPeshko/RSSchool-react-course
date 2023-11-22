@@ -5,20 +5,21 @@ import { useDispatch } from 'react-redux';
 import { setSearchParams } from '../../store/reducers/queryParams';
 import { setPage } from '../../store/reducers/queryParams';
 import Image from 'next/image';
+import { useAppSelector } from '@/hooks/redux';
 
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const SearchBlock = () => {
-  const [searchWord, setSearchWord] = useState(
-   ''
-  );
+  const router = useRouter();
+  const [searchWord, setSearchWord] = useState('');
   const dispatch = useDispatch();
-  // const limit = useAppSelector((store) => store.queryParamsReducer.limit);
+  const limit = useAppSelector((store) => store.queryParamsReducer.limit);
   // const limit = '10';
   // const [, setSearch] = useSearchParams();
-  // const queryParams = useRouter().query;
+  // const queryParams = router.query;
+   
   // const queryParameters = router.query;
-// router.push(?page=1&limit=${newValue});
+  // router.push(?page=1&limit=${newValue});
   return (
     <div className={styles.searchBlock}>
       <input
@@ -35,7 +36,9 @@ const SearchBlock = () => {
           localStorage.setItem('inputValue', searchWord);
           dispatch(setSearchParams(searchWord));
           dispatch(setPage('1'));
-          // setSearch({ limit, page: `1` });
+          router.push({
+            query: { limit, page: '1' },
+          });
         }}
         data-testid="searchBtn"
       >
@@ -49,7 +52,6 @@ const SearchBlock = () => {
       </div>
     </div>
   );
-
 };
 
 export default SearchBlock;

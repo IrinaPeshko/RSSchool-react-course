@@ -9,7 +9,7 @@ const LimitButton = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   let { limit } = router.query;
-  limit = Array.isArray(limit)?limit[0]:limit?limit:'10';
+  limit = Array.isArray(limit) ? limit[0] : limit ? limit : '10';
   const [itemPerPage, setItemPerPage] = useState(limit);
   const { search } = router.query;
 

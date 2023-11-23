@@ -3,7 +3,7 @@ import Card from '../card/Card';
 import { useAppSelector } from '../../hooks/redux';
 import { SpellsRequestData } from '../../types/requests-types';
 
-function SearchResult(props: { spells:SpellsRequestData[]}) {
+function SearchResult(props: { spells: SpellsRequestData[] }) {
   const spellsRequest = props.spells;
   const isLoading = useAppSelector((state) => state.isLoading.isMainLoading);
   return (

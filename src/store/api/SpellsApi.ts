@@ -39,9 +39,6 @@ export const SpellsApi = createApi({
   }),
 });
 
-export const {
-  useGetSpellsQuery,
-  useGetOneSpellQuery,
-} = SpellsApi;
+export const { useGetSpellsQuery, useGetOneSpellQuery } = SpellsApi;
 
 export const { getSpells, getOneSpell } = SpellsApi.endpoints;

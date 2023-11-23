@@ -11,7 +11,7 @@ const SearchBlock = () => {
   const router = useRouter();
   const [searchWord, setSearchWord] = useState('');
   const dispatch = useDispatch();
-  const {limit} = router.query;
+  const { limit } = router.query;
 
   return (
     <div className={styles.searchBlock}>
@@ -30,7 +30,7 @@ const SearchBlock = () => {
           dispatch(setSearchParams(searchWord));
           dispatch(setPage('1'));
           router.push({
-            query: { limit, page: '1', search:searchWord },
+            query: { limit, page: '1', search: searchWord },
           });
         }}
         data-testid="searchBtn"

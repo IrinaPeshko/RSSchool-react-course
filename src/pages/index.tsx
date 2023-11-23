@@ -42,18 +42,14 @@ export const getServerSideProps = wrapper.getServerSideProps(
       getSpells.initiate({
         limitPerPage: Array.isArray(limit) ? limit[0] : limit ? limit : '10',
         page: Array.isArray(page) ? page[0] : page ? page : '1',
-        searchWord: Array.isArray(search)
-          ? search[0]
-          : search
-          ? search
-          : '',
+        searchWord: Array.isArray(search) ? search[0] : search ? search : '',
       })
     );
     await Promise.all(store.dispatch(SpellsApi.util.getRunningQueriesThunk()));
 
     return {
       props: {
-        cards:data
+        cards: data,
       },
     };
   }

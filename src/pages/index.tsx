@@ -4,10 +4,14 @@ import styles from '@/styles/Home.module.css';
 import ErrorButton from '@/components/error-button/ErrorButton';
 import SearchBlock from '@/components/search-block/SearchBlock';
 import LimitButton from '@/components/limit-input/LimitInput';
+import { wrapper } from '@/store/store';
+import { SpellsApi, getSpells } from '@/store/api/SpellsApi';
+import SearchResult from '@/components/search-results/searchResult';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function Home() {
+export default function Home(data) {
+  const spellsData = data.cards.data.spells;
   return (
     <>
       <Head>
@@ -23,20 +27,46 @@ export default function Home() {
           <div className={styles.searchDetails}>
             <LimitButton />
           </div>
+          <SearchResult spells={spellsData} />
         </div>
       </main>
     </>
   );
 }
 
-export async function getServerSideProps() {
-  const response = await fetch(
-    'https://api.potterdb.com//v1/spells?page[size]=10&page[number]=1'
-  );
-  const data = await response.json();
-  return {
-    props: {
-      spells: data,
-    },
-  };
-}
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (context) => {
+    const { limit, page, search } = context.query;
+
+    const data = await store.dispatch(
+      getSpells.initiate({
+        limitPerPage: Array.isArray(limit) ? limit[0] : limit ? limit : '10',
+        page: Array.isArray(page) ? page[0] : page ? page : '1',
+        searchWord: Array.isArray(search)
+          ? search[0]
+          : search
+          ? search
+          : '',
+      })
+    );
+    await Promise.all(store.dispatch(SpellsApi.util.getRunningQueriesThunk()));
+
+    return {
+      props: {
+        cards:data
+      },
+    };
+  }
+);
+
+// export async function getServerSideProps() {
+//   const response = await fetch(
+//     'https://api.potterdb.com//v1/spells?page[size]=10&page[number]=1'
+//   );
+//   const data = await response.json();
+//   return {
+//     props: {
+//       spells: data,
+//     },
+//   };
+// }

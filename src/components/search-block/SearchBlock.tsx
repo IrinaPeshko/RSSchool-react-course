@@ -6,11 +6,12 @@ import { setSearchParams } from '../../store/reducers/queryParams';
 import { setPage } from '../../store/reducers/queryParams';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { checkRouterElement } from '@/utils/functions';
 
 const SearchBlock = () => {
   const router = useRouter();
   let { search } = router.query;
-  search = Array.isArray(search) ? search[0] : search ? search : '';
+  search = checkRouterElement(search, '');
   const [searchWord, setSearchWord] = useState(search);
   const dispatch = useDispatch();
   const { limit } = router.query;

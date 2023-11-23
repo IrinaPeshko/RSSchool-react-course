@@ -2,6 +2,7 @@ import styles from './Pagination.module.css';
 import { useAppDispatch } from '../../hooks/redux';
 import { setPage } from '../../store/reducers/queryParams';
 import { useRouter } from 'next/router';
+import { checkRouterElement } from '@/utils/functions';
 
 const Pagination = (props: { isNextPage: boolean }) => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,6 @@ const Pagination = (props: { isNextPage: boolean }) => {
   };
 
   const disabledPrev = +page === 1;
-  console.log(disabledPrev);
   const classNamePrevPage = classNames(disabledPrev ? styles.disabled : '');
   const classNameNextPage = classNames(
     !isNextPageActive ? styles.disabled : ''
@@ -63,10 +63,3 @@ const Pagination = (props: { isNextPage: boolean }) => {
   );
 };
 export default Pagination;
-
-function checkRouterElement(
-  element: string | string[] | undefined,
-  defaultValue: string
-) {
-  return Array.isArray(element) ? element[0] : element ? element : defaultValue;
-}

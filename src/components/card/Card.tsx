@@ -18,7 +18,10 @@ const Card = (props: {
   return (
     <>
       <Link
-        href={`/details/${props.id}`}
+        href={{
+          pathname: '/details/[id]',
+          query: { id: props.id },
+        }}
         className={styles.searchCard}
         data-testid="card"
         onClick={(event) => {

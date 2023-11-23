@@ -9,7 +9,9 @@ import { useRouter } from 'next/router';
 
 const SearchBlock = () => {
   const router = useRouter();
-  const [searchWord, setSearchWord] = useState('');
+  let { search } = router.query;
+  search = Array.isArray(search) ? search[0] : search ? search : '';
+  const [searchWord, setSearchWord] = useState(search);
   const dispatch = useDispatch();
   const { limit } = router.query;
 
@@ -26,7 +28,6 @@ const SearchBlock = () => {
       <div
         className={styles.searchButton}
         onClick={() => {
-          localStorage.setItem('inputValue', searchWord);
           dispatch(setSearchParams(searchWord));
           dispatch(setPage('1'));
           router.push({

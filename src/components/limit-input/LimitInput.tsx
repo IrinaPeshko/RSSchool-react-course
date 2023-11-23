@@ -8,10 +8,10 @@ import { useRouter } from 'next/router';
 const LimitButton = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { search } = router.query;
   let { limit } = router.query;
   limit = Array.isArray(limit) ? limit[0] : limit ? limit : '10';
   const [itemPerPage, setItemPerPage] = useState(limit);
-  const { search } = router.query;
 
   const onAcceptClick = async () => {
     await dispatch(setLimit(itemPerPage));

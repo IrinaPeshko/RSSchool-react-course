@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import styles from './Card.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
+import staticSpellImg from '../../../public/static-spell.webp';
 
 const Card = (props: {
   name: string;
@@ -30,21 +31,18 @@ const Card = (props: {
           <h2 className={styles.glow}>{props.name}</h2>
           <div className={styles.imageBlock}>
             {props.image ? (
-              <Image
-                width={90}
-                height={170}
-                priority={true}
+              <img
                 className={styles.cardImg}
                 src={props.image}
                 alt="spells-image"
               />
             ) : (
               <Image
-                width={90}
+                width={140}
                 height={170}
                 priority={true}
                 className={styles.cardImg}
-                src="https://static.wikia.nocookie.net/harrypotter/images/4/48/Flipendo_Maxima_HM_Spell_Icon.png"
+                src={staticSpellImg}
                 alt="spells-image"
               />
             )}

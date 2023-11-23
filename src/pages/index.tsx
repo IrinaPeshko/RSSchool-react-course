@@ -7,11 +7,13 @@ import LimitButton from '@/components/limit-input/LimitInput';
 import { wrapper } from '@/store/store';
 import { SpellsApi, getSpells } from '@/store/api/SpellsApi';
 import SearchResult from '@/components/search-results/searchResult';
+import Pagination from '@/components/pagination/Pagination';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home(data) {
   const spellsData = data.cards.data.spells;
+  const nextPage = data.cards.data.isNextPage;
   return (
     <>
       <Head>
@@ -28,6 +30,7 @@ export default function Home(data) {
             <LimitButton />
           </div>
           <SearchResult spells={spellsData} />
+          <Pagination isNextPage={nextPage} />
         </div>
       </main>
     </>

@@ -13,3 +13,21 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+button {
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  color: #000000;
+  background-color: #fcca4c;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+button:hover {
+  color: #fcca4c;
+  background-color: #801a08;
+  border-color: #fcca4c;
+}

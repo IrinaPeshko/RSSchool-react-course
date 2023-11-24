@@ -7,9 +7,9 @@ import { checkRouterElement } from '@/utils/functions';
 const Pagination = (props: { isNextPage: boolean }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { limit, search } = router.query;
-  let { page } = router.query;
-  page = checkRouterElement(page, '10');
+  const { search } = router.query;
+  let { page, limit } = router.query;
+  page = checkRouterElement(page, '1');
   if (+page < 1) {
     dispatch(setPage('1'));
     page = '1';
@@ -17,17 +17,35 @@ const Pagination = (props: { isNextPage: boolean }) => {
   const isNextPageActive = props.isNextPage;
 
   const onPrevBtnClick = () => {
-    page = checkRouterElement(page, '10');
-    router.push({
-      query: { limit, page: `${+page - 1}`, search },
-    });
+    page = checkRouterElement(page, '1');
+    limit = checkRouterElement(limit, '10');
+    if (router.pathname === '/') {
+      if (search) {
+        router.push({
+          query: { page: `${+page - 1}`, limit, search },
+        });
+      } else {
+        router.push({
+          query: { page: `${+page - 1}`, limit },
+        });
+      }
+    }
   };
 
   const onNextBtnClick = () => {
-    page = checkRouterElement(page, '10');
-    router.push({
-      query: { limit, page: `${+page + 1}`, search },
-    });
+    page = checkRouterElement(page, '1');
+    limit = checkRouterElement(limit, '10');
+    if (router.pathname === '/') {
+      if (search) {
+        router.push({
+          query: { page: `${+page + 1}`, limit, search },
+        });
+      } else {
+        router.push({
+          query: { page: `${+page + 1}`, limit },
+        });
+      }
+    }
   };
 
   const classNames = (...args: string[]) => {

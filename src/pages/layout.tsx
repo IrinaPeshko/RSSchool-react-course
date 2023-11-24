@@ -7,6 +7,7 @@ import SearchBlock from '@/components/search-block/SearchBlock';
 import LimitButton from '@/components/limit-input/LimitInput';
 import SearchResult from '@/components/search-results/searchResult';
 import Pagination from '@/components/pagination/Pagination';
+import { useRouter } from 'next/router';
 const inter = Inter({ subsets: ['latin'] });
 
 type LayoutProps = {
@@ -17,6 +18,29 @@ type LayoutProps = {
 const Layout = ({ children, data }: LayoutProps) => {
   const spellsData = data.spells;
   const nextPage = data.isNextPage;
+  const router = useRouter();
+  const { page, limit, search } = router.query;
+  const href = search
+    ? {
+        pathname: '/',
+        query: {
+          page: page || '1',
+          limit: limit || '10',
+          search: search || '',
+        },
+      }
+    : {
+        pathname: '/',
+        query: {
+          page: page || '1',
+          limit: limit || '10',
+        },
+      };
+  const redirectToMain = () => {
+    if (router.pathname === '/details/[id]') {
+      router.push(href);
+    }
+  };
   return (
     <>
       <Head>
@@ -26,7 +50,7 @@ const Layout = ({ children, data }: LayoutProps) => {
         <link rel="icon" type="image/svg+xml" href="/favicon.png" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
+        <div className={styles.description} onClick={redirectToMain}>
           <ErrorButton />
           <SearchBlock />
           <div className={styles.searchDetails}>

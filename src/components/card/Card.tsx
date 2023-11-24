@@ -14,14 +14,29 @@ const Card = (props: {
   openDetail?: (id: string) => void;
 }) => {
   const router = useRouter();
-
+  const { page, limit, search } = router.query;
+  const href = search
+    ? {
+        pathname: '/details/[id]',
+        query: {
+          id: props.id,
+          page: page || '1',
+          limit: limit || '10',
+          search: search || '',
+        },
+      }
+    : {
+        pathname: '/details/[id]',
+        query: {
+          id: props.id,
+          page: page || '1',
+          limit: limit || '10',
+        },
+      };
   return (
     <>
       <Link
-        href={{
-          pathname: '/details/[id]',
-          query: { id: props.id },
-        }}
+        href={href}
         className={styles.searchCard}
         data-testid="card"
         onClick={(event) => {
@@ -44,7 +59,6 @@ const Card = (props: {
                 width={140}
                 height={170}
                 priority={true}
-                className={styles.cardImg}
                 src={staticSpellImg}
                 alt="spells-image"
               />

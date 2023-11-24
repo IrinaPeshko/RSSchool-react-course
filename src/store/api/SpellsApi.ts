@@ -20,7 +20,7 @@ export const SpellsApi = createApi({
       TransformedSpellsRequest,
       { limitPerPage: string; page: string; searchWord: string }
     >({
-      query: ({ limitPerPage = '5', page = '1', searchWord = '' }) => {
+      query: ({ page = '1', limitPerPage = '5', searchWord = '' }) => {
         return `spells?page[size]=${limitPerPage}&page[number]=${page}&filter[name_cont_any]=${searchWord}`;
       },
       transformResponse: (response: SpellsRequest) => ({

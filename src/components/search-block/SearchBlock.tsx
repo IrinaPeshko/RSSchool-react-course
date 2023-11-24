@@ -10,12 +10,27 @@ import { checkRouterElement } from '@/utils/functions';
 
 const SearchBlock = () => {
   const router = useRouter();
-  let { search } = router.query;
+  let { search, limit } = router.query;
+  limit = checkRouterElement(limit, '10');
   search = checkRouterElement(search, '');
   const [searchWord, setSearchWord] = useState(search);
   const dispatch = useDispatch();
-  const { limit } = router.query;
 
+  const onSearchBtnClick = () => {
+    dispatch(setSearchParams(searchWord));
+    dispatch(setPage('1'));
+    if (router.pathname === '/') {
+      if (searchWord) {
+        router.push({
+          query: { page: '1', limit, search: searchWord },
+        });
+      } else {
+        router.push({
+          query: { page: '1', limit },
+        });
+      }
+    }
+  };
   return (
     <div className={styles.searchBlock}>
       <input
@@ -29,11 +44,7 @@ const SearchBlock = () => {
       <div
         className={styles.searchButton}
         onClick={() => {
-          dispatch(setSearchParams(searchWord));
-          dispatch(setPage('1'));
-          router.push({
-            query: { limit, page: '1', search: searchWord },
-          });
+          onSearchBtnClick();
         }}
         data-testid="searchBtn"
       >

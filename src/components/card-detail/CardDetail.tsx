@@ -1,9 +1,27 @@
+import { useRouter } from 'next/router';
 import styles from './CardDetail.module.css';
 import Link from 'next/link';
 
 const CardDetail = (props: { spellData }) => {
+  const router = useRouter();
+  const { page, limit, search } = router.query;
   const data = props.spellData.response;
-  console.log(data.image);
+  const href = search
+    ? {
+        pathname: '/',
+        query: {
+          page: page || '1',
+          limit: limit || '10',
+          search: search || '',
+        },
+      }
+    : {
+        pathname: '/',
+        query: {
+          page: page || '1',
+          limit: limit || '10',
+        },
+      };
   // const dispatch = useAppDispatch();
   // const { data, isLoading } = useGetOneSpellQuery({
   //   id,
@@ -15,7 +33,7 @@ const CardDetail = (props: { spellData }) => {
 
   return (
     <div className={styles.detailsContainer} data-testid="detailsBlock">
-      <Link href="/">
+      <Link href={href}>
         <div className={styles.closeModal} data-testid="closeDetails"></div>
       </Link>
 

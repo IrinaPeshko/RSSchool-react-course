@@ -17,9 +17,17 @@ const LimitButton = () => {
   const onAcceptClick = async () => {
     await dispatch(setLimit(itemPerPage));
     await dispatch(setPage('1'));
-    router.push({
-      query: { limit: itemPerPage, page: '1', search },
-    });
+    if (router.pathname === '/') {
+      if (search) {
+        router.push({
+          query: { page: '1', limit: itemPerPage, search },
+        });
+      } else {
+        router.push({
+          query: { page: '1', limit: itemPerPage },
+        });
+      }
+    }
   };
   return (
     <div>

@@ -16,12 +16,12 @@ export default Details;
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    const { limit, page, search, id } = context.query;
+    const { page, limit, search, id } = context.query;
 
     const spells = await store.dispatch(
       getSpells.initiate({
-        limitPerPage: checkRouterElement(limit, '10'),
         page: checkRouterElement(page, '1'),
+        limitPerPage: checkRouterElement(limit, '10'),
         searchWord: checkRouterElement(search, ''),
       })
     );

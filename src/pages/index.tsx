@@ -10,11 +10,11 @@ export default function Home(data) {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    const { limit, page, search } = context.query;
+    const { page, limit, search } = context.query;
     const data = await store.dispatch(
       getSpells.initiate({
-        limitPerPage: checkRouterElement(limit, '10'),
         page: checkRouterElement(page, '1'),
+        limitPerPage: checkRouterElement(limit, '10'),
         searchWord: checkRouterElement(search, ''),
       })
     );

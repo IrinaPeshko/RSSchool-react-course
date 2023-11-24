@@ -3,8 +3,13 @@ import Layout from '@/pages/layout';
 import { wrapper } from '@/store/store';
 import { SpellsApi, getOneSpell, getSpells } from '@/store/api/SpellsApi';
 import { checkRouterElement } from '@/utils/functions';
+import { TransformedOneSpellRequest, TransformedSpellsRequest } from '@/types/requests-types';
 
-const Details = (props) => {
+const Details = (props: {
+  spellData: TransformedOneSpellRequest;
+  spellsData: TransformedSpellsRequest;
+}) => {
+  console.log(props);
   const { spellsData, spellData } = props;
   return (
     <Layout data={spellsData}>

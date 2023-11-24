@@ -62,10 +62,3 @@ export interface TransformedSpellsRequest {
 export interface TransformedOneSpellRequest {
   response: AttributesSpells;
 }
-
-// export type ReduxApiMockType = {
-//   useGetSpellsQuery: typeof useGetSpellsQuery;
-//   useGetOneSpellQuery: typeof useGetOneSpellQuery;
-//   reducer: ReturnType<typeof reduxApi.reducer>;
-//   reducerPath: string;
-// };

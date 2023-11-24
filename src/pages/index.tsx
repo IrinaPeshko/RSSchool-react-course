@@ -2,8 +2,13 @@ import Layout from './layout';
 import { wrapper } from '@/store/store';
 import { SpellsApi, getSpells } from '@/store/api/SpellsApi';
 import { checkRouterElement } from '@/utils/functions';
+import { TransformedSpellsRequest } from '@/types/requests-types';
 
-export default function Home(data) {
+export default function Home(data: {
+  cards: {
+    data: TransformedSpellsRequest;
+  };
+}) {
   const newData = data.cards.data;
   return <Layout data={newData} />;
 }

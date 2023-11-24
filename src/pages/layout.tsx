@@ -8,11 +8,12 @@ import LimitButton from '@/components/limit-input/LimitInput';
 import SearchResult from '@/components/search-results/searchResult';
 import Pagination from '@/components/pagination/Pagination';
 import { useRouter } from 'next/router';
+import { TransformedSpellsRequest } from '@/types/requests-types';
 const inter = Inter({ subsets: ['latin'] });
 
 type LayoutProps = {
   children?: ReactNode;
-  data;
+  data: TransformedSpellsRequest;
 };
 
 const Layout = ({ children, data }: LayoutProps) => {

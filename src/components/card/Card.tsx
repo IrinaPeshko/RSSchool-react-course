@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 const Card = (props: {
   name: string;
   effect: string;
-  image: string;
+  image?: string;
   category: string;
   light: string;
   id: string;

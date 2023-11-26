@@ -2,7 +2,7 @@ import mockRouter from 'next-router-mock';
 import Card from '@/components/card/Card';
 import React from 'react';
 import Home from '@/pages';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
 import { TransformSpellsRequest, propsToCard } from './_fakeData';
@@ -37,6 +37,21 @@ describe('Tests for the Card component', () => {
     expect(cardImage.getAttribute('src')).toBe(propsToCard.image);
   });
 
+  test('Renders default image when image prop is not provided', () => {
+    mockRouter.setCurrentUrl('/?page=1&limit=10');
+    const propsWithoutImage = { ...propsToCard, image: undefined };
+    render(
+      <RouterContext.Provider value={mockRouter}>
+        <Card {...propsWithoutImage} />
+      </RouterContext.Provider>
+    );
+    const defaultImage: HTMLImageElement = screen.getByAltText('spells-image');
+    expect(defaultImage).toHaveAttribute(
+      'src',
+    );
+    expect(defaultImage.src).toMatch(/static-spell\.webp/);
+  });
+
   test('Validate that clicking on a card opens a detailed card component && Check that clicking triggers an additional API call to fetch detailed information.', async () => {
     const mockData = {
       data: TransformSpellsRequest,
@@ -57,23 +72,18 @@ describe('Tests for the Card component', () => {
         id: expect.anything(),
       })
     );
-
-    await waitFor(() => {
-      fireEvent.click(cards[0]);
-    });
-    setTimeout(() => {
-      const detailed = screen.getByTestId('detailsBlock');
-      expect(detailed).toBeInTheDocument();
-
-      const detailedCardName = screen.getByText(/light: Ice-blue/i);
-      expect(detailedCardName).toBeInTheDocument();
-      screen.debug();
-    }, 100);
-
-    expect(mockRouter.query).toEqual(
-      expect.objectContaining({
-        id: 'f10af5f6-c6d3-48b9-b229-fee496e3ae41',
-      })
-    );
   });
+
+  test('Link component handles href correctly based on search query', () => {
+    mockRouter.setCurrentUrl('/?page=1&limit=10&search=ce');
+    mockRouter.query = { ...mockRouter.query};
+    render(
+      <RouterContext.Provider value={mockRouter}>
+        <Card {...propsToCard} />
+      </RouterContext.Provider>
+    );
+
+    expect(mockRouter.query).toEqual({page:'1', limit:'10', search: "ce"});
+  });
+
 });

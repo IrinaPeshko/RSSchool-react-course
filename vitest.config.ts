@@ -11,9 +11,9 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       reportsDirectory: './src/tests/coverage',
       all: true,
-      include: ['/*.tsx'],
-      exclude: ['/_app.tsx', '**/_document.tsx'],
-    },
+      include: ['src/**/*.tsx'],
+      exclude: ['/_app.tsx', '**/_document.tsx']
+    }
   },
   resolve: {
     alias: {

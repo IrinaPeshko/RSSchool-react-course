@@ -75,6 +75,5 @@ describe('Tests for the Card component', () => {
         id: 'f10af5f6-c6d3-48b9-b229-fee496e3ae41',
       })
     );
-
   });
 });

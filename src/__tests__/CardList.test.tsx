@@ -33,7 +33,6 @@ describe('Tests for the CardList component', () => {
   });
 
   test('An appropriate message is displayed if no cards are present', async () => {
-
     mockRouter.setCurrentUrl('/?page=1&limit=10');
 
     render(

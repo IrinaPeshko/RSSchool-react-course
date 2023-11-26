@@ -4,8 +4,7 @@ import mockRouter from 'next-router-mock';
 import { expect, test, vi } from 'vitest';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import Home from '../pages/index';
-import { TransformSpellsRequest } from './fakeData';
-import { act } from 'react-dom/test-utils';
+import { TransformSpellsRequest } from './_fakeData';
 
 // const mockedRouterPush = vi.fn(() => Promise.resolve(true));
 // const createMockedRouter = (page: string): NextRouter => ({
@@ -39,7 +38,7 @@ const mockData = {
 };
 vi.mock('next/router', () => require('next-router-mock'));
 test('Make sure the component updates URL query parameter when page changes', async () => {
-  mockRouter.setCurrentUrl('/?page=1&limit=10'); 
+  mockRouter.setCurrentUrl('/?page=1&limit=10');
   render(
     <RouterContext.Provider value={mockRouter}>
       <Home cards={mockData} />
@@ -55,81 +54,10 @@ test('Make sure the component updates URL query parameter when page changes', as
   expect(prevBtn).toBeInTheDocument();
   expect(mockRouter.query).toEqual({ page: '1', limit: '10' });
 
-  await act(() => {
-    fireEvent.click(nextBtn);
-  });
-
-  screen.debug();
-
+  fireEvent.click(nextBtn);
   expect(mockRouter.query).toEqual({ page: '2', limit: '10' });
-  //     expect(router.state.location.search).toBe('?limit=10&page=2');
-
-  //   await act(() => {
-  //     fireEvent.click(nextBtn);
-  //     expect(router.state.location.search).toBe('?limit=10&page=3');
-  //   });
-  //   await act(() => {
-  //     fireEvent.click(prevBtn);
-  //     expect(router.state.location.search).toBe('?limit=10&page=2');
-  //   });
+  fireEvent.click(nextBtn);
+  expect(mockRouter.query).toEqual({ page: '3', limit: '10' });
+  fireEvent.click(prevBtn);
+  expect(mockRouter.query).toEqual({ page: '2', limit: '10' });
 });
-// test('should be able to change the query "page"', () => {
-// const { container } = render (
-// <RouterContext. Provider value={createMockedRouter('1')}›
-// <Link hrefaff query: ( page: '4' ) })›Page 4</Link>
-// </ RouterContext.Provider>
-// expect (container) .toContainHTML('<div›<a hrefs"/page/4"›Page 4‹/a></div>')
-
-// describe('Tests for the SearchCard component', () => {
-// const useRouter = vi.spyOn(require('next/router'), 'useRouter');
-// let pushMock: MockedFunction<NextRouter['push']>;
-
-// beforeEach(() => {
-//   pushMock = vi.fn();
-//   useRouter.mockReturnValue({
-//     push: pushMock,
-//   })
-// });
-
-// afterEach(() => {
-//   vi.clearAllMocks();
-//   vi.resetAllMocks();
-// });
-
-// test('Make sure the component updates URL query parameter when page changes', async () => {
-//   const mockStore = configureStore({
-//     reducer: rootReducer,
-//     preloadedState: initialState,
-//   });
-
-//   const router = createMemoryRouter(routes, {
-//     initialEntries: ['?page=1&limit=10'],
-//   });
-
-//   render(
-//     <Provider store={mockStore}>
-//       <RouterProvider router={router} />
-//     </Provider>
-//   );
-//   const nextBtn = screen.getByTestId('nextBtn');
-//   const prevBtn = screen.getByTestId('prevBtn');
-
-//   await act(() => {
-//     expect(router.state.location.search).toBe('?page=1&limit=10');
-//     const pagination = screen.getByTestId('pagination');
-//     expect(pagination).toBeInTheDocument();
-//     expect(nextBtn).toBeInTheDocument();
-//     expect(prevBtn).toBeInTheDocument();
-//     fireEvent.click(nextBtn);
-//     expect(router.state.location.search).toBe('?limit=10&page=2');
-//   });
-//   await act(() => {
-//     fireEvent.click(nextBtn);
-//     expect(router.state.location.search).toBe('?limit=10&page=3');
-//   });
-//   await act(() => {
-//     fireEvent.click(prevBtn);
-//     expect(router.state.location.search).toBe('?limit=10&page=2');
-//   });
-// });
-// });

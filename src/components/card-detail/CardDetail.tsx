@@ -1,66 +1,62 @@
+import React from 'react';
 import styles from './CardDetail.module.css';
-import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useGetOneSpellQuery } from '../../api/reduxApi';
-import { useAppDispatch } from '../../hooks/redux';
-import { setIsDetailsLoading } from '../../store/reducers/isLoading';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { TransformedOneSpellRequest } from '@/types/requests-types';
 
-const CardDetail = () => {
-  const { cardId } = useParams();
-  let id = '';
-  if (cardId) {
-    id = cardId;
-  }
-  const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetOneSpellQuery({
-    id,
-  });
-
-  useEffect(() => {
-    dispatch(setIsDetailsLoading(isLoading));
-  }, [isLoading]);
+const CardDetail = (props: { spellData: TransformedOneSpellRequest }) => {
+  const router = useRouter();
+  const { page, limit, search } = router.query;
+  const data = props.spellData.response;
+  const href = search
+    ? {
+        pathname: '/',
+        query: {
+          page: page || '1',
+          limit: limit || '10',
+          search: search || '',
+        },
+      }
+    : {
+        pathname: '/',
+        query: {
+          page: page || '1',
+          limit: limit || '10',
+        },
+      };
 
   return (
     <div className={styles.detailsContainer} data-testid="detailsBlock">
-      <Link to="/">
+      <Link href={href}>
         <div className={styles.closeModal} data-testid="closeDetails"></div>
       </Link>
 
-      {isLoading && (
-        <div
-          data-testid="DetailedLoadingBlock"
-          className={styles.spinner}
-        ></div>
+      <h2 className={styles.glow}>{data.name}</h2>
+      {data.image ? (
+        <img
+          className={styles.detailsImg}
+          src={data.image}
+          alt="spells-image"
+          data-testid="detailed-img"
+        />
+      ) : (
+        <img
+          src="https://static.wikia.nocookie.net/harrypotter/images/4/48/Flipendo_Maxima_HM_Spell_Icon.png"
+          alt="spells-image"
+          className={styles.detailsImg}
+          data-testid="detailed-img"
+        />
       )}
-
-      {!isLoading && (
-        <>
-          <h2>{data?.response.name}</h2>
-          {data?.response.image ? (
-            <img
-              className={styles.detailsImg}
-              src={data?.response.image}
-              alt="spells-image"
-            />
-          ) : (
-            <img
-              src="https://static.wikia.nocookie.net/harrypotter/images/4/48/Flipendo_Maxima_HM_Spell_Icon.png"
-              alt="spells-image"
-              className={styles.detailsImg}
-            />
-          )}
-          <p className={styles.paragraph}>Effect: {data?.response.effect}</p>
-          <p className={styles.paragraph}>
-            category: {data?.response.category}
-          </p>
-          {data?.response.light ? (
-            <p className={styles.paragraph}>light: {data?.response.light}</p>
-          ) : (
-            <p className={styles.paragraph}>
-              light: emerald, white or sky blue
-            </p>
-          )}
-        </>
+      <p className={styles.paragraph}>Effect: {data.effect}</p>
+      <p className={styles.paragraph}>category: {data.category}</p>
+      {data.light ? (
+        <p className={styles.paragraph} data-testid="detailed-light">
+          light: {data.light}
+        </p>
+      ) : (
+        <p className={styles.paragraph} data-testid="detailed-light">
+          light: emerald, white or sky blue
+        </p>
       )}
     </div>
   );

@@ -1,20 +1,31 @@
 import styles from './SearchBlock.module.css';
-import magnifierGlassImage from '/magnifier-glass.png';
+import React from 'react';
+import magnifierGlassImage from '../../../public/magnifier-glass.png';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setSearchParams } from '../../store/reducers/queryParams';
-import { setPage } from '../../store/reducers/queryParams';
-import { useSearchParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/redux';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { checkRouterElement } from '@/utils/functions';
 
 const SearchBlock = () => {
-  const [searchWord, setSearchWord] = useState(
-    localStorage.getItem('inputValue') || ''
-  );
-  const dispatch = useDispatch();
-  const limit = useAppSelector((store) => store.queryParamsReducer.limit);
-  const [, setSearch] = useSearchParams();
+  const router = useRouter();
+  let { search, limit } = router.query;
+  limit = checkRouterElement(limit, '10');
+  search = checkRouterElement(search, '');
+  const [searchWord, setSearchWord] = useState(search);
 
+  const onSearchBtnClick = () => {
+    if (router.pathname === '/') {
+      if (searchWord) {
+        router.push({
+          query: { page: '1', limit, search: searchWord },
+        });
+      } else {
+        router.push({
+          query: { page: '1', limit },
+        });
+      }
+    }
+  };
   return (
     <div className={styles.searchBlock}>
       <input
@@ -28,16 +39,20 @@ const SearchBlock = () => {
       <div
         className={styles.searchButton}
         onClick={() => {
-          localStorage.setItem('inputValue', searchWord);
-          dispatch(setSearchParams(searchWord));
-          dispatch(setPage('1'));
-          setSearch({ limit, page: `1` });
+          onSearchBtnClick();
         }}
         data-testid="searchBtn"
       >
-        <img src={magnifierGlassImage} alt="magnifier-glass" />
+        <Image
+          src={magnifierGlassImage}
+          alt="magnifier-glass"
+          width={68}
+          height={68}
+          priority={true}
+        />
       </div>
     </div>
   );
 };
+
 export default SearchBlock;

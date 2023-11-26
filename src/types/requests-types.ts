@@ -1,9 +1,9 @@
-import React, { Dispatch, SetStateAction } from 'react';
 import {
-  reduxApi,
   useGetOneSpellQuery,
   useGetSpellsQuery,
-} from '../api/reduxApi';
+  SpellsApi,
+} from '@/store/api/SpellsApi';
+import React, { Dispatch, SetStateAction } from 'react';
 
 export interface SpellsRequest {
   data: SpellsRequestData[];
@@ -71,6 +71,6 @@ export interface TransformedOneSpellRequest {
 export type ReduxApiMockType = {
   useGetSpellsQuery: typeof useGetSpellsQuery;
   useGetOneSpellQuery: typeof useGetOneSpellQuery;
-  reducer: ReturnType<typeof reduxApi.reducer>;
+  reducer: ReturnType<typeof SpellsApi.reducer>;
   reducerPath: string;
 };

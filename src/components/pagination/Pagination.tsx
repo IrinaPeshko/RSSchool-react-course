@@ -1,25 +1,48 @@
 import styles from './Pagination.module.css';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setPage } from '../../store/reducers/queryParams';
-import { useSearchParams } from 'react-router-dom';
+import React from 'react';
+import { useRouter } from 'next/router';
+import { checkRouterElement } from '@/utils/functions';
 
-const Pagination = () => {
-  const dispatch = useAppDispatch();
-  const limit = useAppSelector((store) => store.queryParamsReducer.limit);
-  const page = useAppSelector((state) => state.queryParamsReducer.page);
-  const isNextPageActive = useAppSelector(
-    (state) => state.queryParamsReducer.isNextPage
-  );
-  const [, setSearchParams] = useSearchParams();
+const Pagination = (props: { isNextPage: boolean }) => {
+  const router = useRouter();
+  const { search } = router.query;
+  let { page, limit } = router.query;
+  page = checkRouterElement(page, '1');
+  if (+page < 1) {
+    page = '1';
+  }
+  const isNextPageActive = props.isNextPage;
 
   const onPrevBtnClick = () => {
-    dispatch(setPage(`${+page - 1}`));
-    setSearchParams({ limit, page: `${+page - 1}` });
+    page = checkRouterElement(page, '1');
+    limit = checkRouterElement(limit, '10');
+    if (router.pathname === '/') {
+      if (search) {
+        router.push({
+          query: { page: `${+page - 1}`, limit, search },
+        });
+      } else {
+        router.push({
+          query: { page: `${+page - 1}`, limit },
+        });
+      }
+    }
   };
 
   const onNextBtnClick = () => {
-    dispatch(setPage(`${+page + 1}`));
-    setSearchParams({ limit, page: `${+page + 1}` });
+    page = checkRouterElement(page, '1');
+    limit = checkRouterElement(limit, '10');
+    if (router.pathname === '/') {
+      if (search) {
+        router.push({
+          query: { page: `${+page + 1}`, limit, search },
+        });
+      } else {
+        router.push({
+          query: { page: `${+page + 1}`, limit },
+        });
+      }
+    }
   };
 
   const classNames = (...args: string[]) => {

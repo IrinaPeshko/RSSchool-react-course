@@ -1,28 +1,36 @@
-import { render, screen } from '@testing-library/react';
-import LimitInput from '../components/limitPerPageInput/LimitInput';
-import { configureStore } from '@reduxjs/toolkit';
-import { rootReducer } from '../store/store';
-import { initialState } from './fakeData/initialSliceState';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import React from 'react';
+import mockRouter from 'next-router-mock';
+import Home from '@/pages';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { TransformSpellsRequest } from './_fakeData';
+import { expect, test, vi } from 'vitest';
 
-test('Make sure that limit input is working correct', () => {
-  const mockStore = configureStore({
-    reducer: rootReducer,
-    preloadedState: initialState,
-  });
+test('Limit input is working correct', () => {
+  vi.mock('next/router', () => require('next-router-mock'));
+
+  const mockData = {
+    data: TransformSpellsRequest,
+  };
+  mockRouter.setCurrentUrl('/?page=1&limit=10');
 
   render(
-    <Provider store={mockStore}>
-      <MemoryRouter>
-        <LimitInput />
-      </MemoryRouter>
-    </Provider>
+    <RouterContext.Provider value={mockRouter}>
+      <Home cards={mockData} />
+    </RouterContext.Provider>
   );
 
   const limit = screen.getByTestId('limitInput');
-  expect(limit).instanceOf(HTMLInputElement);
-  expect(limit).toBeInTheDocument();
+  const acceptBtn = screen.getByTestId('limitAcceptBtn');
   const value = limit.getAttribute('value');
+
+  expect(limit).toBeInstanceOf(HTMLInputElement);
+  expect(limit).toBeInTheDocument();
   expect(value).toBe('10');
+  expect(mockRouter.query).toEqual({ page: '1', limit: '10' });
+
+  fireEvent.change(limit, { target: { value: '5' } });
+  fireEvent.click(acceptBtn);
+
+  expect(mockRouter.query).toEqual({ page: '1', limit: '5' });
 });

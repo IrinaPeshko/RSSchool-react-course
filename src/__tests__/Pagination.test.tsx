@@ -1,67 +1,36 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { transformCard, transformCards } from './fakeData/fakeData';
-import { routes } from '../router/router';
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-import { act } from 'react-dom/test-utils';
-import { rootReducer } from '../store/store';
-import { Provider } from 'react-redux';
-import { ReduxApiMockType } from '../types/requests-types';
-import { configureStore } from '@reduxjs/toolkit';
-import { initialState } from './fakeData/initialSliceState';
+import React from 'react';
+import mockRouter from 'next-router-mock';
+import { expect, test, vi } from 'vitest';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import Home from '../pages/index';
+import { TransformSpellsRequest } from './_fakeData';
 
-describe('Tests for the SearchCard component', () => {
-  beforeAll(() => {
-    vi.mock('../api/reduxApi', async () => {
-      const actual: { reduxApi: ReduxApiMockType } = (await vi.importActual(
-        '../api/reduxApi'
-      )) as { reduxApi: ReduxApiMockType };
-      return {
-        ...actual,
-        useGetOneSpellQuery: vi.fn(() => transformCard),
-        useGetSpellsQuery: vi.fn(() => transformCards),
-      };
-    });
-  });
+const mockData = {
+  data: TransformSpellsRequest,
+};
+vi.mock('next/router', () => require('next-router-mock'));
+test('Make sure the component updates URL query parameter when page changes', async () => {
+  mockRouter.setCurrentUrl('/?page=1&limit=10');
+  render(
+    <RouterContext.Provider value={mockRouter}>
+      <Home cards={mockData} />
+    </RouterContext.Provider>
+  );
 
-  afterAll(() => {
-    vi.clearAllMocks();
-    vi.resetAllMocks();
-  });
+  const nextBtn = screen.getByTestId('nextBtn');
+  const prevBtn = screen.getByTestId('prevBtn');
+  const pagination = screen.getByTestId('pagination');
 
-  test('Make sure the component updates URL query parameter when page changes', async () => {
-    const mockStore = configureStore({
-      reducer: rootReducer,
-      preloadedState: initialState,
-    });
+  expect(pagination).toBeInTheDocument();
+  expect(nextBtn).toBeInTheDocument();
+  expect(prevBtn).toBeInTheDocument();
+  expect(mockRouter.query).toEqual({ page: '1', limit: '10' });
 
-    const router = createMemoryRouter(routes, {
-      initialEntries: ['?page=1&limit=10'],
-    });
-
-    render(
-      <Provider store={mockStore}>
-        <RouterProvider router={router} />
-      </Provider>
-    );
-    const nextBtn = screen.getByTestId('nextBtn');
-    const prevBtn = screen.getByTestId('prevBtn');
-
-    await act(() => {
-      expect(router.state.location.search).toBe('?page=1&limit=10');
-      const pagination = screen.getByTestId('pagination');
-      expect(pagination).toBeInTheDocument();
-      expect(nextBtn).toBeInTheDocument();
-      expect(prevBtn).toBeInTheDocument();
-      fireEvent.click(nextBtn);
-      expect(router.state.location.search).toBe('?limit=10&page=2');
-    });
-    await act(() => {
-      fireEvent.click(nextBtn);
-      expect(router.state.location.search).toBe('?limit=10&page=3');
-    });
-    await act(() => {
-      fireEvent.click(prevBtn);
-      expect(router.state.location.search).toBe('?limit=10&page=2');
-    });
-  });
+  fireEvent.click(nextBtn);
+  expect(mockRouter.query).toEqual({ page: '2', limit: '10' });
+  fireEvent.click(nextBtn);
+  expect(mockRouter.query).toEqual({ page: '3', limit: '10' });
+  fireEvent.click(prevBtn);
+  expect(mockRouter.query).toEqual({ page: '2', limit: '10' });
 });

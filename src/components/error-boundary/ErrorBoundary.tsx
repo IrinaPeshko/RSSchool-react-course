@@ -1,6 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import s from './ErrorBoundary.module.css';
+import styles from './ErrorBoundary.module.css';
 import { ErrorBoundaryProps } from '../../types/requests-types';
+import React from 'react';
 
 class ErrorBoundary extends Component<ErrorBoundaryProps> {
   state = {
@@ -20,9 +21,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps> {
   render(): ReactNode {
     if (this.state.hasError) {
       return (
-        <div className={s.errorContainer}>
-          <h2>This is an example error</h2>
-          <button className={s.resetBtn} onClick={this.onResetButtonClick}>
+        <div className={styles.errorContainer}>
+          <h2 className={styles.header}>This is an example error</h2>
+          <button className={styles.resetBtn} onClick={this.onResetButtonClick}>
             Reset
           </button>
         </div>

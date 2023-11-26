@@ -9,8 +9,10 @@ interface queryParamsState {
   error: string;
 }
 
+const isBrowser = typeof window !== 'undefined';
+
 const initialState: queryParamsState = {
-  searchParams: localStorage.getItem('inputValue') || '',
+  searchParams: isBrowser ? localStorage.getItem('inputValue') || '' : '',
   limit: '10',
   page: '1',
   isNextPage: true,

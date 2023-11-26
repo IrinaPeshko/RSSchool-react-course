@@ -2,7 +2,7 @@
   display: flex;
   border: 1px solid #929292;
   width: fit-content;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 .searchInput{
@@ -13,6 +13,7 @@
   height: 60px;
   background-color:#3e3e3e;
   border: transparent;
+  color: #ffffff;
 }
 
 .searchButton{

@@ -1,6 +1,7 @@
-import { useRouter } from 'next/router';
+import React from 'react';
 import styles from './CardDetail.module.css';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { TransformedOneSpellRequest } from '@/types/requests-types';
 
 const CardDetail = (props: { spellData: TransformedOneSpellRequest }) => {
@@ -36,12 +37,14 @@ const CardDetail = (props: { spellData: TransformedOneSpellRequest }) => {
           className={styles.detailsImg}
           src={data.image}
           alt="spells-image"
+          data-testid="detailed-img"
         />
       ) : (
         <img
           src="https://static.wikia.nocookie.net/harrypotter/images/4/48/Flipendo_Maxima_HM_Spell_Icon.png"
           alt="spells-image"
           className={styles.detailsImg}
+          data-testid="detailed-img"
         />
       )}
       <p className={styles.paragraph}>Effect: {data.effect}</p>

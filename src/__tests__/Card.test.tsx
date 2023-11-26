@@ -1,11 +1,11 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import mockRouter from 'next-router-mock';
-import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
-import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
-import { TransformSpellsRequest, propsToCard } from './_fakeData';
 import Card from '@/components/card/Card';
 import React from 'react';
 import Home from '@/pages';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
+import { TransformSpellsRequest, propsToCard } from './_fakeData';
 
 describe('Tests for the Card component', () => {
   beforeAll(() => {

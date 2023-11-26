@@ -1,0 +1,9 @@
+.notFoundPage {
+  text-align: center;
+  margin: 70px
+}
+
+.notFoundPage h1 {
+  color:aliceblue;
+  font-size: 70px;
+}

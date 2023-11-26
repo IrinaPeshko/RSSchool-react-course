@@ -6,7 +6,7 @@ import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtim
 import { TransformSpellsRequest } from './_fakeData';
 import { expect, test, vi } from 'vitest';
 
-test('Make sure that limit input is working correct', () => {
+test('Limit input is working correct', () => {
   vi.mock('next/router', () => require('next-router-mock'));
 
   const mockData = {

@@ -80,7 +80,6 @@ describe('Tests for the Card component', () => {
         <Card {...propsToCard} />
       </RouterContext.Provider>
     );
-    screen.debug();
     expect(mockRouter.query).toEqual({ page: '1', limit: '10', search: 'ce' });
   });
 });

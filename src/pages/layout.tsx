@@ -50,7 +50,11 @@ const Layout = ({ children, data }: LayoutProps) => {
         <link rel="icon" type="image/svg+xml" href="/favicon.png" />
       </Head>
       <main className={`${styles.main}`}>
-        <div className={styles.description} onClick={redirectToMain}>
+        <div
+          className={styles.description}
+          onClick={redirectToMain}
+          data-testid="searchBlock"
+        >
           <ErrorButton />
           <SearchBlock />
           <div className={styles.searchDetails}>

@@ -13,7 +13,6 @@ const Details = (props: {
   spellData: TransformedOneSpellRequest;
   spellsData: TransformedSpellsRequest;
 }) => {
-  console.log(props);
   const { spellsData, spellData } = props;
   return (
     <Layout data={spellsData}>

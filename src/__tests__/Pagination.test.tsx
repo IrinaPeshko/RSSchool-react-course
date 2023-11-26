@@ -6,33 +6,6 @@ import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtim
 import Home from '../pages/index';
 import { TransformSpellsRequest } from './_fakeData';
 
-// const mockedRouterPush = vi.fn(() => Promise.resolve(true));
-// const createMockedRouter = (page: string): NextRouter => ({
-//   basePath: '',
-//   route: '/page/[page]',
-//   pathname: '/page/[page]',
-//   query: { page },
-//   asPath: `/page/${page}`,
-//   isLocaleDomain: false,
-//   push: mockedRouterPush,
-//   replace: vi.fn(() => Promise.resolve(true)),
-//   reload: vi.fn(),
-//   back: vi.fn(),
-//   forward: vi.fn(),
-//   prefetch: vi.fn(() => Promise.resolve()),
-//   beforePopState: vi.fn(),
-//   events: {
-//     emit: vi.fn(),
-//     on: vi.fn(),
-//     off: vi.fn(),
-//   },
-//   isFallback: false,
-//   isReady: true,
-//   isPreview: false,
-// });
-
-// const mockRouter = createMockedRouter('1');
-
 const mockData = {
   data: TransformSpellsRequest,
 };

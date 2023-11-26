@@ -50,9 +50,13 @@ const CardDetail = (props: { spellData: TransformedOneSpellRequest }) => {
       <p className={styles.paragraph}>Effect: {data.effect}</p>
       <p className={styles.paragraph}>category: {data.category}</p>
       {data.light ? (
-        <p className={styles.paragraph}>light: {data.light}</p>
+        <p className={styles.paragraph} data-testid="detailed-light">
+          light: {data.light}
+        </p>
       ) : (
-        <p className={styles.paragraph}>light: emerald, white or sky blue</p>
+        <p className={styles.paragraph} data-testid="detailed-light">
+          light: emerald, white or sky blue
+        </p>
       )}
     </div>
   );

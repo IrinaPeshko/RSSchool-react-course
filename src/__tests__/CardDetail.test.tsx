@@ -11,6 +11,7 @@ import {
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { TransformSpellsRequest, transformCard } from './_fakeData';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import CardDetail from '@/components/card-detail/CardDetail';
 
 describe('Detailed card tests', () => {
   beforeEach(() => {
@@ -85,7 +86,7 @@ describe('Detailed card tests', () => {
 
   test('Clicking the close button hides the component', async () => {
     mockRouter.setCurrentUrl(
-      '/details/f10af5f6-c6d3-48b9-b229-fee496e3ae41?page=1&limit=10'
+      '/details/?id=f10af5f6-c6d3-48b9-b229-fee496e3ae41&page=1&limit=10'
     );
 
     render(
@@ -102,6 +103,11 @@ describe('Detailed card tests', () => {
       const closeDetailsBtn = screen.getByTestId('closeDetails');
 
       expect(detailedBlock).toBeInTheDocument();
+      expect(mockRouter.query).toEqual(
+        expect.objectContaining({
+          id: expect.anything(),
+        })
+      );
 
       fireEvent.click(closeDetailsBtn);
 
@@ -111,5 +117,48 @@ describe('Detailed card tests', () => {
         })
       );
     });
+  });
+
+  test('Detailed card component correctly displays the detailed card data', async () => {
+    mockRouter.setCurrentUrl(
+      '/details/?id=f10af5f6-c6d3-48b9-b229-fee496e3ae41&page=1&limit=10&search=ve'
+    );
+
+    render(
+      <RouterContext.Provider value={mockRouter}>
+        <Details
+          spellsData={TransformSpellsRequest}
+          spellData={transformCard}
+        />
+      </RouterContext.Provider>
+    );
+
+    expect(screen.getAllByTestId('card').length).toBe(2);
+    expect(mockRouter.query).toEqual({
+      id: 'f10af5f6-c6d3-48b9-b229-fee496e3ae41',
+      page: '1',
+      limit: '10',
+      search: 've',
+    });
+  });
+
+  test('Displays default light if main image is not provided', async () => {
+    const spellDataWithoutImage = {
+      ...transformCard,
+      response: {
+        ...transformCard.response,
+        light: '',
+      },
+    };
+
+    render(
+      <RouterContext.Provider value={mockRouter}>
+        <CardDetail spellData={spellDataWithoutImage} />
+      </RouterContext.Provider>
+    );
+
+    const defaultLight = screen.getByTestId('detailed-light');
+    expect(defaultLight).toBeInTheDocument();
+    expect(defaultLight).toHaveTextContent('light: emerald, white or sky blue');
   });
 });

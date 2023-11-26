@@ -17,7 +17,7 @@ describe('Tests for the Card component', () => {
     vi.resetAllMocks();
   });
 
-  test('Ensure that the card component renders the relevant card data', () => {
+  test('Card component renders the relevant card data', () => {
     mockRouter.setCurrentUrl('/?page=1&limit=10');
 
     render(
@@ -46,13 +46,11 @@ describe('Tests for the Card component', () => {
       </RouterContext.Provider>
     );
     const defaultImage: HTMLImageElement = screen.getByAltText('spells-image');
-    expect(defaultImage).toHaveAttribute(
-      'src',
-    );
+    expect(defaultImage).toHaveAttribute('src');
     expect(defaultImage.src).toMatch(/static-spell\.webp/);
   });
 
-  test('Validate that clicking on a card opens a detailed card component && Check that clicking triggers an additional API call to fetch detailed information.', async () => {
+  test('Clicking on a card opens a detailed card component && Clicking triggers an additional API call to fetch detailed information.', async () => {
     const mockData = {
       data: TransformSpellsRequest,
     };
@@ -76,14 +74,13 @@ describe('Tests for the Card component', () => {
 
   test('Link component handles href correctly based on search query', () => {
     mockRouter.setCurrentUrl('/?page=1&limit=10&search=ce');
-    mockRouter.query = { ...mockRouter.query};
+    mockRouter.query = { ...mockRouter.query };
     render(
       <RouterContext.Provider value={mockRouter}>
         <Card {...propsToCard} />
       </RouterContext.Provider>
     );
-
-    expect(mockRouter.query).toEqual({page:'1', limit:'10', search: "ce"});
+    screen.debug();
+    expect(mockRouter.query).toEqual({ page: '1', limit: '10', search: 'ce' });
   });
-
 });

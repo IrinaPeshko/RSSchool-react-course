@@ -1,4 +1,4 @@
-import React from 'react'; // Добавляем импорт React
+import React from 'react';
 import mockRouter from 'next-router-mock';
 import Home from '@/pages';
 import { fireEvent, render, screen } from '@testing-library/react';

@@ -76,6 +76,5 @@ describe('Tests for the Card component', () => {
       })
     );
 
-    // expect(useGetOneSpellQuery).toBeCalledTimes(1);
   });
 });

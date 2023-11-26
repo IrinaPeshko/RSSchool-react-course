@@ -36,7 +36,9 @@ const LimitButton = () => {
         min="1"
         data-testid="limitInput"
       />
-      <button onClick={onAcceptClick}>Accept</button>
+      <button onClick={onAcceptClick} data-testid="limitAcceptBtn">
+        Accept
+      </button>
     </div>
   );
 };

@@ -1,13 +1,10 @@
-import { useState } from 'react';
-
+import React from 'react';
 import styles from './LimitInput.module.css';
-import { setLimit, setPage } from '../../store/reducers/queryParams';
-import { useAppDispatch } from '../../hooks/redux';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { checkRouterElement } from '@/utils/functions';
 
 const LimitButton = () => {
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const { search } = router.query;
   let { limit } = router.query;
@@ -15,8 +12,6 @@ const LimitButton = () => {
   const [itemPerPage, setItemPerPage] = useState(limit);
 
   const onAcceptClick = async () => {
-    await dispatch(setLimit(itemPerPage));
-    await dispatch(setPage('1'));
     if (router.pathname === '/') {
       if (search) {
         router.push({

@@ -1,8 +1,9 @@
 import Layout from './layout';
-import { wrapper } from '@/store/store';
+import React from 'react';
 import { SpellsApi, getSpells } from '@/store/api/SpellsApi';
 import { checkRouterElement } from '@/utils/functions';
 import { TransformedSpellsRequest } from '@/types/requests-types';
+import { wrapper } from '@/store/store';
 
 export default function Home(data: {
   cards: {

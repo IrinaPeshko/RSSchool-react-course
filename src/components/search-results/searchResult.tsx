@@ -1,21 +1,18 @@
 import styles from './searchResult.module.css';
 import Card from '../card/Card';
-import { useAppSelector } from '../../hooks/redux';
+import React from 'react';
 import { SpellsRequestData } from '../../types/requests-types';
 
 function SearchResult(props: { spells: SpellsRequestData[] }) {
   const spellsRequest = props.spells;
-  const isLoading = useAppSelector((state) => state.isLoading.isMainLoading);
   return (
     <>
       <div className={styles.spells__container}>
-        {isLoading && <div className={styles.spinner}></div>}
-        {!isLoading && (!spellsRequest || spellsRequest.length < 1) && (
-          <h2>We couldn&apos;t find anything matching your request.</h2>
-        )}
-        {!isLoading &&
-          spellsRequest &&
-          spellsRequest.map((el) => createCard(el))}
+        {!spellsRequest ||
+          (spellsRequest.length < 1 && (
+            <h2>We couldn&apos;t find anything matching your request.</h2>
+          ))}
+        {spellsRequest && spellsRequest.map((el) => createCard(el))}
       </div>
     </>
   );

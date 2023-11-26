@@ -1,5 +1,5 @@
 import ErrorBoundary from '@/components/error-boundary/ErrorBoundary';
-import { store } from '@/store/store';
+import { store } from '../store/store';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';

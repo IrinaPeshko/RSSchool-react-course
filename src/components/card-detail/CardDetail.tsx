@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
 import styles from './CardDetail.module.css';
 import Link from 'next/link';
+import { TransformedOneSpellRequest } from '@/types/requests-types';
 
-const CardDetail = (props: { spellData }) => {
+const CardDetail = (props: { spellData: TransformedOneSpellRequest }) => {
   const router = useRouter();
   const { page, limit, search } = router.query;
   const data = props.spellData.response;
@@ -22,14 +23,6 @@ const CardDetail = (props: { spellData }) => {
           limit: limit || '10',
         },
       };
-  // const dispatch = useAppDispatch();
-  // const { data, isLoading } = useGetOneSpellQuery({
-  //   id,
-  // });
-
-  // useEffect(() => {
-  //   dispatch(setIsDetailsLoading(isLoading));
-  // }, [isLoading]);
 
   return (
     <div className={styles.detailsContainer} data-testid="detailsBlock">
@@ -37,14 +30,6 @@ const CardDetail = (props: { spellData }) => {
         <div className={styles.closeModal} data-testid="closeDetails"></div>
       </Link>
 
-      {/* {isLoading && (
-        <div
-          data-testid="DetailedLoadingBlock"
-          className={styles.spinner}
-        ></div>
-      )} */}
-
-      {/* {!isLoading && ( */}
       <h2 className={styles.glow}>{data.name}</h2>
       {data.image ? (
         <img
@@ -66,7 +51,6 @@ const CardDetail = (props: { spellData }) => {
       ) : (
         <p className={styles.paragraph}>light: emerald, white or sky blue</p>
       )}
-      {/* )} */}
     </div>
   );
 };

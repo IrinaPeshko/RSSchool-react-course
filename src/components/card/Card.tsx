@@ -1,8 +1,9 @@
-import { useRouter } from 'next/router';
+import React from 'react';
 import styles from './Card.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import staticSpellImg from '../../../public/static-spell.webp';
+import { useRouter } from 'next/router';
 
 const Card = (props: {
   name: string;

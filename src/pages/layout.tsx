@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Inter } from 'next/font/google';
+import React from 'react';
 import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
 import ErrorButton from '@/components/error-button/ErrorButton';
@@ -9,7 +9,6 @@ import SearchResult from '@/components/search-results/searchResult';
 import Pagination from '@/components/pagination/Pagination';
 import { useRouter } from 'next/router';
 import { TransformedSpellsRequest } from '@/types/requests-types';
-const inter = Inter({ subsets: ['latin'] });
 
 type LayoutProps = {
   children?: ReactNode;
@@ -50,7 +49,7 @@ const Layout = ({ children, data }: LayoutProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/svg+xml" href="/favicon.png" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
+      <main className={`${styles.main}`}>
         <div className={styles.description} onClick={redirectToMain}>
           <ErrorButton />
           <SearchBlock />

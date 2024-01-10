@@ -9,14 +9,17 @@ class ErrorButton extends Component {
   createError = () => {
     this.setState({ hasError: false });
   };
+
   resetError = () => {
     this.setState({ hasError: true });
     throw new Error('This is example Error');
   };
+
   render(): ReactNode {
     if (this.state.hasError) {
       throw new Error('This is example Error');
     }
+
     return (
       <>
         {!this.state.hasError && (

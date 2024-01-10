@@ -10,7 +10,7 @@ class ErrorBoundary extends Component<iErrorBoundaryProps> {
   };
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    this.setState({ hasError: true, error: error, errorInfo: errorInfo });
+    this.setState({ hasError: true, error, errorInfo });
   }
 
   onResetButtonClick = () => {

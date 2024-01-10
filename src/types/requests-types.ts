@@ -1,12 +1,6 @@
-export type PersonRequest = {
-  name: string;
-  height: string;
+export interface PersonRequest  extends ShortPersonRequest{
   mass: string;
-  hair_color: string;
   skin_color: string;
-  eye_color: string;
-  birth_year: string;
-  gender: string;
   homeworld: string;
   films: string[];
   species: string[];
@@ -14,10 +8,9 @@ export type PersonRequest = {
   starships: string[];
   created: string;
   edited: string;
-  url: string;
 };
 
-export type ShortPersonRequest = {
+export interface ShortPersonRequest {
   name: string;
   birth_year: string;
   gender: string;

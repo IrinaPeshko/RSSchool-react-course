@@ -1,0 +1,61 @@
+.person__info {
+  border: 1px solid #FCD54C;
+  width: 230px;
+}
+
+.person__info p{
+  color: #929292;
+}
+.people__container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin: 50px 20px;
+  justify-content: space-around;
+}
+
+.glow {
+  font-size: 20px;
+  color: #ffffff;
+  text-shadow:
+    0 0 5px #ffdb9c,
+    0 0 10px #ffdb9c,
+    0 0 15px #8b6300,
+    0 0 20px #af7e01,
+    0 0 25px #af7e01,
+    0 0 30px #af7e01,
+    0 0 35px #af7e01;
+  height: 60px;
+}
+.person__info:hover .glow{
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow:
+      0 0 5px #ffdb9c,
+      0 0 10px #ffdb9c,
+      0 0 15px #8b6300,
+      0 0 20px #af7e01,
+      0 0 25px #af7e01,
+      0 0 30px #af7e01,
+      0 0 35px #af7e01;
+  }
+  to {
+    text-shadow:
+      0 0 10px #ffdb9c,
+      0 0 15px #ffcd50,
+      0 0 20px #ffcd50,
+      0 0 25px #ffcd50,
+      0 0 30px #ffcd50,
+      0 0 35px #ffcd50,
+      0 0 40px #ffcd50;
+  }
+}

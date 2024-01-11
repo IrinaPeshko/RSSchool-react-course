@@ -1,6 +1,7 @@
 import { Component, ReactNode } from 'react';
 import styles from './ErrorButton.module.css';
 
+const errorMessage = 'Oh no... You have a problem!';
 class ErrorButton extends Component {
   state = {
     hasError: false,
@@ -12,12 +13,12 @@ class ErrorButton extends Component {
 
   resetError = () => {
     this.setState({ hasError: true });
-    throw new Error('This is example Error');
+    throw new Error(errorMessage);
   };
 
   render(): ReactNode {
     if (this.state.hasError) {
-      throw new Error('This is example Error');
+      throw new Error(errorMessage);
     }
 
     return (

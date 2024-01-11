@@ -7,7 +7,7 @@ class SearchResult extends Component<iRenderRequest> {
     const results = this.props.renderRequest.map((el, i) => {
       return (
         <div key={i} className={styles.person__info}>
-          <h2 className="person__name">{el.name}</h2>
+          <h2 className={styles.glow}>{el.name}</h2>
           <p>Year of birth: {el.birth_year}</p>
           <p>Gender: {el.gender}</p>
           <p>Height: {el.height}</p>

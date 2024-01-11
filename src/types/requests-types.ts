@@ -1,4 +1,4 @@
-export interface PersonRequest  extends ShortPersonRequest{
+export interface PersonRequest extends ShortPersonRequest {
   mass: string;
   skin_color: string;
   homeworld: string;
@@ -8,7 +8,7 @@ export interface PersonRequest  extends ShortPersonRequest{
   starships: string[];
   created: string;
   edited: string;
-};
+}
 
 export interface ShortPersonRequest {
   name: string;
@@ -18,7 +18,7 @@ export interface ShortPersonRequest {
   eye_color: string;
   hair_color: string;
   url: string;
-};
+}
 
 export interface iErrorBoundaryProps {
   children: React.ReactNode;

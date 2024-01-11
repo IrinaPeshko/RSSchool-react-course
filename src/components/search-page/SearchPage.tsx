@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './SearchInput.module.css';
+import styles from './SearchPage.module.css';
 import { findPeople } from '../../api/api';
 import SearchResult from '../search-results/searchResult';
 import { PersonRequest, ShortPersonRequest } from '../../types/requests-types';
 import ErrorButton from '../error-button/ErrorButton';
 
-class SearchInput extends React.Component {
+class SearchPage extends React.Component {
   componentDidMount(): void {
     this.onClickSearch();
   }
@@ -84,4 +84,4 @@ class SearchInput extends React.Component {
   }
 }
 
-export default SearchInput;
+export default SearchPage;

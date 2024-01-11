@@ -1,5 +1,5 @@
 import styles from './App.module.css';
-import SearchInput from '../search-input/SearchInput';
+import SearchPage from '../search-page/SearchPage';
 import ErrorBoundary from '../error-boundary/ErrorBoundary';
 import { Component } from 'react';
 
@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <ErrorBoundary>
         <div className={styles.content}>
-          <SearchInput />
+          <SearchPage />
         </div>
       </ErrorBoundary>
     );

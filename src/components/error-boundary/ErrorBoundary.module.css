@@ -2,6 +2,18 @@
   width: 100vw;
 }
 
+.error__img {
+  display: block;
+  margin: auto;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.error__img.appear {
+  opacity: 1;
+  transform: scale(1);
+}
 h2 {
   text-align: center;
 }
@@ -9,4 +21,15 @@ h2 {
 .resetBtn {
   display: block;
   margin: auto;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

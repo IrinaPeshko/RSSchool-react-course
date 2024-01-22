@@ -8,12 +8,13 @@
   border: 2px solid #fcca4c;
 	min-width:30vw;
 	height: 500px;
+  position: relative;
 }
 
 .closeModal {
 	position: absolute;
-	top: 130px;
-	right: 140px;
+	top: -25px;
+	left: 30vw;
 	width: 24px;
 	height: 24px;
 	opacity: 0.2;

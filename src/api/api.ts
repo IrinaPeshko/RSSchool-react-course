@@ -11,7 +11,7 @@ export const findSpells: (
   page?: string
 ) => Promise<void | SpellsRequest> = (
   searchWord: string,
-  limit: string = '10',
+  limit: string = '8',
   page: string = '1'
 ) => request(ROOT + SPELLS + LIMIT + limit + PAGE + page + SEARCH + searchWord);
 
@@ -25,6 +25,6 @@ const request = async (link: string) => {
   }
 };
 
-export const getSpell: (id: string) => Promise<void | OneSpellRequest> = (
+export const getSpell: (id: string) => Promise<undefined | OneSpellRequest> = (
   id: string
 ) => request(ROOT + SPELLS + '/' + id);

@@ -6,7 +6,7 @@ import { getSpell } from '../../api/api';
 
 const CardDetail = () => {
   const { cardId } = useParams();
-  const [currentSpell, setCurrentSpell] = useState<OneSpellRequest | void>(
+  const [currentSpell, setCurrentSpell] = useState<OneSpellRequest | undefined>(
     undefined
   );
   const [isLoading, setIsLoading] = useState(false);

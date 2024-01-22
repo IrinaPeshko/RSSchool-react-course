@@ -11,7 +11,7 @@ export function chooseLimit() {
   if (value) {
     return value;
   }
-  return '10';
+  return '8';
 }
 
 export function choosePage() {

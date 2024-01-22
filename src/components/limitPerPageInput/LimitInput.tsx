@@ -22,7 +22,7 @@ const LimitInput = (props: {
   };
   return (
     <>
-      <div>
+      <div className={styles.container}>
         <input
           type="number"
           value={itemPerPage}

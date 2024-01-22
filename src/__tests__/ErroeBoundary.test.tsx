@@ -14,7 +14,9 @@ test('Make sure the errorButton is working', () => {
   fireEvent.click(errorBtn);
 
   expect(spyError).toHaveBeenCalled();
-  expect(screen.getByText('This is an example error')).toBeInTheDocument();
-  expect(screen.getByText('Reset')).toBeInTheDocument();
+  expect(
+    screen.getByText("Do you have a problem? I'll help you!")
+  ).toBeInTheDocument();
+  expect(screen.getByText('Just click here')).toBeInTheDocument();
   spyError.mockRestore();
 });

@@ -3,14 +3,14 @@ import styles from './ErrorBoundary.module.css';
 import { ErrorBoundaryProps } from '../../types/requests-types';
 
 class ErrorBoundary extends Component<ErrorBoundaryProps> {
-  state = {...defaultState};
+  state = { ...defaultState };
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     this.setState({ hasError: true, error, errorInfo });
   }
 
   onResetButtonClick = () => {
-    this.setState({...defaultState});
+    this.setState({ ...defaultState });
   };
 
   handleImageLoad = () => {
@@ -25,7 +25,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps> {
           <button className={styles.resetBtn} onClick={this.onResetButtonClick}>
             Just click here
           </button>
-         <img
+          <img
             src="./harry-potter.png"
             alt="harry-potter"
             className={`${styles.error__img} ${
@@ -45,6 +45,6 @@ const defaultState = {
   error: null,
   errorInfo: null,
   imageAppeared: false,
-}
+};
 
 export default ErrorBoundary;

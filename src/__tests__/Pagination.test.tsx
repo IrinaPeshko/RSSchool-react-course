@@ -54,7 +54,8 @@ describe('Tests for the SearchCard component', () => {
         </SpellsRequestContext.Provider>
       )
     );
-    expect(router.state.location.search).toBe('?page=3&limit=10');
+
+    expect(router.state.location.search).toBe('?page=3&limit=8');
     const pagination = screen.getByTestId('pagination');
     expect(pagination).toBeInTheDocument();
     const nextBtn = screen.getByTestId('nextBtn');
@@ -64,21 +65,21 @@ describe('Tests for the SearchCard component', () => {
 
     expect(findSpells).toBeCalledTimes(1);
 
-    expect(findSpells).toHaveBeenCalledWith('', '10', '3');
+    expect(findSpells).toHaveBeenCalledWith('', '8', '3');
 
     await waitFor(() => {
       fireEvent.click(nextBtn);
     });
 
     expect(findSpells).toBeCalledTimes(2);
-    expect(findSpells).toHaveBeenCalledWith('', '10', '4');
-    expect(router.state.location.search).toBe('?page=4&limit=10');
+    expect(findSpells).toHaveBeenCalledWith('', '8', '4');
+    expect(router.state.location.search).toBe('?page=4&limit=8');
 
     await waitFor(() => {
       fireEvent.click(prevBtn);
     });
 
     expect(findSpells).toBeCalledTimes(2);
-    expect(findSpells).toHaveBeenCalledWith('', '10', '3');
+    expect(findSpells).toHaveBeenCalledWith('', '8', '3');
   });
 });

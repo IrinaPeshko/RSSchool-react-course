@@ -5,6 +5,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 function SearchResult(props: { peopleRequest: SpellsRequestData[] }) {
   const location = useLocation();
+  const preventDefault = (event:React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (location.pathname !== '/') {
+      event.preventDefault();
+    }
+  }
   const results = props.peopleRequest.map((el) => {
     return (
       <div key={el.id} className={styles.searchCard}>
@@ -12,9 +17,7 @@ function SearchResult(props: { peopleRequest: SpellsRequestData[] }) {
           to={`/details/${el.id}`}
           className={styles.searchCard}
           onClick={(event) => {
-            if (location.pathname !== '/') {
-              event.preventDefault();
-            }
+            preventDefault(event)
           }}
         >
           <div className={styles.person__info}>

@@ -81,7 +81,7 @@ function SearchPage() {
           setPage={setPage}
         />
       </div>
-      {isLoading && <div className={styles.spinner}></div>}
+      {isLoading && <div className={styles.spinner}></div> }
       {!isLoading && !isErrorRequest && peopleRequest.length !== 0 && (
         <SearchResult peopleRequest={peopleRequest} />
       )}

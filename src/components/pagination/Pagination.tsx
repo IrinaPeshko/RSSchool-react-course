@@ -6,9 +6,11 @@ const Pagination = (props: {
   isNextPageActive: boolean;
 }) => {
   const onPrevBtnClick = () => {
-    const newPage = `${+props.page - 1}`;
-    props.setPage(newPage);
-    localStorage.setItem('page', newPage);
+    if (+props.page > 1) {
+      const newPage = `${+props.page - 1}`;
+      props.setPage(newPage);
+      localStorage.setItem('page', newPage);
+    }
   };
   const onNextBtnClick = () => {
     const newPage = `${+props.page + 1}`;

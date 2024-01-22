@@ -8,7 +8,6 @@ test('Ensure that the 404 page is displayed when navigating to an invalid route'
   });
 
   await act(async () => render(<RouterProvider router={router} />));
-
-  const notFound = screen.getByText(/Not found/i);
+  const notFound = screen.getByText('Sorry, this page has disappeared...');
   expect(notFound).toBeInTheDocument();
 });

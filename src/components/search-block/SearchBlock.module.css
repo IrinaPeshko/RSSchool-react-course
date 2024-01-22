@@ -13,6 +13,7 @@
   height: 60px;
   background-color:#3e3e3e;
   border: transparent;
+  color: #ffffff;
 }
 
 .searchButton{
@@ -24,7 +25,6 @@
     background-color: #3e3e3e;
     transition: all 0.5s;
     height: 60px;
-    width: 5vw;
 }
 
 .searchButton:hover{

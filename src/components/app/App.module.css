@@ -1,5 +1,5 @@
 .container {
-  display: 98vw;
+  width: 98vw;
   display: flex;
 }
 

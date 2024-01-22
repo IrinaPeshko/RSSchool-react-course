@@ -1,5 +1,8 @@
-.limitInput{
+.container {
+  display: flex;
+}
 
+.limitInput{
   height: 40px;
   width: 50px;
   background-color: #fcca4c;

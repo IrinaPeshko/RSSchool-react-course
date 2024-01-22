@@ -25,7 +25,7 @@ const LimitButton = () => {
     }
   };
   return (
-    <div>
+    <div className={styles.container}>
       <input
         type="number"
         value={itemPerPage}
